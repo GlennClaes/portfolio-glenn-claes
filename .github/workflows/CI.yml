@@ -1,4 +1,4 @@
-name: Node.js CI for Vue
+name: CI 
 
 on:
   push:
