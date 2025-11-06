@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: frontend
-        run: npm ci  # 'ci' ensures clean reproducible install
+        run: npm install
 
       - name: Lint (optional)
         working-directory: frontend
