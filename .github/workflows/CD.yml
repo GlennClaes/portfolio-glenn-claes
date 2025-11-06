@@ -1,4 +1,4 @@
-name: CD - Deploy Vue 3 to GitHub Pages
+name: CD
 
 on:
   push:
