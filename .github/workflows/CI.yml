@@ -1,4 +1,4 @@
-name: CI 
+name: CI
 
 on:
   push:
@@ -8,12 +8,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [18.x, 20.x] # Pick the versions you want to test
+        node-version: [18.x, 20.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -25,15 +23,17 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        working-directory: frontend
+        run: npm ci
 
       - name: Lint (optional)
+        working-directory: frontend
         run: npm run lint || echo "No lint script found"
 
       - name: Build Vue app
+        working-directory: frontend
         run: npm run build
 
       - name: Run tests
+        working-directory: frontend
         run: npm test || echo "No tests found"
-
-    
