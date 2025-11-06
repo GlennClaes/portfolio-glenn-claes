@@ -37,10 +37,5 @@ Desktop.ini
 coverage/
 *.lcov
 
-# Optional: lock files if you don't want to commit them (usually you do commit them)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-
 # Optional: cache folders
 .cache/
