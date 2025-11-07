@@ -18,7 +18,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "aos": "^2.3.4",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
+    "glightbox": "^3.3.1",
     "pinia": "^3.0.3",
+    "swiper": "^12.0.3",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },
