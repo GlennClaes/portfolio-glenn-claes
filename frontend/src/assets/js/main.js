@@ -26,35 +26,35 @@
    * Mobile nav toggle
    */
   const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-
-  function mobileNavToogle() {
-    document.querySelector('body').classList.toggle('mobile-nav-active');
-    mobileNavToggleBtn.classList.toggle('bi-list');
-    mobileNavToggleBtn.classList.toggle('bi-x');
+  if (mobileNavToggleBtn) {
+    function mobileNavToggle() {
+      document.body.classList.toggle('mobile-nav-active');
+      mobileNavToggleBtn.classList.toggle('bi-list');
+      mobileNavToggleBtn.classList.toggle('bi-x');
+    }
+    mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
   }
-  mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
 
-  /**
-   * Hide mobile nav on same-page/hash links
-   */
+// hide mobile nav on same-page/hash links (veilig)
   document.querySelectorAll('#navmenu a').forEach(navmenu => {
     navmenu.addEventListener('click', () => {
-      if (document.querySelector('.mobile-nav-active')) {
-        mobileNavToogle();
+      if (document.body.classList.contains('mobile-nav-active')) {
+        if (mobileNavToggleBtn) mobileNavToggleBtn.click();
+        else document.body.classList.remove('mobile-nav-active');
       }
     });
-
   });
 
-  /**
-   * Toggle mobile nav dropdowns
-   */
-  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
+// toggle mobile nav dropdowns — target LI en het UL submenu
+  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(toggle => {
+    toggle.addEventListener('click', function(e) {
       e.preventDefault();
-      this.parentNode.classList.toggle('active');
-      this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
       e.stopImmediatePropagation();
+      const li = this.closest('li');           // nu het LI-element pakken
+      if (!li) return;
+      const submenu = li.querySelector('ul');  // het submenu binnen die LI
+      li.classList.toggle('active');           // toggle op LI
+      if (submenu) submenu.classList.toggle('dropdown-active'); // toggle submenu
     });
   });
 
