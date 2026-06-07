@@ -1,0 +1,21 @@
+{
+  "name": "Ben Baeyens — Freelance Unity Developer",
+  "short_name": "Ben Baeyens",
+  "description": "Freelance Unity developer building games, apps, interactive experiences and practical Unity lessons.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F4",
+  "theme_color": "#BD4612",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

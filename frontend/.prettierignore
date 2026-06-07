@@ -1,0 +1,16 @@
+.next/
+coverage/
+dist/
+build/
+node_modules/
+playwright-report/
+test-results/
+src/assets/
+src/views/
+src/router/
+src/stores/
+src/**/*.vue
+src/main.js
+src/App.vue
+src/components/__tests__/
+package-lock.json

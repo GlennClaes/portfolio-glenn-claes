@@ -1,41 +1,97 @@
-name: CI
+name: CI/CD
 
 on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  quality:
+    name: Install, test and build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.x] 
+
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: "22"
+          cache: npm
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        working-directory: frontend
         run: npm ci
 
-      - name: Lint (optional)
-        working-directory: frontend
-        run: npm run lint || echo "No lint script found"
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
 
-      - name: Build Vue app
-        working-directory: frontend
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit and component tests
+        run: npm run test:unit
+
+      - name: Build
         run: npm run build
 
-      - name: Run tests
+      - name: E2E smoke and accessibility tests
+        run: npm run test:e2e
+
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: quality
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    defaults:
+      run:
         working-directory: frontend
-        run: npm test || echo "No tests found"
+
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Skip deploy when Vercel secrets are missing
+        if: env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == ''
+        run: echo "Set VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID to enable production deploys."
+
+      - name: Pull Vercel environment
+        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
+        run: npx vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel artifact
+        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
+        run: npx vercel@latest build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy prebuilt artifact
+        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
+        run: npx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
