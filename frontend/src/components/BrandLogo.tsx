@@ -9,8 +9,8 @@ interface BrandLogoProps {
 export function BrandLogo({ footer = false }: BrandLogoProps) {
   const content = (
     <>
-      <span className="logo-mark">B</span>
-      <span>Ben Baeyens</span>
+      <span className="logo-mark">G</span>
+      <span>Glenn Claes</span>
     </>
   );
 
@@ -19,7 +19,7 @@ export function BrandLogo({ footer = false }: BrandLogoProps) {
   }
 
   return (
-    <Link href="#top" className="logo" onClick={jumpTo('top')} aria-label="Ben Baeyens home">
+    <Link href="#top" className="logo" onClick={jumpTo('top')} aria-label="Glenn Claes home">
       {content}
     </Link>
   );

@@ -22,14 +22,16 @@ describe('Contact', () => {
       window.dispatchEvent(
         new CustomEvent('open-contact', {
           detail: {
-            type: 'Unity lessons',
-            message: 'Hi Ben — I would like to learn Unity.',
+            type: 'Automation',
+            message: 'Hi Glenn - I would like to automate a workflow.',
           },
         }),
       );
     });
 
-    expect(screen.getByLabelText(/project type/i)).toHaveValue('Unity lessons');
-    expect(screen.getByLabelText(/message/i)).toHaveValue('Hi Ben — I would like to learn Unity.');
+    expect(screen.getByLabelText(/project type/i)).toHaveValue('Automation');
+    expect(screen.getByLabelText(/message/i)).toHaveValue(
+      'Hi Glenn - I would like to automate a workflow.',
+    );
   });
 });

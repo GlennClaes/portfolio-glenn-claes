@@ -29,41 +29,46 @@ const jetBrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const title = 'Ben Baeyens — Freelance Unity Developer';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://127.0.0.1:3000';
+const siteOrigin = new URL(siteUrl).origin;
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+const assetPath = (path: string) => `${basePath}${path}`;
+const title = 'Glenn Claes - Developer Portfolio';
 const description =
-  "Freelance IT'er specialised in Unity development. I build Unity games, apps, and teach Unity through practical lessons.";
+  'Developer portfolio for Glenn Claes. Clean websites, practical app interfaces, automation and deployable frontend work.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.benbaeyens.com'),
+  metadataBase: new URL(siteOrigin),
   title,
   description,
-  applicationName: 'Ben Baeyens Portfolio',
-  authors: [{ name: 'Ben Baeyens', url: 'https://www.benbaeyens.com' }],
-  creator: 'Ben Baeyens',
+  applicationName: 'Glenn Claes Portfolio',
+  authors: [{ name: 'Glenn Claes', url: siteUrl }],
+  creator: 'Glenn Claes',
   keywords: [
-    'Unity developer',
-    'Freelance Unity developer',
-    'Unity lessons',
-    'Unity app development',
-    'Unity game development',
+    'Glenn Claes',
+    'developer portfolio',
+    'Next.js developer',
+    'frontend developer',
+    'web development',
+    'GitHub Pages',
     'Belgium',
   ],
   alternates: {
-    canonical: '/',
+    canonical: siteUrl,
   },
   openGraph: {
     title,
     description,
-    url: '/',
-    siteName: 'Ben Baeyens',
+    url: siteUrl,
+    siteName: 'Glenn Claes',
     type: 'website',
     locale: 'en_US',
     images: [
       {
-        url: '/og-image.svg',
+        url: assetPath('/og-image.svg'),
         width: 1200,
         height: 630,
-        alt: 'Ben Baeyens — Freelance Unity Developer',
+        alt: 'Glenn Claes - Developer Portfolio',
       },
     ],
   },
@@ -71,19 +76,21 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title,
     description,
-    images: ['/og-image.svg'],
+    images: [assetPath('/og-image.svg')],
   },
   icons: {
-    icon: [{ url: '/favicon.ico' }, { url: '/favicon.svg', type: 'image/svg+xml' }],
-    apple: [{ url: '/apple-touch-icon.png' }],
+    icon: [
+      { url: assetPath('/favicon.ico') },
+      { url: assetPath('/favicon.svg'), type: 'image/svg+xml' },
+    ],
   },
-  manifest: '/site.webmanifest',
+  manifest: assetPath('/site.webmanifest'),
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FAF8F4',
+  themeColor: '#F8FAFC',
   colorScheme: 'light',
 };
 

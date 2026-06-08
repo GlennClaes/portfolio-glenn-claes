@@ -23,7 +23,7 @@ interface DynamicObject {
 
 export function initHeroScene(
   canvas: HTMLCanvasElement,
-  { variant = 'primitives', accent = '#EC6A1F' }: HeroSceneOptions = {},
+  { variant = 'primitives', accent = '#1D4ED8' }: HeroSceneOptions = {},
 ): HeroSceneHandle | null {
   let renderer: THREE.WebGLRenderer;
 
@@ -47,7 +47,7 @@ export function initHeroScene(
   camera.position.set(0, 0.4, 6.5);
   camera.lookAt(0, 0, 0);
 
-  const hemi = new THREE.HemisphereLight(0xfff3e0, 0xefe2c8, 0.9);
+  const hemi = new THREE.HemisphereLight(0xdbeafe, 0xe2e8f0, 0.9);
   scene.add(hemi);
 
   const key = new THREE.DirectionalLight(0xffffff, 1.6);
@@ -58,30 +58,30 @@ export function initHeroScene(
   rim.position.set(-4, -1, -2);
   scene.add(rim);
 
-  const fill = new THREE.PointLight(0xffe3c4, 0.7, 12);
+  const fill = new THREE.PointLight(0xbfdbfe, 0.7, 12);
   fill.position.set(-2.5, 2, 3);
   scene.add(fill);
 
-  const matOrange = new THREE.MeshStandardMaterial({
+  const matPrimary = new THREE.MeshStandardMaterial({
     color: new THREE.Color(accent),
     roughness: 0.42,
     metalness: 0.08,
     flatShading: true,
   });
-  const matCream = new THREE.MeshStandardMaterial({
-    color: 0xf5ece0,
+  const matSoft = new THREE.MeshStandardMaterial({
+    color: 0xe2e8f0,
     roughness: 0.55,
     metalness: 0.04,
     flatShading: true,
   });
   const matInk = new THREE.MeshStandardMaterial({
-    color: 0x2a241e,
+    color: 0x0f172a,
     roughness: 0.55,
     metalness: 0.15,
     flatShading: true,
   });
   const matAccent2 = new THREE.MeshStandardMaterial({
-    color: 0xf4a774,
+    color: 0x60a5fa,
     roughness: 0.5,
     metalness: 0.05,
     flatShading: true,
@@ -92,7 +92,7 @@ export function initHeroScene(
 
   const dynamic: DynamicObject[] = [];
 
-  function addWire(mesh: THREE.Mesh, color = 0x1a1613) {
+  function addWire(mesh: THREE.Mesh, color = 0x0f172a) {
     const edges = new THREE.EdgesGeometry(mesh.geometry);
     const line = new THREE.LineSegments(
       edges,
@@ -102,7 +102,7 @@ export function initHeroScene(
   }
 
   if (variant === 'cube') {
-    const cube = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.2, 2.2), matOrange);
+    const cube = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.2, 2.2), matPrimary);
     addWire(cube);
     group.add(cube);
     dynamic.push({ obj: cube, baseY: 0, amp: 0.12, speed: 0.7, phase: 0 });
@@ -116,7 +116,7 @@ export function initHeroScene(
       flatShading: true,
     });
 
-    const cube = new THREE.Mesh(new THREE.BoxGeometry(1.55, 1.55, 1.55), matOrange);
+    const cube = new THREE.Mesh(new THREE.BoxGeometry(1.55, 1.55, 1.55), matPrimary);
     addWire(cube);
     group.add(cube);
     dynamic.push({
@@ -129,7 +129,7 @@ export function initHeroScene(
       ry: 0.0045,
     });
 
-    const sphere = new THREE.Mesh(new THREE.IcosahedronGeometry(0.6, 0), matCream);
+    const sphere = new THREE.Mesh(new THREE.IcosahedronGeometry(0.6, 0), matSoft);
     sphere.position.set(-1.65, 0.95, 0.7);
     addWire(sphere);
     group.add(sphere);
@@ -237,7 +237,7 @@ export function initHeroScene(
     const disc = new THREE.Mesh(
       new THREE.CircleGeometry(3.6, 48),
       new THREE.MeshStandardMaterial({
-        color: 0xefe2cf,
+        color: 0xe2e8f0,
         roughness: 0.95,
         metalness: 0,
         transparent: true,

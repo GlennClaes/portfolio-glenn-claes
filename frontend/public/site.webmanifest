@@ -1,19 +1,20 @@
 {
-  "name": "Ben Baeyens — Freelance Unity Developer",
-  "short_name": "Ben Baeyens",
-  "description": "Freelance Unity developer building games, apps, interactive experiences and practical Unity lessons.",
-  "start_url": "/",
+  "name": "Glenn Claes - Developer Portfolio",
+  "short_name": "Glenn Claes",
+  "description": "Developer portfolio for Glenn Claes, focused on clean websites, practical app interfaces and deployable frontend work.",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
-  "background_color": "#FAF8F4",
-  "theme_color": "#BD4612",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1D4ED8",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "favicon.svg",
       "sizes": "64x64",
       "type": "image/svg+xml"
     },
     {
-      "src": "/favicon.ico",
+      "src": "favicon.ico",
       "sizes": "48x48",
       "type": "image/x-icon"
     }

@@ -4,8 +4,8 @@ import { expect, test } from '@playwright/test';
 test('renders the one-page portfolio and interactive states', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page).toHaveTitle(/Ben Baeyens/);
-  await expect(page.getByRole('heading', { level: 1, name: /Hi, I'm Ben/i })).toBeVisible();
+  await expect(page).toHaveTitle(/Glenn Claes/);
+  await expect(page.getByRole('heading', { level: 1, name: /Hi, I'm Glenn/i })).toBeVisible();
   await expect(page.getByRole('link', { name: /contact me/i }).first()).toBeVisible();
 
   const canvas = page.locator('.scene-canvas');
@@ -46,7 +46,7 @@ test('renders the one-page portfolio and interactive states', async ({ page }) =
 
   expect(hasDrawnPixels).toBe(true);
 
-  await page.getByRole('button', { name: /view case study for virtual d-day/i }).click();
+  await page.getByRole('button', { name: /view case study for glenn claes portfolio/i }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();
@@ -65,6 +65,7 @@ test('has no serious accessibility violations at core breakpoints', async ({ pag
   ]) {
     await page.setViewportSize(viewport);
     await page.goto('/');
+    await page.waitForTimeout(1400);
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'best-practice'])

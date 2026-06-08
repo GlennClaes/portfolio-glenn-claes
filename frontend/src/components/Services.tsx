@@ -1,4 +1,4 @@
-import { Check, Gamepad2, GraduationCap, Smartphone } from 'lucide-react';
+import { Check, Code2, Gauge, Workflow } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 interface Service {
@@ -10,22 +10,22 @@ interface Service {
 
 const services: Service[] = [
   {
-    icon: <Gamepad2 aria-hidden="true" size={26} strokeWidth={1.8} />,
-    title: 'Unity Game Development',
-    body: 'From prototypes to polished releases — gameplay systems, UI, performance, and the small details that make a game feel good to play.',
-    benefit: 'A game that feels great on day one and stays maintainable on day 365.',
+    icon: <Code2 aria-hidden="true" size={26} strokeWidth={1.8} />,
+    title: 'Web Development',
+    body: 'Modern websites and portfolio experiences built with Next.js, TypeScript and responsive UI patterns.',
+    benefit: 'A fast, polished website that is easy to maintain and ready to deploy.',
   },
   {
-    icon: <Smartphone aria-hidden="true" size={26} strokeWidth={1.8} />,
-    title: 'Unity App Development',
-    body: 'Interactive apps and tools built in Unity: training simulations, AR/VR experiences, industrial visualisations, and cross-platform mobile builds.',
-    benefit: 'One codebase, multiple platforms, a polished end-user experience.',
+    icon: <Gauge aria-hidden="true" size={26} strokeWidth={1.8} />,
+    title: 'App Interfaces',
+    body: 'Focused frontends for dashboards, tools and small products where speed, clarity and usability matter.',
+    benefit: 'Screens that feel calm, readable and practical in daily use.',
   },
   {
-    icon: <GraduationCap aria-hidden="true" size={26} strokeWidth={1.8} />,
-    title: 'Unity Lessons & Coaching',
-    body: '1-on-1 or small-group lessons for beginners, students, and self-learners. We work on real projects, not abstract tutorials.',
-    benefit: 'You leave each session with something working, and the confidence to keep going.',
+    icon: <Workflow aria-hidden="true" size={26} strokeWidth={1.8} />,
+    title: 'Automation & Delivery',
+    body: 'Small automations, CI checks, deployment setup and code quality workflows that keep projects moving.',
+    benefit: 'Less manual work, fewer surprises and a cleaner path from commit to production.',
   },
 ];
 
@@ -39,8 +39,8 @@ export function Services() {
             <h2 className="h-section">Three ways I can help.</h2>
           </div>
           <p className="lead reveal" data-delay="1">
-            Pick the one that fits — or combine them. Most projects start with a short call so we
-            can scope things honestly.
+            Pick the one that fits, or combine them. Most projects start with a short call so we can
+            scope the work honestly.
           </p>
         </div>
         <div className="services-grid">

@@ -51,7 +51,7 @@ jobs:
       - name: E2E smoke and accessibility tests
         run: npm run test:e2e
 
-  deploy:
+  deploy-vercel:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
     needs: quality
@@ -65,6 +65,72 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://portfolio-glenn-claes.vercel.app' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Vercel secrets
+        id: vercel
+        run: |
+          if [ -n "$VERCEL_TOKEN" ] && [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping Vercel deploy because VERCEL_TOKEN, VERCEL_ORG_ID or VERCEL_PROJECT_ID is missing."
+          fi
+
+      - name: Setup Node.js
+        if: steps.vercel.outputs.configured == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        if: steps.vercel.outputs.configured == 'true'
+        run: npm ci
+
+      - name: Install Vercel CLI
+        if: steps.vercel.outputs.configured == 'true'
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment
+        if: steps.vercel.outputs.configured == 'true'
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel output
+        if: steps.vercel.outputs.configured == 'true'
+        run: vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy Vercel output
+        if: steps.vercel.outputs.configured == 'true'
+        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+
+  deploy-pages:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: quality
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    concurrency:
+      group: github-pages
+      cancel-in-progress: true
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout repository
@@ -80,18 +146,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Skip deploy when Vercel secrets are missing
-        if: env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == ''
-        run: echo "Set VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID to enable production deploys."
+      - name: Build GitHub Pages export
+        env:
+          NEXT_PUBLIC_SITE_URL: https://glennclaes.github.io/portfolio-glenn-claes
+        run: npm run build:pages
 
-      - name: Pull Vercel environment
-        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
-        run: npx vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - name: Add Pages nojekyll marker
+        run: touch out/.nojekyll
 
-      - name: Build Vercel artifact
-        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
-        run: npx vercel@latest build --prod --token="$VERCEL_TOKEN"
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
-      - name: Deploy prebuilt artifact
-        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
-        run: npx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

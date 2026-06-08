@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "redirects": [
+    {
+      "source": "/portfolio-glenn-claes",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/portfolio-glenn-claes/:path*",
+      "destination": "/:path*",
+      "permanent": false
+    }
+  ]
+}

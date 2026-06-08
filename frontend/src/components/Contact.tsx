@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import type { ContactPreset } from '@/lib/navigation';
 
-export const CONTACT_EMAIL = 'contact@benbaeyens.com';
+export const CONTACT_EMAIL = 'contact@glennclaes.be';
 
 interface ContactForm {
   name: string;
@@ -21,7 +21,7 @@ type ContactErrors = Partial<Record<ErrorKey, string>>;
 const initialForm: ContactForm = {
   name: '',
   email: '',
-  type: 'Unity game',
+  type: 'Website',
   message: '',
 };
 
@@ -104,8 +104,8 @@ export function Contact() {
             <h2 className="h-section">Let&apos;s talk about your&nbsp;idea.</h2>
           </div>
           <p className="lead reveal" data-delay="1">
-            Have a Unity idea, app, game, or lesson request? Send me a message and I&apos;ll get
-            back to you — usually within a day.
+            Have a website, app, automation or portfolio idea? Send me a message and I&apos;ll get
+            back to you as soon as I can.
           </p>
         </div>
 
@@ -118,13 +118,13 @@ export function Contact() {
             </p>
             <Link
               className="contact-channel contact-channel-link"
-              href="mailto:contact@benbaeyens.com?subject=Quick%20hello"
+              href="mailto:contact@glennclaes.be?subject=Quick%20hello"
             >
               <div className="ic">
                 <Mail aria-hidden="true" size={18} strokeWidth={1.8} />
               </div>
               <div>
-                <b>contact@benbaeyens.com</b>
+                <b>contact@glennclaes.be</b>
                 <span>Email me anytime</span>
               </div>
             </Link>
@@ -138,7 +138,7 @@ export function Contact() {
                 <MapPin aria-hidden="true" size={18} strokeWidth={1.8} />
               </div>
               <div>
-                <b>Belgium · Remote</b>
+                <b>Belgium - Remote</b>
                 <span>Working across European time zones</span>
               </div>
             </Link>
@@ -193,9 +193,9 @@ export function Contact() {
             <div className="field mt-16">
               <label htmlFor="type">Project type</label>
               <select id="type" value={form.type} onChange={update('type')}>
-                <option>Unity game</option>
-                <option>Unity app</option>
-                <option>Unity lessons</option>
+                <option>Website</option>
+                <option>Web app</option>
+                <option>Automation</option>
                 <option>Other</option>
               </select>
             </div>
@@ -205,7 +205,7 @@ export function Contact() {
                 id="message"
                 rows={5}
                 ref={messageRef}
-                placeholder="Tell me a bit about what you have in mind…"
+                placeholder="Tell me a bit about what you have in mind..."
                 value={form.message}
                 onChange={update('message')}
                 aria-invalid={Boolean(errors.message)}
@@ -227,7 +227,7 @@ export function Contact() {
               {sent ? (
                 <div className="sent">
                   <Check aria-hidden="true" size={14} strokeWidth={2.6} /> Your mail app should be
-                  opening — just hit send and it&apos;ll land in my inbox.
+                  opening. Just hit send and it&apos;ll land in my inbox.
                 </div>
               ) : null}
             </div>

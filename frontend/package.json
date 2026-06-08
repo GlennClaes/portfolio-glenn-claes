@@ -1,5 +1,5 @@
 {
-  "name": "ben-baeyens-portfolio-remake",
+  "name": "glenn-claes-portfolio",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "node scripts/build-pages.mjs",
     "start": "next start",
+    "start:static": "node scripts/serve-static.mjs out",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

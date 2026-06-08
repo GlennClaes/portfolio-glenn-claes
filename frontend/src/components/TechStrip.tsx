@@ -1,17 +1,18 @@
 const items = [
-  'Unity',
-  'C#',
-  'Shader Graph',
-  'URP',
-  'Mobile & WebGL',
-  'AR / VR',
-  'Game Design',
-  'Mentorship',
+  'Next.js',
+  'React',
+  'TypeScript',
+  'Tailwind CSS',
+  'Vercel',
+  'GitHub Pages',
+  'Playwright',
+  'Accessibility',
+  'CI/CD',
 ];
 
 export function TechStrip() {
   return (
-    <div className="tech-strip" aria-label="Unity technology specialisms">
+    <div className="tech-strip" aria-label="Glenn Claes technology specialisms">
       <div className="container tech-strip-inner">
         {items.map((item) => (
           <span key={item}>{item}</span>

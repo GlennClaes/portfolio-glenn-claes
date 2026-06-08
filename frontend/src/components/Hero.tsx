@@ -1,13 +1,13 @@
 'use client';
 
-import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
 import { initHeroScene } from '@/lib/hero-scene';
 import { jumpTo } from '@/lib/navigation';
 
-const ACCENT = '#BD4612';
+const ACCENT = '#1D4ED8';
 
 export function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -30,15 +30,15 @@ export function Hero() {
         <div>
           <div className="hero-badge reveal">
             <span className="dot" />
-            Available for freelance projects · 2026
+            Available for freelance projects - 2026
           </div>
           <h1 className="h-display reveal" data-delay="1">
-            Hi, I&apos;m <span className="italic-serif">Ben</span>, a freelance IT&apos;er
-            specialized in&nbsp;Unity development.
+            Hi, I&apos;m <span className="italic-serif">Glenn</span>, a developer building clean
+            digital products.
           </h1>
           <p className="lead hero-lead reveal" data-delay="2">
-            I build Unity games, apps, interactive experiences, and help people learn Unity through
-            practical lessons.
+            I create fast websites, practical apps, polished interfaces, and reliable automation
+            with a calm, detail-driven workflow.
           </p>
           <div className="hero-ctas reveal" data-delay="3">
             <Link href="#contact" className="btn btn-primary" onClick={jumpTo('contact')}>
@@ -50,13 +50,13 @@ export function Hero() {
           </div>
           <div className="hero-meta reveal" data-delay="4">
             <div>
-              <b>6+ years</b> with Unity & C#
+              <b>Frontend</b> React, Next.js & TypeScript
             </div>
             <div>
-              <b>Belgium</b> · Remote worldwide
+              <b>Belgium</b> - Remote friendly
             </div>
             <div>
-              <b>Replies</b> within 24h
+              <b>Delivery</b> clear, tested, deployable
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@ export function Hero() {
               ref={canvasRef}
               className="scene-canvas"
               role="img"
-              aria-label="Interactive low-poly 3D Unity scene"
+              aria-label="Interactive low-poly 3D developer scene"
             />
             <div className="scene-tag tl">
               <span className="swatch" style={{ background: ACCENT }} />

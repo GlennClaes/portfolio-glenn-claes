@@ -27,8 +27,8 @@ export function Projects({ onOpen }: ProjectsProps) {
             <h2 className="h-section">A look at recent&nbsp;projects.</h2>
           </div>
           <p className="lead reveal" data-delay="1">
-            Two snapshots of recent Unity work. Click through for the details, or drop a line if you
-            want the long version.
+            Two snapshots of this portfolio build and the delivery workflow behind it. Click through
+            for the details, or drop a line if you want the long version.
           </p>
         </div>
         <div className="projects-grid">
@@ -62,7 +62,7 @@ export function Projects({ onOpen }: ProjectsProps) {
                     <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
                   </span>
                   <span className="project-status">
-                    {project.available ? 'Launching June 2026' : 'Under NDA'}
+                    {project.available ? 'Ready for Vercel' : 'Under NDA'}
                   </span>
                 </span>
               </span>

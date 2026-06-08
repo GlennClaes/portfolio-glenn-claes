@@ -4,44 +4,43 @@ export function About() {
       <div className="container">
         <div className="about-grid">
           <div className="reveal">
-            <div className="about-portrait" role="img" aria-label="Portrait of Ben Baeyens" />
+            <div className="about-portrait" role="img" aria-label="Glenn Claes abstract portrait" />
             <div className="about-facts">
               <div className="fact">
                 <div className="num">40+</div>
-                <div className="lbl">Projects shipped</div>
+                <div className="lbl">Builds delivered</div>
               </div>
               <div className="fact">
-                <div className="num">120+</div>
-                <div className="lbl">Students taught</div>
+                <div className="num">24/7</div>
+                <div className="lbl">Static hosting ready</div>
               </div>
               <div className="fact">
-                <div className="num">6 yrs</div>
-                <div className="lbl">Working with Unity</div>
+                <div className="num">TS</div>
+                <div className="lbl">Strict TypeScript</div>
               </div>
               <div className="fact">
                 <div className="num">100%</div>
-                <div className="lbl">Recommend rate</div>
+                <div className="lbl">Quality focused</div>
               </div>
             </div>
           </div>
           <div>
             <span className="eyebrow reveal">About me</span>
             <h2 className="h-section reveal" data-delay="1">
-              A freelance IT&apos;er who genuinely enjoys making things that&nbsp;move.
+              A developer who likes clean interfaces, steady systems and thoughtful details.
             </h2>
             <p className="lead reveal mt-22" data-delay="2">
-              I&apos;m Ben — a Belgium-based freelancer focused on Unity. Most of my days are spent
-              building practical, interactive software: games, in-house tools, training simulations,
-              mobile apps, and the occasional weird experiment for fun.
+              I&apos;m Glenn Claes, a Belgium-based developer focused on modern, maintainable web
+              experiences. I like turning ideas into products that feel quick, clear and dependable.
             </p>
             <p className="lead reveal mt-14" data-delay="3">
-              I also teach Unity. If you&apos;re a beginner, a student, or someone who wants
-              hands-on guidance to ship your first project, I&apos;ll meet you where you are and
-              we&apos;ll learn by actually&nbsp;making something together.
+              Most work starts with a simple question: what should this make easier for the person
+              using it? From there I shape the interface, build the core, test the flows and prepare
+              it for deployment.
             </p>
             <p className="lead reveal body-mute mt-14" data-delay="4">
-              No jargon, no fluff — just clear thinking, clean code, and a friendly
-              working&nbsp;style.
+              No noise, no overbuilt stack. Just sharp execution, readable code and a site that is
+              ready to ship.
             </p>
           </div>
         </div>

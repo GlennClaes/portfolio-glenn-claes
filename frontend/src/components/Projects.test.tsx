@@ -9,10 +9,12 @@ describe('Projects', () => {
     const onOpen = vi.fn();
     render(<Projects onOpen={onOpen} />);
 
-    expect(screen.getByText('Virtual D-Day')).toBeInTheDocument();
-    expect(screen.getByText('Red Letter Christians — Daily Companion App')).toBeInTheDocument();
+    expect(screen.getByText('Glenn Claes Portfolio')).toBeInTheDocument();
+    expect(screen.getByText('Quality-First Delivery System')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /view case study for virtual d-day/i }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /view case study for glenn claes portfolio/i }),
+    );
 
     expect(onOpen).toHaveBeenCalledWith(projects[0]);
   });

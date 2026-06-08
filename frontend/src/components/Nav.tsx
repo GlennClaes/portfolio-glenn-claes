@@ -11,7 +11,7 @@ const navItems = [
   { label: 'About', id: 'about' },
   { label: 'Services', id: 'services' },
   { label: 'Projects', id: 'projects' },
-  { label: 'Lessons', id: 'lessons' },
+  { label: 'Process', id: 'process' },
 ];
 
 export function Nav() {

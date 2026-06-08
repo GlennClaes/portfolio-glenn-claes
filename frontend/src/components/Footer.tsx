@@ -29,8 +29,7 @@ export function Footer() {
           <div>
             <BrandLogo footer />
             <p className="foot-tag">
-              Freelance Unity developer & teacher. Building practical, interactive software — and
-              helping others do the same.
+              Developer focused on clean websites, practical interfaces and reliable delivery.
             </p>
           </div>
           <div>
@@ -44,20 +43,20 @@ export function Footer() {
             <Link href="#projects" onClick={jumpTo('projects')}>
               Projects
             </Link>
-            <Link href="#lessons" onClick={jumpTo('lessons')}>
-              Lessons
+            <Link href="#process" onClick={jumpTo('process')}>
+              Process
             </Link>
           </div>
           <div>
             <h2>Contact</h2>
-            <Link href="mailto:contact@benbaeyens.com?subject=Quick%20hello">
-              contact@benbaeyens.com
+            <Link href="mailto:contact@glennclaes.be?subject=Quick%20hello">
+              contact@glennclaes.be
             </Link>
             <Link
               href="#contact"
               onClick={openContact({
-                type: 'Unity game',
-                message: "Hi Ben — I'd like to discuss a project. Here's the short version: ",
+                type: 'Website',
+                message: "Hi Glenn - I'd like to discuss a project. Here's the short version: ",
                 focus: 'message',
               })}
             >
@@ -66,18 +65,18 @@ export function Footer() {
             <Link
               href="#contact"
               onClick={openContact({
-                type: 'Unity lessons',
-                message: "Hi Ben — I'd like to book a Unity lesson. A bit about me: ",
+                type: 'Automation',
+                message: "Hi Glenn - I'd like to talk about automation. A bit about what I need: ",
                 focus: 'message',
               })}
             >
-              Book a lesson
+              Automation enquiry
             </Link>
           </div>
           <div>
             <h2>Elsewhere</h2>
             <Link
-              href="https://www.linkedin.com/in/ben-baeyens/"
+              href="https://www.linkedin.com/in/glenn-claes/"
               target="_blank"
               rel="noreferrer"
               className="social-link"
@@ -85,7 +84,7 @@ export function Footer() {
               <LinkedInIcon /> LinkedIn
             </Link>
             <Link
-              href="https://github.com/BenBaeyens"
+              href="https://github.com/GlennClaes"
               target="_blank"
               rel="noreferrer"
               className="social-link"
@@ -95,8 +94,8 @@ export function Footer() {
           </div>
         </div>
         <div className="foot-bottom">
-          <span>© 2026 Ben Baeyens. All rights reserved.</span>
-          <span>Belgium · Available worldwide</span>
+          <span>(c) 2026 Glenn Claes. All rights reserved.</span>
+          <span>Belgium - Available worldwide</span>
         </div>
       </div>
     </footer>

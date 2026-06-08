@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#FAF8F4"/>
-  <circle cx="980" cy="130" r="220" fill="#FFF3E8"/>
-  <circle cx="170" cy="520" r="180" fill="#F4F1EB"/>
-  <rect x="88" y="86" width="1024" height="458" rx="42" fill="#FFFFFF" stroke="#ECE6DA" stroke-width="2"/>
-  <rect x="138" y="136" width="72" height="72" rx="18" fill="#BD4612"/>
-  <text x="174" y="188" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-style="italic" fill="#FFFFFF">B</text>
-  <text x="138" y="288" font-family="Manrope, Arial, sans-serif" font-size="78" font-weight="700" fill="#1A1613">Ben Baeyens</text>
-  <text x="138" y="356" font-family="Manrope, Arial, sans-serif" font-size="42" font-weight="600" fill="#3D362F">Freelance Unity Developer</text>
-  <text x="138" y="430" font-family="Manrope, Arial, sans-serif" font-size="28" fill="#74695C">Unity games, apps, interactive experiences and practical lessons.</text>
-  <rect x="138" y="474" width="198" height="46" rx="23" fill="#BD4612"/>
-  <text x="237" y="505" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Belgium · Remote</text>
+  <rect width="1200" height="630" fill="#F8FAFC"/>
+  <circle cx="980" cy="130" r="220" fill="#DBEAFE"/>
+  <circle cx="170" cy="520" r="180" fill="#E5E7EB"/>
+  <rect x="88" y="86" width="1024" height="458" rx="42" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+  <rect x="138" y="136" width="72" height="72" rx="18" fill="#1D4ED8"/>
+  <text x="174" y="188" text-anchor="middle" font-family="Georgia, serif" font-size="40" font-style="italic" fill="#FFFFFF">G</text>
+  <text x="138" y="288" font-family="Manrope, Arial, sans-serif" font-size="78" font-weight="700" fill="#111827">Glenn Claes</text>
+  <text x="138" y="356" font-family="Manrope, Arial, sans-serif" font-size="42" font-weight="600" fill="#1F2937">Developer Portfolio</text>
+  <text x="138" y="430" font-family="Manrope, Arial, sans-serif" font-size="28" fill="#64748B">Clean websites, practical interfaces and Vercel delivery.</text>
+  <rect x="138" y="474" width="230" height="46" rx="23" fill="#1D4ED8"/>
+  <text x="253" y="505" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Belgium - Remote</text>
 </svg>

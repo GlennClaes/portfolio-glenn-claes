@@ -4,8 +4,8 @@ import { ArrowRight, Check, X } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useId, useRef } from 'react';
 
-import type { Project } from '@/data/projects';
 import { ProjectThumb } from '@/components/ProjectThumb';
+import type { Project } from '@/data/projects';
 import { openContact } from '@/lib/navigation';
 
 interface CaseStudyModalProps {
@@ -85,7 +85,7 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
           ))}
 
           <h3 className="modal-sub">What I worked on</h3>
-          <ul className="lesson-list mt-14">
+          <ul className="check-list mt-14">
             {project.highlights.map((highlight) => (
               <li key={highlight}>
                 <span className="check">
@@ -123,8 +123,8 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
                 onClose();
                 window.setTimeout(() => {
                   openContact({
-                    type: project.kind === 'app' ? 'Unity app' : 'Unity game',
-                    message: `Hi Ben — I'd like to get in touch about "${project.title}". A bit about what I have in mind: `,
+                    type: project.kind === 'app' ? 'Automation' : 'Website',
+                    message: `Hi Glenn - I'd like to get in touch about "${project.title}". A bit about what I have in mind: `,
                     focus: 'message',
                   })();
                 }, 80);

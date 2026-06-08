@@ -5,8 +5,14 @@ interface ProjectThumbProps {
   accent?: string;
 }
 
+const workflowRows = [
+  ['lint', 0, '#FFFFFF'],
+  ['types', 62, '#FFFFFF'],
+  ['tests', 124, '#FFFFFF'],
+] as const;
+
 export function ProjectThumb({ kind, accent = 'var(--accent)' }: ProjectThumbProps) {
-  if (kind === 'dday') {
+  if (kind === 'web') {
     return (
       <svg
         className="thumb-art"
@@ -15,64 +21,47 @@ export function ProjectThumb({ kind, accent = 'var(--accent)' }: ProjectThumbPro
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#FFE0B8" />
-            <stop offset="60%" stopColor="#F4B97A" />
-            <stop offset="100%" stopColor="#D88149" />
+          <linearGradient id="webBg" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor="#F8FAFC" />
+            <stop offset="100%" stopColor="#DCE7F7" />
           </linearGradient>
-          <linearGradient id="sea" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#9B7152" />
-            <stop offset="100%" stopColor="#5B432F" />
+          <linearGradient id="webPanel" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="100%" stopColor="#EFF6FF" />
           </linearGradient>
         </defs>
-        <rect width="400" height="170" fill="url(#sky)" />
-        <circle cx="310" cy="82" r="28" fill="#FFF1D6" opacity="0.85" />
-        <ellipse cx="80" cy="60" rx="42" ry="7" fill="#FFF1D6" opacity="0.6" />
-        <ellipse cx="220" cy="45" rx="60" ry="6" fill="#FFF1D6" opacity="0.5" />
-        <rect y="170" width="400" height="80" fill="url(#sea)" />
-        <path d="M0 170 L0 110 L70 100 L110 130 L150 120 L180 170 Z" fill="#3F2E20" />
+        <rect width="400" height="250" fill="url(#webBg)" />
+        <circle cx="62" cy="52" r="34" fill={accent} opacity="0.14" />
+        <circle cx="340" cy="202" r="54" fill="#111827" opacity="0.08" />
+        <g transform="translate(52 46)">
+          <rect width="296" height="158" rx="18" fill="#FFFFFF" stroke="#CBD5E1" />
+          <rect width="296" height="34" rx="18" fill="#111827" />
+          <circle cx="22" cy="17" r="5" fill="#DBEAFE" />
+          <circle cx="40" cy="17" r="5" fill="#94A3B8" />
+          <circle cx="58" cy="17" r="5" fill="#1D4ED8" />
+          <rect x="24" y="58" width="92" height="18" rx="9" fill={accent} />
+          <rect x="24" y="90" width="152" height="8" rx="4" fill="#1F2937" opacity="0.76" />
+          <rect x="24" y="108" width="116" height="8" rx="4" fill="#64748B" />
+          <rect
+            x="210"
+            y="54"
+            width="58"
+            height="58"
+            rx="14"
+            fill="url(#webPanel)"
+            stroke="#CBD5E1"
+          />
+          <path d="M232 90h28M246 76v28" stroke={accent} strokeWidth="6" strokeLinecap="round" />
+          <rect x="24" y="136" width="70" height="20" rx="10" fill="#EFF6FF" stroke="#BFDBFE" />
+          <rect x="106" y="136" width="70" height="20" rx="10" fill="#F1F5F9" stroke="#CBD5E1" />
+        </g>
         <path
-          d="M250 170 L260 145 L300 150 L330 140 L400 155 L400 170 Z"
-          fill="#5C4330"
-          opacity="0.7"
+          d="M64 210 C110 184 142 236 190 208 S286 184 338 214"
+          fill="none"
+          stroke={accent}
+          strokeWidth="3"
+          opacity="0.55"
         />
-        {[
-          [125, 78],
-          [170, 55],
-          [265, 72],
-          [345, 40],
-        ].map(([cx, cy]) => (
-          <g key={`${cx}-${cy}`}>
-            <path
-              d={`M${cx - 12} ${cy} Q${cx} ${cy - 10} ${cx + 12} ${cy} L${cx + 8} ${
-                cy + 4
-              } L${cx - 8} ${cy + 4} Z`}
-              fill="#2A1F16"
-              opacity="0.85"
-            />
-            <line
-              x1={cx - 8}
-              y1={cy + 4}
-              x2={cx - 2}
-              y2={cy + 16}
-              stroke="#2A1F16"
-              strokeWidth="0.7"
-            />
-            <line
-              x1={cx + 8}
-              y1={cy + 4}
-              x2={cx + 2}
-              y2={cy + 16}
-              stroke="#2A1F16"
-              strokeWidth="0.7"
-            />
-            <circle cx={cx} cy={cy + 19} r="2.4" fill="#2A1F16" />
-          </g>
-        ))}
-        <path d="M30 200 L70 200 L65 212 L35 212 Z" fill="#2A1F16" />
-        <path d="M120 215 L160 215 L155 226 L125 226 Z" fill="#2A1F16" />
-        <path d="M260 195 L295 195 L290 206 L265 206 Z" fill="#2A1F16" />
-        <circle cx="310" cy="82" r="6" fill={accent} />
       </svg>
     );
   }
@@ -85,84 +74,44 @@ export function ProjectThumb({ kind, accent = 'var(--accent)' }: ProjectThumbPro
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id="rlcBg" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor="#F5EDDF" />
-          <stop offset="100%" stopColor="#E6D6BC" />
-        </linearGradient>
-        <linearGradient id="rlcArt" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#FFE0BD" />
-          <stop offset="60%" stopColor="#F4A266" />
-          <stop offset="100%" stopColor="#B8552A" />
+        <linearGradient id="workflowBg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="#F8FAFC" />
+          <stop offset="100%" stopColor="#E2E8F0" />
         </linearGradient>
       </defs>
-      <rect width="400" height="250" fill="url(#rlcBg)" />
-      <circle cx="58" cy="58" r="34" fill={accent} opacity="0.16" />
-      <circle cx="350" cy="195" r="46" fill={accent} opacity="0.10" />
-      <g transform="translate(130 22)">
-        <rect width="140" height="206" rx="22" fill="#FFFFFF" stroke="#D8CDBE" strokeWidth="1.2" />
-        <rect x="56" y="8" width="28" height="6" rx="3" fill="#D8CDBE" />
-        <g transform="translate(18 22)">
-          <rect width="104" height="22" rx="11" fill="#F4F1EB" stroke="#E5DECC" />
-          <circle cx="14" cy="11" r="4" fill={accent} />
-          <rect x="24" y="6" width="48" height="4" rx="2" fill="#1A1613" opacity="0.55" />
-          <rect x="24" y="13" width="34" height="3.5" rx="1.75" fill="#1A1613" opacity="0.3" />
-        </g>
-        <g transform="translate(18 52)">
-          <rect width="104" height="68" rx="10" fill="url(#rlcArt)" />
-          <circle cx="52" cy="32" r="13" fill="#FFF1D6" opacity="0.85" />
-          <path d="M0 56 Q26 44 52 50 T104 52 L104 68 L0 68 Z" fill="#2A1F16" opacity="0.35" />
-          <path d="M0 62 Q30 56 60 60 T104 60 L104 68 L0 68 Z" fill="#2A1F16" opacity="0.5" />
-        </g>
-        {[0, 1, 2, 3].map((index) => (
-          <g key={index} transform={`translate(18 ${128 + index * 18})`}>
-            <rect
-              width="104"
-              height="14"
-              rx="7"
-              fill={index === 1 ? accent : '#F4F1EB'}
-              stroke={index === 1 ? 'transparent' : '#E5DECC'}
+      <rect width="400" height="250" fill="url(#workflowBg)" />
+      <circle cx="78" cy="188" r="52" fill={accent} opacity="0.1" />
+      <circle cx="326" cy="58" r="36" fill="#111827" opacity="0.1" />
+      <g transform="translate(58 48)">
+        {workflowRows.map(([label, y, fill]) => (
+          <g key={label} transform={`translate(0 ${y})`}>
+            <rect width="178" height="42" rx="12" fill={fill} stroke="#CBD5E1" />
+            <circle cx="22" cy="21" r="8" fill={accent} opacity="0.16" />
+            <path
+              d="M18 21l4 4 8-10"
+              fill="none"
+              stroke={accent}
+              strokeWidth="3"
+              strokeLinecap="round"
             />
-            <circle
-              cx="10"
-              cy="7"
-              r="3"
-              fill={index === 1 ? '#FFFFFF' : accent}
-              opacity={index === 1 ? 1 : 0.85}
-            />
-            <rect
-              x="20"
-              y="4.5"
-              width={[36, 30, 34, 44][index]}
-              height="3.2"
-              rx="1.6"
-              fill={index === 1 ? '#FFFFFF' : '#1A1613'}
-              opacity={index === 1 ? 1 : 0.55}
-            />
-            <rect
-              x="20"
-              y="9.5"
-              width={[22, 18, 20, 28][index]}
-              height="2.4"
-              rx="1.2"
-              fill={index === 1 ? '#FFFFFF' : '#1A1613'}
-              opacity={index === 1 ? 0.8 : 0.3}
-            />
+            <rect x="44" y="14" width="76" height="7" rx="3.5" fill="#111827" opacity="0.72" />
+            <rect x="44" y="26" width="110" height="5" rx="2.5" fill="#64748B" />
           </g>
         ))}
       </g>
-      <g transform="translate(38 150)">
-        <rect width="74" height="38" rx="10" fill="#FFFFFF" stroke="#E5DECC" />
-        <circle cx="14" cy="19" r="6" fill={accent} opacity="0.85" />
-        <rect x="26" y="13" width="38" height="3.5" rx="1.75" fill="#1A1613" opacity="0.55" />
-        <rect x="26" y="20" width="28" height="3" rx="1.5" fill="#1A1613" opacity="0.3" />
+      <g transform="translate(254 62)">
+        <rect width="92" height="126" rx="18" fill="#111827" />
+        <rect x="14" y="18" width="64" height="10" rx="5" fill="#FFFFFF" opacity="0.92" />
+        <rect x="14" y="42" width="64" height="48" rx="12" fill={accent} />
+        <rect x="24" y="104" width="44" height="6" rx="3" fill="#FFFFFF" opacity="0.7" />
       </g>
-      <g transform="translate(290 60)">
-        <rect width="78" height="44" rx="10" fill="#FFFFFF" stroke="#E5DECC" />
-        <rect x="10" y="10" width="58" height="6" rx="3" fill="#1A1613" opacity="0.7" />
-        <rect x="10" y="22" width="44" height="3" rx="1.5" fill="#1A1613" opacity="0.4" />
-        <rect x="10" y="28" width="50" height="3" rx="1.5" fill="#1A1613" opacity="0.3" />
-        <rect x="10" y="34" width="34" height="3" rx="1.5" fill="#1A1613" opacity="0.3" />
-      </g>
+      <path
+        d="M214 70h34M214 132h34"
+        stroke={accent}
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray="2 10"
+      />
     </svg>
   );
 }

@@ -7,8 +7,8 @@ import { CaseStudyModal } from '@/components/CaseStudyModal';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { Hero } from '@/components/Hero';
-import { Lessons } from '@/components/Lessons';
 import { Nav } from '@/components/Nav';
+import { Process } from '@/components/Process';
 import { Projects } from '@/components/Projects';
 import { Services } from '@/components/Services';
 import { TechStrip } from '@/components/TechStrip';
@@ -28,7 +28,7 @@ export function PortfolioPage() {
         <About />
         <Services />
         <Projects onOpen={setOpenProject} />
-        <Lessons />
+        <Process />
         <Contact />
       </main>
       <Footer />
