@@ -60,6 +60,8 @@ NEXT_PUBLIC_SITE_URL=https://portfolio-glenn-claes.vercel.app
 
 Use your real Vercel or custom domain for that value.
 
+The repository also has a root-level `package.json` and `vercel.json` fallback. That means Vercel can still detect Next.js if the Root Directory is accidentally left at the repository root, but `frontend` remains the clean recommended setting.
+
 If you saw `404: NOT_FOUND`, check these first:
 
 - Use the Vercel root URL, for example `https://portfolio-glenn-claes.vercel.app/`.
@@ -67,6 +69,8 @@ If you saw `404: NOT_FOUND`, check these first:
 - Confirm the Vercel project root directory is `frontend`.
 - Redeploy the latest `main` branch.
 - Confirm your custom domain points to this Vercel project.
+
+If Vercel says `No Next.js version detected`, it is building from a directory where it cannot find the frontend `package.json`. Fix that by setting Root Directory to `frontend`, then redeploy with a cleared build cache.
 
 The project also includes `frontend/vercel.json`, which redirects `/portfolio-glenn-claes/...` back to the Vercel root to avoid that common path-based 404.
 

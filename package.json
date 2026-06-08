@@ -1,0 +1,27 @@
+{
+  "name": "portfolio-glenn-claes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "build:pages": "npm --prefix frontend run build:pages",
+    "start": "npm --prefix frontend run start",
+    "lint": "npm --prefix frontend run lint",
+    "typecheck": "npm --prefix frontend run typecheck",
+    "test": "npm --prefix frontend run test",
+    "test:unit": "npm --prefix frontend run test:unit",
+    "test:e2e": "npm --prefix frontend run test:e2e",
+    "format": "npm --prefix frontend run format",
+    "format:check": "npm --prefix frontend run format:check"
+  },
+  "dependencies": {
+    "next": "16.2.7",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  }
+}
