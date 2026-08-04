@@ -2,6 +2,8 @@ const items = [
   'Next.js',
   'React',
   'TypeScript',
+  'Python',
+  'AI & LLMs',
   'Tailwind CSS',
   'Vercel',
   'GitHub Pages',

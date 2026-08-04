@@ -1,0 +1,91 @@
+# Security Policy
+
+## Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| main    | :white_check_mark: |
+
+## Reporting a Vulnerability
+
+We take security seriously. If you discover a security vulnerability, please follow these steps:
+
+### 1. Do Not Open a Public Issue
+Please **do not** open a public GitHub issue for security vulnerabilities.
+
+### 2. Report Privately
+Email security issues to: **security@glennclaes.be**
+
+Include the following information:
+- Type of vulnerability
+- Full path of the affected file(s)
+- Steps to reproduce
+- Proof of concept (if available)
+- Potential impact
+
+### 3. Response Timeline
+- **Initial response**: Within 48 hours
+- **Triage and confirmation**: Within 7 days
+- **Fix development**: Depends on severity
+- **Disclosure**: After fix is deployed
+
+### 4. Responsible Disclosure
+We follow responsible disclosure practices:
+- We will acknowledge your report
+- We will investigate and confirm the issue
+- We will release a fix as soon as possible
+- We will credit you in the security advisory (unless you prefer to remain anonymous)
+
+## Security Best Practices
+
+This portfolio implements the following security measures:
+
+### Frontend Security
+- **Content Security Policy** headers
+- **XSS Protection** via React's built-in escaping
+- **No sensitive data** in client-side code
+- **HTTPS only** for all deployments
+
+### Dependencies
+- **Automated dependency scanning** via Dependabot
+- **Regular security audits** via `npm audit`
+- **CodeQL analysis** for security issues
+
+### CI/CD Security
+- **Secrets management** via GitHub Secrets
+- **Minimal permissions** in GitHub Actions
+- **No secrets in code** or logs
+
+## Known Security Considerations
+
+### Contact Form
+- Uses `mailto:` protocol - opens user's email client
+- No server-side processing of form data
+- No data is transmitted to external services
+
+### Third-Party Services
+- **Vercel** - Deployment platform
+- **GitHub Pages** - Static hosting fallback
+
+Both services have their own security policies and certifications.
+
+## Security Headers
+
+The following security headers are configured:
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin
+```
+
+## Credits
+
+We thank all security researchers who responsibly disclose vulnerabilities.
+
+---
+
+For general questions, open a discussion at:
+https://github.com/GlennClaes/portfolio-glenn-claes/discussions

@@ -41,6 +41,15 @@
   box-sizing: border-box;
 }
 
+.page-fade {
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+.page-fade.is-fading {
+  opacity: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -254,6 +263,108 @@ section {
   margin-left: 8px;
 }
 
+.lang-switcher {
+  position: relative;
+  margin-left: 4px;
+}
+
+.lang-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.lang-trigger:hover {
+  border-color: var(--ink-2);
+}
+
+.lang-trigger .lang-code {
+  font-weight: 700;
+}
+
+.lang-chevron {
+  transition: transform 0.2s ease;
+  color: var(--ink-soft);
+}
+
+.lang-chevron.open {
+  transform: rotate(180deg);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  min-width: 168px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lang-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.lang-item:hover {
+  background: var(--bg-soft);
+}
+
+.lang-item .lang-code {
+  width: 26px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+
+.lang-item .lang-name {
+  flex: 1;
+}
+
+.lang-item svg {
+  color: var(--accent);
+}
+
+.lang-item.is-active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.lang-item.is-active .lang-code {
+  color: var(--accent);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -428,6 +539,7 @@ section {
   gap: 8px;
   box-shadow: var(--shadow-sm);
   font-weight: 500;
+  max-width: 100%;
 }
 
 .scene-tag .swatch {
@@ -526,9 +638,6 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
   background-size: 42px 42px;
   -webkit-mask-image: linear-gradient(
     160deg,
@@ -1505,6 +1614,10 @@ footer.site .foot-logo {
   .scene-tag {
     max-width: calc(100% - 36px);
   }
+}
+
+.scene-tag .swatch {
+  flex: 0 0 auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

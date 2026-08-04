@@ -3,28 +3,22 @@
 import { ArrowRight, Check } from 'lucide-react';
 import Link from 'next/link';
 
+import { useLanguage } from '@/i18n/LanguageProvider';
 import { openContact } from '@/lib/navigation';
 
 export function Process() {
+  const { messages } = useLanguage();
+
   return (
     <section id="process" className="section band">
       <div className="container">
         <div className="process-wrap reveal">
           <div>
-            <span className="eyebrow">Process</span>
-            <h2 className="h-section mt-14">Build the right thing, then make it shippable.</h2>
-            <p className="lead mt-18 max-520">
-              I keep projects clear and practical: align on the goal, design the flow, build the
-              important pieces first, then verify the details before deployment.
-            </p>
+            <span className="eyebrow">{messages.process.eyebrow}</span>
+            <h2 className="h-section mt-14">{messages.process.heading}</h2>
+            <p className="lead mt-18 max-520">{messages.process.lead}</p>
             <ul className="check-list">
-              {[
-                'Clear scope before implementation starts',
-                'Responsive UI checked across desktop, tablet and mobile',
-                'Strict TypeScript and focused component structure',
-                'Automated quality checks for linting, tests and builds',
-                'Deployment-ready output for Vercel and GitHub Pages',
-              ].map((item) => (
+              {messages.process.checks.map((item) => (
                 <li key={item}>
                   <span className="check">
                     <Check aria-hidden="true" size={14} strokeWidth={2.6} />
@@ -39,22 +33,23 @@ export function Process() {
                 className="btn btn-primary"
                 onClick={openContact({
                   type: 'Website',
-                  message: "Hi Glenn - I'd like to discuss a project. Here's the short version: ",
+                  message: messages.process.ctaStartMessage,
                   focus: 'message',
                 })}
               >
-                Start a project <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
+                {messages.process.ctaStart}{' '}
+                <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
               </Link>
               <Link
                 href="#contact"
                 className="btn btn-ghost"
                 onClick={openContact({
                   type: 'Website',
-                  message: 'Hi Glenn - quick question about your work: ',
+                  message: messages.process.ctaAskMessage,
                   focus: 'message',
                 })}
               >
-                Ask a question
+                {messages.process.ctaAsk}
               </Link>
             </div>
           </div>

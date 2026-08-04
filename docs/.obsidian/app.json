@@ -1,0 +1,13 @@
+{
+  "interfaceFontSize": 14,
+  "legacyEditor": false,
+  "livePreview": true,
+  "readableLineLength": true,
+  "defaultViewMode": "preview",
+  "showFrontmatter": true,
+  "attachmentFolderPath": "assets",
+  "newFileLocation": "current",
+  "promptDelete": true,
+  "showUnsupportedFiles": true,
+  "alwaysUpdateLinks": true
+}

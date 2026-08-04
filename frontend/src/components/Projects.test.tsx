@@ -2,20 +2,25 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { Projects } from '@/components/Projects';
-import { projects } from '@/data/projects';
+import { getProjects } from '@/data/projects';
+import { LanguageProvider } from '@/i18n/LanguageProvider';
 
 describe('Projects', () => {
   it('renders the selected work cards and opens a project', () => {
     const onOpen = vi.fn();
-    render(<Projects onOpen={onOpen} />);
+    render(
+      <LanguageProvider>
+        <Projects onOpen={onOpen} />
+      </LanguageProvider>,
+    );
 
     expect(screen.getByText('Glenn Claes Portfolio')).toBeInTheDocument();
     expect(screen.getByText('Quality-First Delivery System')).toBeInTheDocument();
 
     fireEvent.click(
-      screen.getByRole('button', { name: /view case study for glenn claes portfolio/i }),
+      screen.getByRole('button', { name: /view case study: glenn claes portfolio/i }),
     );
 
-    expect(onOpen).toHaveBeenCalledWith(projects[0]);
+    expect(onOpen).toHaveBeenCalledWith(getProjects('en')[0]);
   });
 });

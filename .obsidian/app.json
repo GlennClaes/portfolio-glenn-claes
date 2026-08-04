@@ -1,0 +1,20 @@
+{
+  "legacyEditor": false,
+  "livePreview": true,
+  "readableLineLength": true,
+  "tabSize": 2,
+  "useTab": false,
+  "autoPairBrackets": true,
+  "autoPairMarkdown": true,
+  "foldIndent": true,
+  "foldHeading": true,
+  "showLineNumber": false,
+  "spellcheck": false,
+  "defaultViewMode": "preview",
+  "attachmentFolderPath": "docs",
+  "newFileLocation": "folder",
+  "promptDelete": true,
+  "trashOption": "local",
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true
+}

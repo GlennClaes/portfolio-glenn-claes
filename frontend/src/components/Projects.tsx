@@ -3,14 +3,18 @@
 import { ArrowRight } from 'lucide-react';
 import type { KeyboardEvent } from 'react';
 
-import { projects, type Project } from '@/data/projects';
 import { ProjectThumb } from '@/components/ProjectThumb';
+import { getProjects, type Project } from '@/data/projects';
+import { useLanguage } from '@/i18n/LanguageProvider';
 
 interface ProjectsProps {
   onOpen: (project: Project) => void;
 }
 
 export function Projects({ onOpen }: ProjectsProps) {
+  const { locale, messages } = useLanguage();
+  const projects = getProjects(locale);
+
   const openWithKeyboard = (event: KeyboardEvent<HTMLButtonElement>, project: Project) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -23,12 +27,11 @@ export function Projects({ onOpen }: ProjectsProps) {
       <div className="container">
         <div className="section-head">
           <div className="reveal">
-            <span className="eyebrow">Selected work</span>
-            <h2 className="h-section">A look at recent&nbsp;projects.</h2>
+            <span className="eyebrow">{messages.projects.eyebrow}</span>
+            <h2 className="h-section">{messages.projects.heading}</h2>
           </div>
           <p className="lead reveal" data-delay="1">
-            Two snapshots of this portfolio build and the delivery workflow behind it. Click through
-            for the details, or drop a line if you want the long version.
+            {messages.projects.lead}
           </p>
         </div>
         <div className="projects-grid">
@@ -40,7 +43,7 @@ export function Projects({ onOpen }: ProjectsProps) {
               data-delay={index + 1}
               onClick={() => onOpen(project)}
               onKeyDown={(event) => openWithKeyboard(event, project)}
-              aria-label={`View case study for ${project.title}`}
+              aria-label={`${messages.projects.viewCaseStudy}: ${project.title}`}
             >
               <span className={`project-thumb ${project.kind}`}>
                 <ProjectThumb kind={project.kind} />
@@ -58,11 +61,11 @@ export function Projects({ onOpen }: ProjectsProps) {
                 </span>
                 <span className="project-foot">
                   <span className="btn btn-secondary btn-sm">
-                    View case study{' '}
+                    {messages.projects.viewCaseStudy}{' '}
                     <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
                   </span>
                   <span className="project-status">
-                    {project.available ? 'Ready for Vercel' : 'Under NDA'}
+                    {project.available ? messages.projects.ready : messages.projects.underNda}
                   </span>
                 </span>
               </span>

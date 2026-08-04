@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import { BrandLogo } from '@/components/BrandLogo';
+import { useLanguage } from '@/i18n/LanguageProvider';
 import { jumpTo, openContact } from '@/lib/navigation';
 
 function LinkedInIcon() {
@@ -22,33 +23,33 @@ function GitHubIcon() {
 }
 
 export function Footer() {
+  const { messages } = useLanguage();
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="site">
       <div className="container">
         <div className="foot-grid">
           <div>
             <BrandLogo footer />
-            <p className="foot-tag">
-              Developer focused on clean websites, practical interfaces and reliable delivery.
-            </p>
+            <p className="foot-tag">{messages.footer.tagline}</p>
           </div>
           <div>
-            <h2>Navigate</h2>
+            <h2>{messages.footer.navigate}</h2>
             <Link href="#about" onClick={jumpTo('about')}>
-              About
+              {messages.nav.about}
             </Link>
             <Link href="#services" onClick={jumpTo('services')}>
-              Services
+              {messages.nav.services}
             </Link>
             <Link href="#projects" onClick={jumpTo('projects')}>
-              Projects
+              {messages.nav.projects}
             </Link>
             <Link href="#process" onClick={jumpTo('process')}>
-              Process
+              {messages.nav.process}
             </Link>
           </div>
           <div>
-            <h2>Contact</h2>
+            <h2>{messages.footer.contact}</h2>
             <Link href="mailto:contact@glennclaes.be?subject=Quick%20hello">
               contact@glennclaes.be
             </Link>
@@ -56,27 +57,27 @@ export function Footer() {
               href="#contact"
               onClick={openContact({
                 type: 'Website',
-                message: "Hi Glenn - I'd like to discuss a project. Here's the short version: ",
+                message: messages.footer.projectEnquiryMessage,
                 focus: 'message',
               })}
             >
-              Project enquiry
+              {messages.footer.projectEnquiry}
             </Link>
             <Link
               href="#contact"
               onClick={openContact({
                 type: 'Automation',
-                message: "Hi Glenn - I'd like to talk about automation. A bit about what I need: ",
+                message: messages.footer.automationEnquiryMessage,
                 focus: 'message',
               })}
             >
-              Automation enquiry
+              {messages.footer.automationEnquiry}
             </Link>
           </div>
           <div>
-            <h2>Elsewhere</h2>
+            <h2>{messages.footer.elsewhere}</h2>
             <Link
-              href="https://www.linkedin.com/in/glenn-claes/"
+              href="https://www.linkedin.com/in/glenn-claes-ai/"
               target="_blank"
               rel="noreferrer"
               className="social-link"
@@ -94,8 +95,8 @@ export function Footer() {
           </div>
         </div>
         <div className="foot-bottom">
-          <span>(c) 2026 Glenn Claes. All rights reserved.</span>
-          <span>Belgium - Available worldwide</span>
+          <span>{messages.footer.rights(currentYear)}</span>
+          <span>{messages.footer.location}</span>
         </div>
       </div>
     </footer>

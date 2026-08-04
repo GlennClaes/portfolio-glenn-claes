@@ -6,6 +6,7 @@ import { useEffect, useId, useRef } from 'react';
 
 import { ProjectThumb } from '@/components/ProjectThumb';
 import type { Project } from '@/data/projects';
+import { useLanguage } from '@/i18n/LanguageProvider';
 import { openContact } from '@/lib/navigation';
 
 interface CaseStudyModalProps {
@@ -14,6 +15,7 @@ interface CaseStudyModalProps {
 }
 
 export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
+  const { messages } = useLanguage();
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -43,10 +45,15 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
         type="button"
         className="modal-scrim"
         onClick={onClose}
-        aria-label="Close case study"
+        aria-label={messages.modal.closeCaseStudy}
       />
       <div className="modal-sheet" role="dialog" aria-modal="true" aria-labelledby={titleId}>
-        <button ref={closeRef} className="modal-close" onClick={onClose} aria-label="Close">
+        <button
+          ref={closeRef}
+          className="modal-close"
+          onClick={onClose}
+          aria-label={messages.modal.close}
+        >
           <X aria-hidden="true" size={18} strokeWidth={2.2} />
         </button>
         <div className={`modal-hero ${project.kind}`}>
@@ -61,19 +68,19 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
         <div className="modal-body">
           <div className="modal-facts">
             <div>
-              <span className="k">Role</span>
+              <span className="k">{messages.modal.role}</span>
               <span className="v">{project.role}</span>
             </div>
             <div>
-              <span className="k">Client</span>
+              <span className="k">{messages.modal.client}</span>
               <span className="v">{project.client}</span>
             </div>
             <div>
-              <span className="k">Year</span>
+              <span className="k">{messages.modal.year}</span>
               <span className="v">{project.year}</span>
             </div>
             <div>
-              <span className="k">Platform</span>
+              <span className="k">{messages.modal.platform}</span>
               <span className="v">{project.platform}</span>
             </div>
           </div>
@@ -84,7 +91,7 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
             </p>
           ))}
 
-          <h3 className="modal-sub">What I worked on</h3>
+          <h3 className="modal-sub">{messages.modal.whatIWorkedOn}</h3>
           <ul className="check-list mt-14">
             {project.highlights.map((highlight) => (
               <li key={highlight}>
@@ -96,7 +103,7 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
             ))}
           </ul>
 
-          <h3 className="modal-sub">Stack</h3>
+          <h3 className="modal-sub">{messages.modal.stack}</h3>
           <div className="tags mt-10">
             {project.stack.map((item) => (
               <span key={item} className="tag">
@@ -124,13 +131,13 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
                 window.setTimeout(() => {
                   openContact({
                     type: project.kind === 'app' ? 'Automation' : 'Website',
-                    message: `Hi Glenn - I'd like to get in touch about "${project.title}". A bit about what I have in mind: `,
+                    message: messages.modal.getInTouchMessage(project.title),
                     focus: 'message',
                   })();
                 }, 80);
               }}
             >
-              Get in touch about this
+              {messages.modal.getInTouch}
             </button>
           </div>
         </div>

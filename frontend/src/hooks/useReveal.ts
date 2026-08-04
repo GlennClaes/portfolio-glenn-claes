@@ -4,26 +4,44 @@ import { useEffect } from 'react';
 
 export function useReveal() {
   useEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>('.reveal');
-
     if (!('IntersectionObserver' in window)) {
-      elements.forEach((element) => element.classList.add('in'));
+      document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => el.classList.add('in'));
       return undefined;
     }
 
-    const observer = new IntersectionObserver(
+    const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('in');
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         });
       },
       { rootMargin: '0px 0px -8% 0px', threshold: 0.06 },
     );
 
-    elements.forEach((element) => observer.observe(element));
+    // Observe all elements that are already in the DOM.
+    document.querySelectorAll<HTMLElement>('.reveal:not(.in)').forEach((el) => revealObserver.observe(el));
 
-    return () => observer.disconnect();
+    // Watch for new .reveal elements added later (e.g. after language swap or lazy render)
+    // and observe them automatically.
+    const domObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (!(node instanceof HTMLElement)) continue;
+          if (node.classList.contains('reveal') && !node.classList.contains('in')) {
+            revealObserver.observe(node);
+          }
+          node.querySelectorAll?.<HTMLElement>('.reveal:not(.in)').forEach((el) => revealObserver.observe(el));
+        }
+      }
+    });
+
+    domObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      revealObserver.disconnect();
+      domObserver.disconnect();
+    };
   }, []);
 }

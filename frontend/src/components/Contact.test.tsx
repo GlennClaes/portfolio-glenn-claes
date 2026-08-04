@@ -2,10 +2,18 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { Contact } from '@/components/Contact';
+import { LanguageProvider } from '@/i18n/LanguageProvider';
+
+const renderContact = () =>
+  render(
+    <LanguageProvider>
+      <Contact />
+    </LanguageProvider>,
+  );
 
 describe('Contact', () => {
   it('shows accessible validation messages for required fields', () => {
-    render(<Contact />);
+    renderContact();
 
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
@@ -16,7 +24,7 @@ describe('Contact', () => {
   });
 
   it('prefills the form from the open-contact event', () => {
-    render(<Contact />);
+    renderContact();
 
     act(() => {
       window.dispatchEvent(

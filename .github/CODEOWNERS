@@ -1,0 +1,22 @@
+# Portfolio Glenn Claes - Code Owners
+
+# Default owners for everything
+* @GlennClaes
+
+# Documentation
+/docs/ @GlennClaes
+/README.md @GlennClaes
+
+# Frontend code
+/frontend/src/ @GlennClaes
+/frontend/package.json @GlennClaes
+
+# CI/CD
+/.github/workflows/ @GlennClaes
+
+# Configuration
+/frontend/tsconfig.json @GlennClaes
+/frontend/vitest.config.ts @GlennClaes
+/frontend/playwright.config.ts @GlennClaes
+/frontend/eslint.config.mjs @GlennClaes
+/frontend/tailwind.config.ts @GlennClaes

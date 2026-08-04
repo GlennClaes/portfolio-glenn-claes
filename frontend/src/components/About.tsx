@@ -1,46 +1,46 @@
+'use client';
+
+import { useLanguage } from '@/i18n/LanguageProvider';
+
 export function About() {
+  const { messages } = useLanguage();
+
   return (
     <section id="about" className="section">
       <div className="container">
         <div className="about-grid">
           <div className="reveal">
-            <div className="about-portrait" role="img" aria-label="Glenn Claes abstract portrait" />
+            <div className="about-portrait">
+              {/*<Image*/}
+              {/*  src="/about-portrait.jpg"*/}
+              {/*  alt="Glenn Claes"*/}
+              {/*  fill*/}
+              {/*  priority*/}
+              {/*  sizes="(max-width: 900px) 100vw, 40vw"*/}
+              {/*/>*/}
+            </div>
             <div className="about-facts">
-              <div className="fact">
-                <div className="num">40+</div>
-                <div className="lbl">Builds delivered</div>
-              </div>
-              <div className="fact">
-                <div className="num">24/7</div>
-                <div className="lbl">Static hosting ready</div>
-              </div>
-              <div className="fact">
-                <div className="num">TS</div>
-                <div className="lbl">Strict TypeScript</div>
-              </div>
-              <div className="fact">
-                <div className="num">100%</div>
-                <div className="lbl">Quality focused</div>
-              </div>
+              {messages.about.facts.map((fact) => (
+                <div className="fact" key={fact.lbl}>
+                  <div className="num">{fact.num}</div>
+                  <div className="lbl">{fact.lbl}</div>
+                </div>
+              ))}
             </div>
           </div>
           <div>
-            <span className="eyebrow reveal">About me</span>
+            <span className="eyebrow reveal">{messages.about.eyebrow}</span>
             <h2 className="h-section reveal" data-delay="1">
-              A developer who likes clean interfaces, steady systems and thoughtful details.
+              {messages.about.heading}
             </h2>
             <p className="lead reveal mt-22" data-delay="2">
-              I&apos;m Glenn Claes, a Belgium-based developer focused on modern, maintainable web
-              experiences. I like turning ideas into products that feel quick, clear and dependable.
+              {messages.about.lead1}
             </p>
             <p className="lead reveal mt-14" data-delay="3">
-              Most work starts with a simple question: what should this make easier for the person
-              using it? From there I shape the interface, build the core, test the flows and prepare
-              it for deployment.
+              {messages.about.lead2}
             </p>
             <p className="lead reveal body-mute mt-14" data-delay="4">
-              No noise, no overbuilt stack. Just sharp execution, readable code and a site that is
-              ready to ship.
+              {messages.about.lead3}
             </p>
           </div>
         </div>

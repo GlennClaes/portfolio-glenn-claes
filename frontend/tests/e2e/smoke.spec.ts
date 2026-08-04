@@ -46,7 +46,7 @@ test('renders the one-page portfolio and interactive states', async ({ page }) =
 
   expect(hasDrawnPixels).toBe(true);
 
-  await page.getByRole('button', { name: /view case study for glenn claes portfolio/i }).click();
+  await page.getByRole('button', { name: /view case study: glenn claes portfolio/i }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();

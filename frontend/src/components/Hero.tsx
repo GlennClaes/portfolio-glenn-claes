@@ -4,12 +4,14 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
+import { useLanguage } from '@/i18n/LanguageProvider';
 import { initHeroScene } from '@/lib/hero-scene';
 import { jumpTo } from '@/lib/navigation';
 
 const ACCENT = '#1D4ED8';
 
 export function Hero() {
+  const { messages } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -30,33 +32,34 @@ export function Hero() {
         <div>
           <div className="hero-badge reveal">
             <span className="dot" />
-            Available for freelance projects - 2026
+            {messages.hero.badge}
           </div>
           <h1 className="h-display reveal" data-delay="1">
-            Hi, I&apos;m <span className="italic-serif">Glenn</span>, a developer building clean
-            digital products.
+            {messages.hero.headingIntro}
+            <span className="italic-serif">{messages.hero.headingName}</span>
+            {messages.hero.headingOutro}
           </h1>
           <p className="lead hero-lead reveal" data-delay="2">
-            I create fast websites, practical apps, polished interfaces, and reliable automation
-            with a calm, detail-driven workflow.
+            {messages.hero.lead}
           </p>
           <div className="hero-ctas reveal" data-delay="3">
             <Link href="#contact" className="btn btn-primary" onClick={jumpTo('contact')}>
-              Contact me <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
+              {messages.hero.ctaContact}{' '}
+              <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
             </Link>
             <Link href="#projects" className="btn btn-secondary" onClick={jumpTo('projects')}>
-              View projects
+              {messages.hero.ctaProjects}
             </Link>
           </div>
           <div className="hero-meta reveal" data-delay="4">
             <div>
-              <b>Frontend</b> React, Next.js & TypeScript
+              <b>{messages.hero.metaFrontendLabel}</b> {messages.hero.metaFrontendValue}
             </div>
             <div>
-              <b>Belgium</b> - Remote friendly
+              <b>{messages.hero.metaLocationLabel}</b> - {messages.hero.metaLocationValue}
             </div>
             <div>
-              <b>Delivery</b> clear, tested, deployable
+              <b>{messages.hero.metaDeliveryLabel}</b> {messages.hero.metaDeliveryValue}
             </div>
           </div>
         </div>
@@ -70,7 +73,7 @@ export function Hero() {
             />
             <div className="scene-tag tl">
               <span className="swatch" style={{ background: ACCENT }} />
-              Move your cursor to interact
+              {messages.hero.sceneHint}
             </div>
           </div>
         </div>

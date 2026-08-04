@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Instrument_Serif, JetBrains_Mono, Manrope, Plus_Jakarta_Sans } from 'next/font/google';
 import type { ReactNode } from 'react';
 
+import { LanguageProvider } from '@/i18n/LanguageProvider';
 import '@/app/globals.css';
 
 const manrope = Manrope({
@@ -35,7 +36,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const assetPath = (path: string) => `${basePath}${path}`;
 const title = 'Glenn Claes - Developer Portfolio';
 const description =
-  'Developer portfolio for Glenn Claes. Clean websites, practical app interfaces, automation and deployable frontend work.';
+  'Developer portfolio for Glenn Claes. Websites with Next.js, React and TypeScript, AI features with Python, and practical automations.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
@@ -48,7 +49,11 @@ export const metadata: Metadata = {
     'Glenn Claes',
     'developer portfolio',
     'Next.js developer',
-    'frontend developer',
+    'React developer',
+    'TypeScript',
+    'Python developer',
+    'AI',
+    'automation',
     'web development',
     'GitHub Pages',
     'Belgium',
@@ -100,7 +105,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body
         className={`${manrope.variable} ${jakarta.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
       >
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

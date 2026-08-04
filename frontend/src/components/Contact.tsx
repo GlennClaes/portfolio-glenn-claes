@@ -4,6 +4,7 @@ import { ArrowRight, Check, Clock3, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
+import { useLanguage } from '@/i18n/LanguageProvider';
 import type { ContactPreset } from '@/lib/navigation';
 
 export const CONTACT_EMAIL = 'contact@glennclaes.be';
@@ -26,6 +27,7 @@ const initialForm: ContactForm = {
 };
 
 export function Contact() {
+  const { messages } = useLanguage();
   const [form, setForm] = useState<ContactForm>(initialForm);
   const [sent, setSent] = useState(false);
   const [errors, setErrors] = useState<ContactErrors>({});
@@ -70,16 +72,16 @@ export function Contact() {
     event.preventDefault();
 
     const nextErrors: ContactErrors = {};
-    if (!form.name.trim()) nextErrors.name = 'Please enter your name.';
-    if (!form.email.includes('@')) nextErrors.email = 'Please enter a valid email address.';
+    if (!form.name.trim()) nextErrors.name = messages.contact.errName;
+    if (!form.email.includes('@')) nextErrors.email = messages.contact.errEmail;
     if (!form.message.trim() || form.message.trim().length < 8) {
-      nextErrors.message = 'Please add a short message.';
+      nextErrors.message = messages.contact.errMessage;
     }
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    const subject = `[${form.type}] enquiry from ${form.name}`;
+    const subject = `[${form.type}] ${messages.contact.enquiry} ${form.name}`;
     const body =
       `Name: ${form.name}\n` +
       `Email: ${form.email}\n` +
@@ -100,22 +102,19 @@ export function Contact() {
       <div className="container">
         <div className="section-head">
           <div className="reveal">
-            <span className="eyebrow">Get in touch</span>
-            <h2 className="h-section">Let&apos;s talk about your&nbsp;idea.</h2>
+            <span className="eyebrow">{messages.contact.eyebrow}</span>
+            <h2 className="h-section">{messages.contact.heading}</h2>
           </div>
           <p className="lead reveal" data-delay="1">
-            Have a website, app, automation or portfolio idea? Send me a message and I&apos;ll get
-            back to you as soon as I can.
+            {messages.contact.lead}
           </p>
         </div>
 
         <div className="contact-grid">
           <div className="contact-info-card reveal">
-            <span className="eyebrow">Direct</span>
-            <h3 className="h-card mt-14">Prefer to skip the&nbsp;form?</h3>
-            <p className="body-mute mt-10">
-              All channels reach me directly. The form is just the easiest&nbsp;path.
-            </p>
+            <span className="eyebrow">{messages.contact.directEyebrow}</span>
+            <h3 className="h-card mt-14">{messages.contact.directHeading}</h3>
+            <p className="body-mute mt-10">{messages.contact.directText}</p>
             <Link
               className="contact-channel contact-channel-link"
               href="mailto:contact@glennclaes.be?subject=Quick%20hello"
@@ -125,7 +124,7 @@ export function Contact() {
               </div>
               <div>
                 <b>contact@glennclaes.be</b>
-                <span>Email me anytime</span>
+                <span>{messages.contact.emailSpan}</span>
               </div>
             </Link>
             <Link
@@ -138,8 +137,8 @@ export function Contact() {
                 <MapPin aria-hidden="true" size={18} strokeWidth={1.8} />
               </div>
               <div>
-                <b>Belgium - Remote</b>
-                <span>Working across European time zones</span>
+                <b>{messages.contact.locationLabel}</b>
+                <span>{messages.contact.locationSpan}</span>
               </div>
             </Link>
             <div className="contact-channel">
@@ -147,8 +146,8 @@ export function Contact() {
                 <Clock3 aria-hidden="true" size={18} strokeWidth={1.8} />
               </div>
               <div>
-                <b>Within 24 hours</b>
-                <span>Typical response time on weekdays</span>
+                <b>{messages.contact.responseLabel}</b>
+                <span>{messages.contact.responseSpan}</span>
               </div>
             </div>
           </div>
@@ -156,11 +155,11 @@ export function Contact() {
           <form className="card reveal contact-form" data-delay="1" onSubmit={submit} noValidate>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Your name</label>
+                <label htmlFor="name">{messages.contact.nameLabel}</label>
                 <input
                   id="name"
                   type="text"
-                  placeholder="Jane Doe"
+                  placeholder={messages.contact.namePlaceholder}
                   value={form.name}
                   onChange={update('name')}
                   aria-invalid={Boolean(errors.name)}
@@ -173,11 +172,11 @@ export function Contact() {
                 ) : null}
               </div>
               <div className="field">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{messages.contact.emailLabel}</label>
                 <input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder={messages.contact.emailPlaceholder}
                   value={form.email}
                   onChange={update('email')}
                   aria-invalid={Boolean(errors.email)}
@@ -191,21 +190,22 @@ export function Contact() {
               </div>
             </div>
             <div className="field mt-16">
-              <label htmlFor="type">Project type</label>
+              <label htmlFor="type">{messages.contact.typeLabel}</label>
               <select id="type" value={form.type} onChange={update('type')}>
-                <option>Website</option>
-                <option>Web app</option>
-                <option>Automation</option>
-                <option>Other</option>
+                {messages.contact.typeOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="field mt-16">
-              <label htmlFor="message">Message</label>
+              <label htmlFor="message">{messages.contact.messageLabel}</label>
               <textarea
                 id="message"
                 rows={5}
                 ref={messageRef}
-                placeholder="Tell me a bit about what you have in mind..."
+                placeholder={messages.contact.messagePlaceholder}
                 value={form.message}
                 onChange={update('message')}
                 aria-invalid={Boolean(errors.message)}
@@ -218,16 +218,16 @@ export function Contact() {
               ) : null}
             </div>
             <div className="form-bottom">
-              <span>No spam, ever. Just a reply from me.</span>
+              <span>{messages.contact.noSpam}</span>
               <button className="btn btn-primary" type="submit">
-                Send message <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
+                {messages.contact.send}{' '}
+                <ArrowRight className="btn-arrow" aria-hidden="true" size={16} />
               </button>
             </div>
             <div aria-live="polite">
               {sent ? (
                 <div className="sent">
-                  <Check aria-hidden="true" size={14} strokeWidth={2.6} /> Your mail app should be
-                  opening. Just hit send and it&apos;ll land in my inbox.
+                  <Check aria-hidden="true" size={14} strokeWidth={2.6} /> {messages.contact.sent}
                 </div>
               ) : null}
             </div>

@@ -5,16 +5,12 @@ import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { BrandLogo } from '@/components/BrandLogo';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useLanguage } from '@/i18n/LanguageProvider';
 import { jumpTo } from '@/lib/navigation';
 
-const navItems = [
-  { label: 'About', id: 'about' },
-  { label: 'Services', id: 'services' },
-  { label: 'Projects', id: 'projects' },
-  { label: 'Process', id: 'process' },
-];
-
 export function Nav() {
+  const { messages } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -23,6 +19,13 @@ export function Nav() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const navItems = [
+    { label: messages.nav.about, id: 'about' },
+    { label: messages.nav.services, id: 'services' },
+    { label: messages.nav.projects, id: 'projects' },
+    { label: messages.nav.process, id: 'process' },
+  ];
 
   return (
     <nav className={`nav${scrolled ? ' scrolled' : ''}`} aria-label="Primary navigation">
@@ -34,12 +37,13 @@ export function Nav() {
               {item.label}
             </Link>
           ))}
+          <LanguageSwitcher />
           <Link
             href="#contact"
             className="btn btn-primary btn-sm nav-cta"
             onClick={jumpTo('contact')}
           >
-            Contact me <ArrowRight aria-hidden="true" size={16} strokeWidth={2.2} />
+            {messages.nav.contact} <ArrowRight aria-hidden="true" size={16} strokeWidth={2.2} />
           </Link>
         </div>
       </div>

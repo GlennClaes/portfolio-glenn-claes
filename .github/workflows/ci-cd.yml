@@ -1,4 +1,5 @@
-name: CI/CD
+
+name: CI/CD Pipeline
 
 on:
   push:
@@ -11,8 +12,11 @@ permissions:
   contents: read
 
 jobs:
-  quality:
-    name: Install, test and build
+  # ============================================================================
+  # CONTINUOUS INTEGRATION (CI)
+  # ============================================================================
+  ci:
+    name: CI - Quality Gates
     runs-on: ubuntu-latest
 
     defaults:
@@ -51,10 +55,13 @@ jobs:
       - name: E2E smoke and accessibility tests
         run: npm run test:e2e
 
-  deploy-vercel:
-    name: Deploy to Vercel
+  # ============================================================================
+  # CONTINUOUS DEPLOYMENT (CD)
+  # ============================================================================
+  cd-vercel:
+    name: CD - Deploy to Vercel
     runs-on: ubuntu-latest
-    needs: quality
+    needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     defaults:
@@ -109,10 +116,10 @@ jobs:
         if: steps.vercel.outputs.configured == 'true'
         run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
 
-  deploy-pages:
-    name: Deploy to GitHub Pages
+  cd-pages:
+    name: CD - Deploy to GitHub Pages
     runs-on: ubuntu-latest
-    needs: quality
+    needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     permissions:
