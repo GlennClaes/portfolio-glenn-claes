@@ -103,13 +103,12 @@ function resolveAsset(urlPath) {
       continue;
     }
 
-    const canonicalTarget = realpathSync(target);
-    if (!isInsideRoot(canonicalTarget)) {
+    const canonicalTarget = toCanonicalPath(target);
+    if (!canonicalTarget) {
       continue;
     }
 
-    const canonicalTarget = toCanonicalPath(target);
-    if (canonicalTarget && isInsideRoot(canonicalTarget)) {
+    if (isInsideRoot(canonicalTarget)) {
       return canonicalTarget;
     }
   }
