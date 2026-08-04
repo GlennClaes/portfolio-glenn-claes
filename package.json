@@ -20,7 +20,7 @@
     "format:check": "npm --prefix frontend run format:check"
   },
   "dependencies": {
-    "next": "16.2.7",
+    "next": "16.2.11",
     "react": "19.2.7",
     "react-dom": "19.2.7"
   }
