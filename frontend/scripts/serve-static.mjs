@@ -58,11 +58,28 @@ function candidatePaths(cleanPath) {
   return paths;
 }
 
-function resolveAsset(urlPath) {
-  let cleanPath;
+function normalizeUrlPath(urlPath) {
   try {
-    cleanPath = decodeURIComponent(urlPath.split('?')[0] ?? '/');
+    const parsed = new URL(urlPath, 'http://localhost');
+    const pathname = parsed.pathname || '/';
+
+    if (!pathname.startsWith('/')) {
+      return null;
+    }
+
+    if (pathname.includes('\0')) {
+      return null;
+    }
+
+    return pathname;
   } catch {
+    return null;
+  }
+}
+
+function resolveAsset(urlPath) {
+  const cleanPath = normalizeUrlPath(urlPath);
+  if (!cleanPath) {
     return null;
   }
 
