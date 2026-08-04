@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
-import { extname, join, resolve, sep } from 'node:path';
+import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootArg = process.argv[2] ?? 'out';
@@ -46,8 +46,34 @@ function candidatePaths(cleanPath) {
   return paths;
 }
 
+function sanitizeUrlPath(urlPath) {
+  const rawPath = urlPath.split('?')[0] ?? '/';
+  let decodedPath;
+
+  try {
+    decodedPath = decodeURIComponent(rawPath);
+  } catch {
+    return null;
+  }
+
+  if (!decodedPath.startsWith('/')) {
+    return null;
+  }
+
+  const normalizedPath = normalize(decodedPath.replace(/\\/g, '/'));
+  const segments = normalizedPath.split('/');
+  if (segments.includes('..')) {
+    return null;
+  }
+
+  return normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`;
+}
+
 function resolveAsset(urlPath) {
-  const cleanPath = decodeURIComponent(urlPath.split('?')[0] ?? '/');
+  const cleanPath = sanitizeUrlPath(urlPath);
+  if (!cleanPath) {
+    return null;
+  }
 
   for (const pathCandidate of candidatePaths(cleanPath)) {
     const requestedPath = toFilePath(pathCandidate);
