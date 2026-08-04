@@ -50,13 +50,15 @@ function resolveAsset(urlPath) {
   const cleanPath = decodeURIComponent(urlPath.split('?')[0] ?? '/');
 
   for (const pathCandidate of candidatePaths(cleanPath)) {
-    let target = toFilePath(pathCandidate);
+    const requestedPath = toFilePath(pathCandidate);
+    let target;
 
-    if (!existsSync(target)) {
+    try {
+      target = realpathSync(requestedPath);
+    } catch {
       continue;
     }
 
-    target = realpathSync(target);
     if (!isInsideRoot(target)) {
       continue;
     }
