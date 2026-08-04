@@ -124,8 +124,6 @@ if (!existsSync(root)) {
   process.exit(1);
 }
 
-const canonicalRoot = realpathSync(root);
-
 createServer((request, response) => {
   const asset = resolveAsset(request.url ?? '/');
 
