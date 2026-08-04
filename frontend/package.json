@@ -49,7 +49,7 @@
     "prettier": "latest",
     "tailwindcss": "^3.4.17",
     "typescript": "latest",
-    "typescript-eslint": "^8.0.0",
+    "typescript-eslint": "^8.65.0",
     "vitest": "latest"
   }
 }
