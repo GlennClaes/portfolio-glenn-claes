@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.19.0"
+    "node": ">=22 <23"
   },
   "scripts": {
     "dev": "npm --prefix frontend run dev",
@@ -20,8 +20,8 @@
     "format:check": "npm --prefix frontend run format:check"
   },
   "dependencies": {
-    "next": "16.2.11",
-    "react": "19.2.7",
-    "react-dom": "19.2.7"
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   }
 }
