@@ -1,10 +1,11 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
 import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootArg = process.argv[2] ?? 'out';
 const root = resolve(process.cwd(), rootArg);
+const realRoot = existsSync(root) ? realpathSync(root) : root;
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? '127.0.0.1';
 const knownBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/portfolio-glenn-claes';
@@ -23,7 +24,7 @@ const contentTypes = new Map([
 ]);
 
 function isInsideRoot(filePath) {
-  return filePath === root || filePath.startsWith(`${root}${sep}`);
+  return filePath === realRoot || filePath.startsWith(`${realRoot}${sep}`);
 }
 
 function toFilePath(urlPath) {
@@ -46,26 +47,46 @@ function candidatePaths(cleanPath) {
 }
 
 function resolveAsset(urlPath) {
-  const cleanPath = decodeURIComponent(urlPath.split('?')[0] ?? '/');
+  let cleanPath;
+  try {
+    cleanPath = decodeURIComponent(urlPath.split('?')[0] ?? '/');
+  } catch {
+    return null;
+  }
 
   for (const pathCandidate of candidatePaths(cleanPath)) {
     let target = toFilePath(pathCandidate);
 
-    if (!isInsideRoot(target)) {
+    if (!existsSync(target)) {
       continue;
     }
 
-    if (existsSync(target) && statSync(target).isDirectory()) {
-      target = join(target, 'index.html');
+    const canonicalTarget = realpathSync(target);
+    if (!isInsideRoot(canonicalTarget)) {
+      continue;
     }
 
-    if (isInsideRoot(target) && existsSync(target)) {
-      return target;
+    if (statSync(canonicalTarget).isDirectory()) {
+      target = join(canonicalTarget, 'index.html');
+      if (!existsSync(target)) {
+        continue;
+      }
+    } else {
+      target = canonicalTarget;
+    }
+
+    const finalTarget = realpathSync(target);
+    if (isInsideRoot(finalTarget) && existsSync(finalTarget)) {
+      return finalTarget;
     }
   }
 
   const fallback = resolve(root, 'index.html');
-  return isInsideRoot(fallback) && existsSync(fallback) ? fallback : null;
+  if (!existsSync(fallback)) {
+    return null;
+  }
+  const canonicalFallback = realpathSync(fallback);
+  return isInsideRoot(canonicalFallback) ? canonicalFallback : null;
 }
 
 if (!existsSync(root)) {
