@@ -32,6 +32,18 @@ function toFilePath(urlPath) {
   return resolve(root, `.${normalized}`);
 }
 
+function sanitizeUrlPath(urlPath) {
+  const normalizedSeparators = urlPath.replaceAll('\\', '/');
+  const withLeadingSlash = normalizedSeparators.startsWith('/') ? normalizedSeparators : `/${normalizedSeparators}`;
+  const segments = withLeadingSlash.split('/').filter(Boolean);
+
+  if (segments.some((segment) => segment === '.' || segment === '..')) {
+    return null;
+  }
+
+  return segments.length === 0 ? '/' : `/${segments.join('/')}`;
+}
+
 function candidatePaths(cleanPath) {
   const paths = [cleanPath];
 
@@ -54,7 +66,12 @@ function resolveAsset(urlPath) {
     return null;
   }
 
-  for (const pathCandidate of candidatePaths(cleanPath)) {
+  const safePath = sanitizeUrlPath(cleanPath);
+  if (!safePath) {
+    return null;
+  }
+
+  for (const pathCandidate of candidatePaths(safePath)) {
     let target = toFilePath(pathCandidate);
 
     if (!existsSync(target)) {
