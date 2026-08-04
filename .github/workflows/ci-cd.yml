@@ -108,13 +108,9 @@ jobs:
         if: steps.vercel.outputs.configured == 'true'
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
 
-      - name: Build Vercel output
+      - name: Deploy to Vercel
         if: steps.vercel.outputs.configured == 'true'
-        run: vercel build --prod --token="$VERCEL_TOKEN"
-
-      - name: Deploy Vercel output
-        if: steps.vercel.outputs.configured == 'true'
-        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+        run: vercel --prod --token="$VERCEL_TOKEN"
 
   cd-pages:
     name: CD - Deploy to GitHub Pages
