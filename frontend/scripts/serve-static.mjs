@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
 import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,6 +8,7 @@ const root = resolve(process.cwd(), rootArg);
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? '127.0.0.1';
 const knownBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/portfolio-glenn-claes';
+let canonicalRoot;
 
 const contentTypes = new Map([
   ['.css', 'text/css; charset=utf-8'],
@@ -23,7 +24,7 @@ const contentTypes = new Map([
 ]);
 
 function isInsideRoot(filePath) {
-  return filePath === root || filePath.startsWith(`${root}${sep}`);
+  return filePath === canonicalRoot || filePath.startsWith(`${canonicalRoot}${sep}`);
 }
 
 function toFilePath(urlPath) {
@@ -51,21 +52,37 @@ function resolveAsset(urlPath) {
   for (const pathCandidate of candidatePaths(cleanPath)) {
     let target = toFilePath(pathCandidate);
 
+    if (!existsSync(target)) {
+      continue;
+    }
+
+    target = realpathSync(target);
     if (!isInsideRoot(target)) {
       continue;
     }
 
-    if (existsSync(target) && statSync(target).isDirectory()) {
-      target = join(target, 'index.html');
+    if (statSync(target).isDirectory()) {
+      const indexTarget = join(target, 'index.html');
+      if (!existsSync(indexTarget)) {
+        continue;
+      }
+      target = realpathSync(indexTarget);
+      if (!isInsideRoot(target)) {
+        continue;
+      }
     }
 
-    if (isInsideRoot(target) && existsSync(target)) {
+    if (existsSync(target)) {
       return target;
     }
   }
 
   const fallback = resolve(root, 'index.html');
-  return isInsideRoot(fallback) && existsSync(fallback) ? fallback : null;
+  if (!existsSync(fallback)) {
+    return null;
+  }
+  const canonicalFallback = realpathSync(fallback);
+  return isInsideRoot(canonicalFallback) ? canonicalFallback : null;
 }
 
 if (!existsSync(root)) {
@@ -74,6 +91,8 @@ if (!existsSync(root)) {
   console.error(`Run "npm run build" before "node ${scriptName} ${rootArg}".`);
   process.exit(1);
 }
+
+canonicalRoot = realpathSync(root);
 
 createServer((request, response) => {
   const asset = resolveAsset(request.url ?? '/');
