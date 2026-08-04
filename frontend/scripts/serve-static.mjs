@@ -24,7 +24,15 @@ const contentTypes = new Map([
 ]);
 
 function isInsideRoot(filePath) {
-  return filePath === realRoot || filePath.startsWith(`${realRoot}${sep}`);
+  return filePath === canonicalRoot || filePath.startsWith(`${canonicalRoot}${sep}`);
+}
+
+function toCanonicalPath(filePath) {
+  try {
+    return realpathSync(filePath);
+  } catch {
+    return null;
+  }
 }
 
 function toFilePath(urlPath) {
@@ -100,27 +108,14 @@ function resolveAsset(urlPath) {
       continue;
     }
 
-    if (statSync(canonicalTarget).isDirectory()) {
-      target = join(canonicalTarget, 'index.html');
-      if (!existsSync(target)) {
-        continue;
-      }
-    } else {
-      target = canonicalTarget;
-    }
-
-    const finalTarget = realpathSync(target);
-    if (isInsideRoot(finalTarget) && existsSync(finalTarget)) {
-      return finalTarget;
+    const canonicalTarget = toCanonicalPath(target);
+    if (canonicalTarget && isInsideRoot(canonicalTarget)) {
+      return canonicalTarget;
     }
   }
 
-  const fallback = resolve(root, 'index.html');
-  if (!existsSync(fallback)) {
-    return null;
-  }
-  const canonicalFallback = realpathSync(fallback);
-  return isInsideRoot(canonicalFallback) ? canonicalFallback : null;
+  const fallback = toCanonicalPath(resolve(root, 'index.html'));
+  return fallback && isInsideRoot(fallback) ? fallback : null;
 }
 
 if (!existsSync(root)) {
@@ -129,6 +124,8 @@ if (!existsSync(root)) {
   console.error(`Run "npm run build" before "node ${scriptName} ${rootArg}".`);
   process.exit(1);
 }
+
+const canonicalRoot = realpathSync(root);
 
 createServer((request, response) => {
   const asset = resolveAsset(request.url ?? '/');
