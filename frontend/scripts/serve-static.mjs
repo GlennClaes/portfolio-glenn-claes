@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
-import { extname, join, resolve, sep } from 'node:path';
+import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootArg = process.argv[2] ?? 'out';
@@ -36,7 +36,18 @@ function toCanonicalPath(filePath) {
 
 function toFilePath(urlPath) {
   const normalized = urlPath === '/' ? '/index.html' : urlPath;
-  return resolve(root, `.${normalized}`);
+
+  if (!normalized.startsWith('/')) {
+    return resolve(root, 'index.html');
+  }
+
+  if (normalized.includes('..') || normalized.includes('\0')) {
+    return resolve(root, 'index.html');
+  }
+
+  const safePath = normalized.replace(/[^a-zA-Z0-9._/-]/g, '_');
+
+  return resolve(root, `.${safePath}`);
 }
 
 function candidatePaths(cleanPath) {
@@ -53,8 +64,28 @@ function candidatePaths(cleanPath) {
   return paths;
 }
 
+function sanitizeUrlPath(urlPath) {
+  const rawPath = urlPath.split('?')[0] ?? '/';
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(rawPath);
+  } catch {
+    return null;
+  }
+
+  if (!decodedPath.startsWith('/')) return null;
+
+  const normalizedPath = normalize(decodedPath.replace(/\\/g, '/'));
+  const segments = normalizedPath.split('/');
+
+  if (segments.includes('..')) return null;
+
+  return normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`;
+}
+
 function resolveAsset(urlPath) {
-  const cleanPath = decodeURIComponent(urlPath.split('?')[0] ?? '/');
+  const cleanPath = sanitizeUrlPath(urlPath);
+  if (!cleanPath) return null;
 
   for (const pathCandidate of candidatePaths(cleanPath)) {
     let target = toFilePath(pathCandidate);
