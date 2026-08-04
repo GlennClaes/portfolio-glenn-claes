@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const rootArg = process.argv[2] ?? 'out';
 const root = resolve(process.cwd(), rootArg);
-const realRoot = existsSync(root) ? realpathSync(root) : root;
+const canonicalRoot = existsSync(root) ? realpathSync(root) : root;
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? '127.0.0.1';
 const knownBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/portfolio-glenn-claes';
