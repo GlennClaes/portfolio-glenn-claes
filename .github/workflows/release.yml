@@ -1,59 +1,99 @@
-name: Release
+name: Weekly Release
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  schedule:
+    - cron: '0 18 * * 5'  # Every Friday at 18:00 UTC
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 permissions:
   contents: write
-  packages: write
 
 jobs:
   release:
-    name: Create Release
+    name: Create Weekly Release
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get version from tag
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get version bump type
+        id: bump
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "type=${{ github.event.inputs.version_type }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "type=patch" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bump version
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+        working-directory: frontend
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT"
+
+          npm version ${{ steps.bump.outputs.type }} -m "chore: release v%s"
+
+          NEW=$(node -p "require('./package.json').version")
+          echo "New version: $NEW"
+          echo "version=$NEW" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelog
         id: changelog
         run: |
-          # Get previous tag
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          PREV=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 
-          if [ -n "$PREV_TAG" ]; then
-            echo "CHANGELOG<<EOF" >> "$GITHUB_OUTPUT"
-            git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> "$GITHUB_OUTPUT"
+          if [ -n "$PREV" ]; then
+            echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
+            git log --pretty=format:"- %s (%h)" $PREV..HEAD >> "$GITHUB_OUTPUT"
             echo "" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
           else
-            echo "CHANGELOG=Initial release" >> "$GITHUB_OUTPUT"
+            echo "changelog=First release" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Commit and tag
+        run: |
+          git push origin main
+          git push origin v${{ steps.version.outputs.version }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Release v${{ steps.version.outputs.VERSION }}
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
           body: |
-            ## What's Changed
+            ## 🚀 What's Changed
 
-            ${{ steps.changelog.outputs.CHANGELOG }}
+            ${{ steps.changelog.outputs.changelog }}
 
-            ## Deployment
+            ## 📦 Live
 
             - **Vercel**: https://portfolio-glenn-claes.vercel.app
             - **GitHub Pages**: https://glennclaes.github.io/portfolio-glenn-claes
-
-            **Full Changelog**: https://github.com/GlennClaes/portfolio-glenn-claes/commits/v${{ steps.version.outputs.VERSION }}
           draft: false
           prerelease: false
-          generate_release_notes: false

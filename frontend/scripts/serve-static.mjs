@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
-import { extname, join, normalize, resolve, sep } from 'node:path';
+import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootArg = process.argv[2] ?? 'out';
@@ -25,6 +25,14 @@ const contentTypes = new Map([
 
 function isInsideRoot(filePath) {
   return filePath === canonicalRoot || filePath.startsWith(`${canonicalRoot}${sep}`);
+}
+
+function toCanonicalPath(filePath) {
+  try {
+    return realpathSync(filePath);
+  } catch {
+    return null;
+  }
 }
 
 function toFilePath(urlPath) {
@@ -100,17 +108,14 @@ function resolveAsset(urlPath) {
       }
     }
 
-    if (existsSync(target)) {
-      return target;
+    const canonicalTarget = toCanonicalPath(target);
+    if (canonicalTarget && isInsideRoot(canonicalTarget)) {
+      return canonicalTarget;
     }
   }
 
-  const fallback = resolve(root, 'index.html');
-  if (!existsSync(fallback)) {
-    return null;
-  }
-  const canonicalFallback = realpathSync(fallback);
-  return isInsideRoot(canonicalFallback) ? canonicalFallback : null;
+  const fallback = toCanonicalPath(resolve(root, 'index.html'));
+  return fallback && isInsideRoot(fallback) ? fallback : null;
 }
 
 if (!existsSync(root)) {
@@ -120,7 +125,7 @@ if (!existsSync(root)) {
   process.exit(1);
 }
 
-canonicalRoot = realpathSync(root);
+const canonicalRoot = realpathSync(root);
 
 createServer((request, response) => {
   const asset = resolveAsset(request.url ?? '/');
