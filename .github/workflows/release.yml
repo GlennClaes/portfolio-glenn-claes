@@ -49,23 +49,34 @@ jobs:
             echo "type=patch" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Bump version
+      - name: Bump version and create tag
         id: version
         working-directory: frontend
         run: |
           CURRENT=$(node -p "require('./package.json').version")
           echo "Current version: $CURRENT"
 
+          # Bump version
           npm version ${{ steps.bump.outputs.type }} -m "chore: release v%s"
 
+          # Get new version AFTER bump
           NEW=$(node -p "require('./package.json').version")
           echo "New version: $NEW"
           echo "version=$NEW" >> "$GITHUB_OUTPUT"
 
+      - name: Create and push tag
+        run: |
+          # Create tag with the version from previous step
+          git tag -a v${{ steps.version.outputs.version }} -m "Release v${{ steps.version.outputs.version }}"
+
+          # Push both commits and tags
+          git push origin main
+          git push origin v${{ steps.version.outputs.version }}
+
       - name: Generate changelog
         id: changelog
         run: |
-          PREV=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
 
           if [ -n "$PREV" ]; then
             echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
@@ -75,11 +86,6 @@ jobs:
           else
             echo "changelog=First release" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Commit and tag
-        run: |
-          git push origin main
-          git push origin v${{ steps.version.outputs.version }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
