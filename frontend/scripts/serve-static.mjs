@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
 import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -23,7 +23,15 @@ const contentTypes = new Map([
 ]);
 
 function isInsideRoot(filePath) {
-  return filePath === root || filePath.startsWith(`${root}${sep}`);
+  return filePath === canonicalRoot || filePath.startsWith(`${canonicalRoot}${sep}`);
+}
+
+function toCanonicalPath(filePath) {
+  try {
+    return realpathSync(filePath);
+  } catch {
+    return null;
+  }
 }
 
 function toFilePath(urlPath) {
@@ -59,13 +67,14 @@ function resolveAsset(urlPath) {
       target = join(target, 'index.html');
     }
 
-    if (isInsideRoot(target) && existsSync(target)) {
-      return target;
+    const canonicalTarget = toCanonicalPath(target);
+    if (canonicalTarget && isInsideRoot(canonicalTarget)) {
+      return canonicalTarget;
     }
   }
 
-  const fallback = resolve(root, 'index.html');
-  return isInsideRoot(fallback) && existsSync(fallback) ? fallback : null;
+  const fallback = toCanonicalPath(resolve(root, 'index.html'));
+  return fallback && isInsideRoot(fallback) ? fallback : null;
 }
 
 if (!existsSync(root)) {
@@ -74,6 +83,8 @@ if (!existsSync(root)) {
   console.error(`Run "npm run build" before "node ${scriptName} ${rootArg}".`);
   process.exit(1);
 }
+
+const canonicalRoot = realpathSync(root);
 
 createServer((request, response) => {
   const asset = resolveAsset(request.url ?? '/');
