@@ -83,8 +83,8 @@ frontend/src/
 
 | Token | Font | Use |
 |-------|------|-----|
-| `--font-sans` | Manrope | Body text |
-| `--font-serif` | Instrument Serif | Headings |
+| `--font-sans` | Outfit | Body / UI text |
+| `--font-serif` | Instrument Serif | Name & logo accent (italic) |
 | `--font-mono` | JetBrains Mono | Code |
 
 ---

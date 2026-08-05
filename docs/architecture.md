@@ -50,7 +50,7 @@ The design philosophy is pretty straightforward: one page, no backend, clean typ
 | CSS framework | Tailwind CSS 3.4 |
 | PostCSS plugins | autoprefixer, postcss-import, postcss-nested |
 | Design tokens | CSS custom properties — see [[css-design-system#Design Tokens]] |
-| Fonts | Manrope, Plus Jakarta Sans, Instrument Serif, JetBrains Mono — all loaded via `next/font/google` with `display: 'swap'` |
+| Fonts | Outfit (body/UI), Instrument Serif (name/logo accent), JetBrains Mono (code) — all loaded via `next/font/google` with `display: 'swap'` |
 | Icons | lucide-react |
 
 ### 3D and Interaction

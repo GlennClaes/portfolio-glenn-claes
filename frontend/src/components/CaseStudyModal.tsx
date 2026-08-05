@@ -18,13 +18,44 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
   const { messages } = useLanguage();
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!project) return undefined;
 
     const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+
+    const FOCUSABLE_SELECTOR =
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
     const onKey = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const container = sheetRef.current;
+      if (!container) return;
+      const focusables = Array.from(
+        container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+      ).filter((element) => element.offsetParent !== null || element === document.activeElement);
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey) {
+        if (active === first || !container.contains(active)) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !container.contains(active)) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
     document.body.style.overflow = 'hidden';
@@ -34,6 +65,7 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKey);
+      previouslyFocused?.focus();
     };
   }, [project, onClose]);
 
@@ -47,7 +79,7 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps) {
         onClick={onClose}
         aria-label={messages.modal.closeCaseStudy}
       />
-      <div className="modal-sheet" role="dialog" aria-modal="true" aria-labelledby={titleId}>
+      <div ref={sheetRef} className="modal-sheet" role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <button
           ref={closeRef}
           className="modal-close"

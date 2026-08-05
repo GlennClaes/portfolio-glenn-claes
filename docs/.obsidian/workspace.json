@@ -11,10 +11,14 @@
             "id": "028ddcc5f1d12a64",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "preview",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nieuw tabblad"
+              "title": "README"
             }
           }
         ]
@@ -183,6 +187,17 @@
   },
   "active": "028ddcc5f1d12a64",
   "lastOpenFiles": [
+    "troubleshooting.md.tmp.27080.43abd04c2bd0",
+    "quick-reference.md.tmp.27080.502bff468be9",
+    "css-design-system.md.tmp.27080.5704f362cf54",
+    "css-design-system.md.tmp.27080.4475aea992b7",
+    "architecture.md.tmp.27080.d2300d433279",
+    "troubleshooting.md.tmp.27080.4bb8c7a0d534",
+    "quick-reference.md.tmp.27080.c13e009adb10",
+    "css-design-system.md.tmp.27080.40b14cac64c2",
+    "css-design-system.md.tmp.27080.b0b063a712aa",
+    "architecture.md.tmp.27080.4160e0ec9a45",
+    "troubleshooting.md.tmp.27080.4124973714c7",
     "pages/api-reference/config/next-config-js/generateBuildId.md",
     "architecture.md",
     "MEMORY.md",

@@ -72,12 +72,12 @@ Five shadow levels, each with two layers for realistic depth:
 ### Fonts
 
 ```css
---font-sans: var(--font-manrope), var(--font-jakarta), system-ui, ...;
+--font-sans: var(--font-outfit), system-ui, ...;
 --font-serif: var(--font-instrument-serif), Georgia, serif;
 --font-mono: var(--font-jetbrains-mono), ui-monospace, ...;
 ```
 
-The actual font families are loaded by `next/font/google` in `layout.tsx` and set as CSS variables (`--font-manrope`, `--font-jakarta`, etc.). The `--font-sans` stack tries Manrope first, falls back to Plus Jakarta Sans, then system fonts.
+The actual font families are loaded by `next/font/google` in `layout.tsx` and set as CSS variables (`--font-outfit`, etc.). The `--font-sans` stack uses Outfit (a modern geometric grotesque, loaded at weights 400/500/600/700) as the body/UI face — thicker and screen-optimized with true weight coverage; Instrument Serif is reserved as the italic accent for the name/logo; JetBrains Mono is the code face.
 
 ### Layout
 
@@ -180,6 +180,10 @@ The glass-morphism effect is CSS-only: `backdrop-filter: blur + saturate` with a
 ### Nav Links
 
 Pill-shaped, 14px, hover gets a soft background. Hidden below 760px (replaced by the language switcher and CTA).
+
+### Mobile Menu (hamburger)
+
+Below 760px the section links are hidden and a hamburger toggle (`.nav-toggle`, `Menu`/`X` icons) appears instead. Clicking it reveals a `.mobile-menu` panel that drops below the sticky nav (`position: absolute; top: 100%`) with the same blur/backdrop treatment as `.nav`. Links are larger (16px) stacked rows with hover fills. The Contact CTA stays in the header (it's a `.btn`, not a `.nav-link`, so it's not hidden), so it's deliberately not repeated in the menu. While open, `body.no-scroll` locks page scroll. See [[components#Nav.tsx]] for the behaviour.
 
 ---
 
@@ -327,7 +331,7 @@ Horizontal bar with flex-wrap centering. Each item gets a blue dot via `::before
 | 960px | Hero grid → single column |
 | 900px | About, contact, process grids → single column; services → single column |
 | 800px | `.h-section` → 38px; sections → 80px padding; projects → single column; footer → 2-col |
-| 760px | Nav links hidden (only logo + language + CTA remain) |
+| 760px | Nav links hidden; hamburger toggle (`.nav-toggle`) + `.mobile-menu` appear |
 | 720px | Modal → full screen, no border radius |
 | 700px | Modal facts → 2-col grid; modal body padding reduced |
 | 600px | Container padding → 22px; `.h-display` → 40px; `.h-section` → 32px; field-row → single column |

@@ -40,9 +40,16 @@ useReveal();  // one call, sets up all scroll reveals
 
 **Props:** None — reads everything from `useLanguage()`.
 
-**Renders:** `<BrandLogo>`, four `<Link>` elements for About/Services/Projects/Process (each with `jumpTo()` click handler), `<LanguageSwitcher>`, and a "Contact me" CTA link.
+**Renders:** `<BrandLogo>`, four `<Link>` elements for About/Services/Projects/Process (each with `jumpTo()` click handler), `<LanguageSwitcher>`, and a "Contact me" CTA link. On mobile (≤760px) the section links are hidden and replaced by a hamburger toggle.
 
 **Navigation links:** Each calls `jumpTo(id)` which does `event.preventDefault()` + `scrollTo()` with a 60px offset to account for the sticky nav height.
+
+**Mobile menu (hamburger):** State `menuOpen: boolean` controls the `.mobile-menu` dropdown. The toggle button (`nav-toggle`, using `Menu`/`X` from `lucide-react`) has `aria-expanded` + `aria-controls="mobile-menu"`, with translated `openMenu`/`closeMenu` labels. While open:
+- The menu lists the same four section links; choosing one runs `jumpTo(id)` then `closeMenu()`. The Contact CTA stays in the header on mobile (it is not a `.nav-link`, so it is not hidden), so it is NOT duplicated in the menu.
+- `Escape` closes the menu and `body` gets the `.no-scroll` class (scroll lock).
+- A `resize` listener closes the menu when the viewport grows past 761px (so desktop links and the mobile panel never both show).
+
+**CSS:** The toggle is `display: none` on desktop and shown inside `@media (max-width:760px)` (globals.css). The `.mobile-menu` panel is `position: absolute; top: 100%` under the sticky nav with a blur backdrop, styled to match `.nav`.
 
 ---
 

@@ -220,6 +220,7 @@ Currently the test suite covers:
 | Language switching | ❌ | Not tested yet |
 | Scroll reveal animations | ❌ | Not tested yet |
 | Nav scroll state | ❌ | Not tested yet |
+| Mobile hamburger menu (open/close, link choose) | ✅ | Unit test (`Nav.test.tsx`) |
 | TechStrip rendering | ❌ | Not tested yet |
 | About/Services/Process content | ❌ | Not tested yet |
 | Footer links | ❌ | Not tested yet |

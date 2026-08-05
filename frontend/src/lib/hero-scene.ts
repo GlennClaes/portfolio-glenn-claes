@@ -249,6 +249,8 @@ export function initHeroScene(
     scene.add(disc);
   }
 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const target = { x: 0, y: 0 };
   const current = { x: 0, y: 0 };
 
@@ -265,8 +267,10 @@ export function initHeroScene(
     target.y = 0;
   }
 
-  window.addEventListener('mousemove', onMove);
-  canvas.addEventListener('mouseleave', onLeave);
+  if (!reduceMotion) {
+    window.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mouseleave', onLeave);
+  }
 
   function resize() {
     const width = canvas.clientWidth;
@@ -304,7 +308,13 @@ export function initHeroScene(
     raf = requestAnimationFrame(loop);
   }
 
-  loop();
+  if (reduceMotion) {
+    // Honor prefers-reduced-motion: render a single static frame — no animation loop, no parallax.
+    group.rotation.y = 0.4;
+    renderer.render(scene, camera);
+  } else {
+    loop();
+  }
 
   return {
     dispose() {

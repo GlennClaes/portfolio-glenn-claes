@@ -55,10 +55,10 @@ export function Process() {
           </div>
           <div className="process-visual">
             <div className="process-chip chip-top">
-              <span className="dot" /> Sprint 03 - Deploy
+              <span className="dot" /> {messages.process.code.chipTop}
             </div>
-            <div className="code-card code-card-offset" aria-label="Example deployment checklist">
-              <span className="c-com">// Quality gate</span>
+            <div className="code-card code-card-offset" aria-label={messages.process.code.ariaLabel}>
+              <span className="c-com">// {messages.process.code.comment}</span>
               <br />
               <span className="c-key">const</span> checks = [
               <br />
@@ -74,7 +74,7 @@ export function Process() {
               <br />
               checks.<span className="c-fn">forEach</span>(ship);
             </div>
-            <div className="process-chip chip-bottom">Vercel ready</div>
+            <div className="process-chip chip-bottom">{messages.process.code.chipBottom}</div>
           </div>
         </div>
       </div>

@@ -10,6 +10,8 @@ export const en = {
     process: 'Process',
     contact: 'Contact me',
     changeLanguage: 'Change language',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
   },
   hero: {
     badge: 'Available for freelance projects — 2026',
@@ -88,6 +90,12 @@ export const en = {
     ctaAsk: 'Ask a question',
     ctaStartMessage: "Hi Glenn - I'd like to discuss a project. Here's the short version: ",
     ctaAskMessage: 'Hi Glenn - quick question about your work: ',
+    code: {
+      ariaLabel: 'Example deployment checklist',
+      comment: 'Quality gate',
+      chipTop: 'Sprint 03 - Deploy',
+      chipBottom: 'Vercel ready',
+    },
   },
   contact: {
     eyebrow: 'Get in touch',
@@ -117,6 +125,8 @@ export const en = {
     send: 'Send message',
     noSpam: 'No spam, ever. Just a reply from me.',
     sent: 'Your mail app should be opening. Just hit send and it’ll land in my inbox.',
+    sendHint:
+      'This opens your email app — press send there to confirm your message is on its way.',
     errName: 'Please enter your name.',
     errEmail: 'Please enter a valid email address.',
     errMessage: 'Please add a short message.',
@@ -160,6 +170,8 @@ export const nl: Messages = {
     process: 'Werkwijze',
     contact: 'Neem contact op',
     changeLanguage: 'Wijzig taal',
+    openMenu: 'Menu openen',
+    closeMenu: 'Menu sluiten',
   },
   hero: {
     badge: 'Beschikbaar voor freelance projecten — 2026',
@@ -241,6 +253,12 @@ export const nl: Messages = {
     ctaAsk: 'Stel een vraag',
     ctaStartMessage: 'Hoi Glenn - ik wil graag een project bespreken. Hier de korte versie: ',
     ctaAskMessage: 'Hoi Glenn - een korte vraag over je werk: ',
+    code: {
+      ariaLabel: 'Voorbeeld release-checklist',
+      comment: 'Kwaliteitscheck',
+      chipTop: 'Sprint 03 - Release',
+      chipBottom: 'Klaar voor Vercel',
+    },
   },
   contact: {
     eyebrow: 'Neem contact op',
@@ -270,6 +288,8 @@ export const nl: Messages = {
     send: 'Verstuur bericht',
     noSpam: 'Geen spam, ooit. Gewoon een antwoord van mij.',
     sent: 'Je mail-app opent zo. Druk op verzenden en het komt in mijn inbox terecht.',
+    sendHint:
+      'Hiermee opent je mail-app. Druk daar op verzenden om je bericht te bevestigen.',
     errName: 'Vul je naam in.',
     errEmail: 'Vul een geldig e-mailadres in.',
     errMessage: 'Voeg een kort bericht toe.',
@@ -312,6 +332,8 @@ export const de: Messages = {
     process: 'Ablauf',
     contact: 'Kontakt',
     changeLanguage: 'Sprache ändern',
+    openMenu: 'Menü öffnen',
+    closeMenu: 'Menü schließen',
   },
   hero: {
     badge: 'Verfügbar für Freelance-Projekte — 2026',
@@ -393,6 +415,12 @@ export const de: Messages = {
     ctaAsk: 'Frage stellen',
     ctaStartMessage: 'Hallo Glenn - ich würde gerne ein Projekt besprechen. Hier die Kurzfassung: ',
     ctaAskMessage: 'Hallo Glenn - eine kurze Frage zu deiner Arbeit: ',
+    code: {
+      ariaLabel: 'Beispiel-Deployment-Checkliste',
+      comment: 'Qualitätsprüfung',
+      chipTop: 'Sprint 03 - Deploy',
+      chipBottom: 'Bereit für Vercel',
+    },
   },
   contact: {
     eyebrow: 'Kontakt aufnehmen',
@@ -422,6 +450,8 @@ export const de: Messages = {
     send: 'Nachricht senden',
     noSpam: 'Nie Spam. Nur eine Antwort von mir.',
     sent: 'Deine Mail-App öffnet sich gleich. Klicke auf Senden und es landet in meinem Postfach.',
+    sendHint:
+      'Das öffnet deine Mail-App — klicke dort auf Senden, um deine Nachricht zu bestätigen.',
     errName: 'Bitte gib deinen Namen ein.',
     errEmail: 'Bitte gib eine gültige E-Mail-Adresse ein.',
     errMessage: 'Bitte füge eine kurze Nachricht hinzu.',
@@ -465,6 +495,8 @@ export const fr: Messages = {
     process: 'Méthode',
     contact: 'Me contacter',
     changeLanguage: 'Changer de langue',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer le menu',
   },
   hero: {
     badge: 'Disponible pour des projets freelance — 2026',
@@ -546,6 +578,12 @@ export const fr: Messages = {
     ctaAsk: 'Poser une question',
     ctaStartMessage: "Salut Glenn - j'aimerais discuter d'un projet. Voici la version courte : ",
     ctaAskMessage: 'Salut Glenn - une petite question sur votre travail : ',
+    code: {
+      ariaLabel: 'Exemple de checklist de déploiement',
+      comment: 'Contrôle qualité',
+      chipTop: 'Sprint 03 - Déploiement',
+      chipBottom: 'Prêt pour Vercel',
+    },
   },
   contact: {
     eyebrow: 'Contactez-moi',
@@ -576,6 +614,8 @@ export const fr: Messages = {
     send: 'Envoyer le message',
     noSpam: 'Jamais de spam. Juste une réponse de ma part.',
     sent: "Votre application de messagerie devrait s'ouvrir. Cliquez sur envoyer et le message arrivera dans ma boîte de réception.",
+    sendHint:
+      'Cela ouvre votre application de messagerie — cliquez sur Envoyer pour confirmer votre message.',
     errName: 'Veuillez saisir votre nom.',
     errEmail: 'Veuillez saisir une adresse e-mail valide.',
     errMessage: 'Veuillez ajouter un court message.',

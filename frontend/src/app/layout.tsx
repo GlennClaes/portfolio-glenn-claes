@@ -1,19 +1,14 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Serif, JetBrains_Mono, Manrope, Plus_Jakarta_Sans } from 'next/font/google';
+import { Instrument_Serif, JetBrains_Mono, Outfit } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import { LanguageProvider } from '@/i18n/LanguageProvider';
 import '@/app/globals.css';
 
-const manrope = Manrope({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-manrope',
-  display: 'swap',
-});
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-jakarta',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-outfit',
   display: 'swap',
 });
 
@@ -103,7 +98,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${jakarta.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
+        className={`${outfit.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
       >
         <LanguageProvider>{children}</LanguageProvider>
       </body>

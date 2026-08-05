@@ -29,8 +29,7 @@
   --shadow-lg: 0 24px 48px -16px rgba(15, 23, 42, 0.18), 0 6px 16px rgba(15, 23, 42, 0.08);
   --shadow-accent: 0 14px 32px -10px rgba(29, 78, 216, 0.45), 0 2px 6px rgba(29, 78, 216, 0.18);
 
-  --font-sans:
-    var(--font-manrope), var(--font-jakarta), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-outfit), system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-serif: var(--font-instrument-serif), Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', monospace;
 
@@ -55,18 +54,14 @@ html {
 }
 
 body {
-  --font-sans:
-    var(--font-manrope), var(--font-jakarta), system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: var(--font-instrument-serif), Georgia, serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', monospace;
-
   margin: 0;
   font-family: var(--font-sans);
+  font-size: 18px;
   background: var(--bg);
   color: var(--ink);
-  -webkit-font-smoothing: antialiased;
+  /* No forced font-smoothing: let the OS use its native subpixel AA (ClearType on Windows) so
+     small text renders crisp instead of thin/grainy. */
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'ss01', 'cv11';
   line-height: 1.5;
 }
 
@@ -91,7 +86,7 @@ a {
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.02;
-  font-size: 76px;
+  font-size: 80px;
   text-wrap: balance;
 }
 
@@ -108,7 +103,7 @@ a {
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.05;
-  font-size: 50px;
+  font-size: 52px;
   text-wrap: balance;
 }
 
@@ -116,14 +111,14 @@ a {
   font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: 0;
-  font-size: 22px;
+  font-size: 23px;
   line-height: 1.2;
 }
 
 .eyebrow {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 12.5px;
+  font-size: 14.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
@@ -141,7 +136,7 @@ a {
 }
 
 .lead {
-  font-size: 19px;
+  font-size: 21px;
   line-height: 1.55;
   color: var(--ink-2);
   text-wrap: pretty;
@@ -215,7 +210,7 @@ section {
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0;
   color: var(--ink);
   text-decoration: none;
@@ -232,7 +227,7 @@ section {
   box-shadow: var(--shadow-sm);
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -243,7 +238,7 @@ section {
 }
 
 .nav-link {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--ink-2);
   padding: 8px 14px;
@@ -263,6 +258,82 @@ section {
   margin-left: 8px;
 }
 
+/* Mobile hamburger menu toggle (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.nav-toggle:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-soft);
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Mobile dropdown panel, anchored under the sticky nav bar */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 49;
+  padding: 10px 22px 20px;
+  background: rgba(248, 250, 252, 0.98);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu.is-open {
+  display: block;
+}
+
+.mobile-menu-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-link {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink-2);
+  padding: 13px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.mobile-link:hover {
+  background: var(--bg-soft);
+  color: var(--ink);
+}
+
+/* Prevent page scroll while the mobile menu is open */
+body.no-scroll {
+  overflow: hidden;
+}
+
 .lang-switcher {
   position: relative;
   margin-left: 4px;
@@ -278,7 +349,7 @@ section {
   border: 1px solid var(--border-strong);
   background: var(--bg-elev);
   color: var(--ink);
-  font-size: 12.5px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -342,7 +413,7 @@ section {
 
 .lang-item .lang-code {
   width: 26px;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--ink-soft);
   letter-spacing: 0.04em;
@@ -427,7 +498,7 @@ section {
 .btn-sm {
   height: 38px;
   padding: 0 16px;
-  font-size: 13.5px;
+  font-size: 15px;
 }
 
 .btn-arrow {
@@ -459,7 +530,7 @@ section {
   border: 1px solid var(--border);
   padding: 7px 14px 7px 8px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--ink-2);
   box-shadow: var(--shadow-xs);
   margin-bottom: 26px;
@@ -495,7 +566,7 @@ section {
   gap: 32px;
   flex-wrap: wrap;
   color: var(--ink-mute);
-  font-size: 13.5px;
+  font-size: 15px;
 }
 
 .hero-meta b {
@@ -532,7 +603,7 @@ section {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 12px 6px 8px;
-  font-size: 12.5px;
+  font-size: 15px;
   color: var(--ink-2);
   display: inline-flex;
   align-items: center;
@@ -675,7 +746,7 @@ section {
 
 .fact .lbl {
   margin-top: 8px;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-mute);
 }
 
@@ -726,7 +797,7 @@ section {
   margin-top: 22px;
   padding-top: 18px;
   border-top: 1px dashed var(--border);
-  font-size: 13.5px;
+  font-size: 15px;
   color: var(--ink-2);
   display: flex;
   align-items: center;
@@ -806,7 +877,7 @@ section {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 5px 12px;
-  font-size: 11.5px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--ink-mute);
   letter-spacing: 0.04em;
@@ -837,7 +908,7 @@ section {
 }
 
 .tag {
-  font-size: 12px;
+  font-size: 14px;
   background: var(--bg-soft);
   color: var(--ink-2);
   border: 1px solid var(--border);
@@ -856,7 +927,7 @@ section {
 }
 
 .project-status {
-  font-size: 12.5px;
+  font-size: 15px;
   color: var(--ink-soft);
 }
 
@@ -924,7 +995,7 @@ section {
   border-radius: var(--r-md);
   padding: 18px 20px;
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 14px;
   color: #e2e8f0;
   line-height: 1.6;
   box-shadow: var(--shadow-lg);
@@ -956,7 +1027,7 @@ section {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 7px 14px;
-  font-size: 12.5px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--ink-2);
   box-shadow: var(--shadow-sm);
@@ -1003,7 +1074,7 @@ section {
   gap: 14px;
   padding: 14px 0;
   border-top: 1px solid var(--border);
-  font-size: 14.5px;
+  font-size: 15px;
   color: var(--ink-2);
 }
 
@@ -1027,11 +1098,11 @@ section {
   color: var(--ink);
   font-weight: 600;
   display: block;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .contact-channel span {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-mute);
 }
 
@@ -1069,7 +1140,7 @@ a.contact-channel-link:hover .ic {
 }
 
 .field label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--ink-2);
   letter-spacing: 0;
@@ -1117,7 +1188,7 @@ a.contact-channel-link:hover .ic {
 
 .field-error {
   color: #b63b22;
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -1131,7 +1202,14 @@ a.contact-channel-link:hover .ic {
 }
 
 .form-bottom span {
-  font-size: 13px;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+.form-hint {
+  margin: 18px 0 0;
+  font-size: 14.5px;
+  line-height: 1.5;
   color: var(--ink-soft);
 }
 
@@ -1142,7 +1220,7 @@ a.contact-channel-link:hover .ic {
   border: 1px solid #bfdbfe;
   color: #1e40af;
   border-radius: var(--r-md);
-  font-size: 14px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1167,7 +1245,7 @@ footer.site .foot-grid {
 
 footer.site h2 {
   color: #ffffff;
-  font-size: 13.5px;
+  font-size: 15px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 600;
@@ -1177,7 +1255,7 @@ footer.site h2 {
 footer.site a {
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14.5px;
+  font-size: 15px;
   display: block;
   padding: 4px 0;
   transition: color 0.15s;
@@ -1194,7 +1272,7 @@ footer.site .social-link {
 }
 
 footer.site .foot-tag {
-  font-size: 14.5px;
+  font-size: 15.5px;
   max-width: 320px;
   line-height: 1.55;
 }
@@ -1207,7 +1285,7 @@ footer.site .foot-bottom {
   align-items: center;
   flex-wrap: wrap;
   gap: 14px;
-  font-size: 13px;
+  font-size: 14.5px;
   color: #94a3b8;
 }
 
@@ -1263,7 +1341,7 @@ footer.site .foot-logo {
 .tech-strip-inner {
   display: flex;
   gap: 56px;
-  font-size: 14.5px;
+  font-size: 15.5px;
   color: var(--ink-mute);
   font-weight: 500;
   align-items: center;
@@ -1433,7 +1511,7 @@ footer.site .foot-logo {
 }
 
 .modal-facts .k {
-  font-size: 11.5px;
+  font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-mute);
@@ -1441,13 +1519,13 @@ footer.site .foot-logo {
 }
 
 .modal-facts .v {
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink);
 }
 
 .modal-sub {
-  font-size: 13px;
+  font-size: 14.5px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -1457,7 +1535,7 @@ footer.site .foot-logo {
 
 .modal-credits {
   margin-top: 28px;
-  font-size: 13.5px;
+  font-size: 14.5px;
   color: var(--ink-mute);
   border-top: 1px solid var(--border);
   padding-top: 18px;
@@ -1539,6 +1617,10 @@ footer.site .foot-logo {
 @media (max-width: 760px) {
   .nav-links .nav-link {
     display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
   }
 }
 

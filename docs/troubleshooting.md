@@ -132,7 +132,7 @@ entries.forEach((entry) => {
 
 **Fix:**
 1. Check `layout.tsx` imports the font
-2. Check font variable matches CSS variable: `--font-manrope`
+2. Check font variable matches CSS variable: `--font-outfit`
 3. Check `font-family: var(--font-sans)` in CSS
 
 **Related:** [[architecture#Styling]]

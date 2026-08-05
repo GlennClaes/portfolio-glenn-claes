@@ -73,7 +73,9 @@ export function Contact() {
 
     const nextErrors: ContactErrors = {};
     if (!form.name.trim()) nextErrors.name = messages.contact.errName;
-    if (!form.email.includes('@')) nextErrors.email = messages.contact.errEmail;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      nextErrors.email = messages.contact.errEmail;
+    }
     if (!form.message.trim() || form.message.trim().length < 8) {
       nextErrors.message = messages.contact.errMessage;
     }
@@ -166,7 +168,7 @@ export function Contact() {
                   aria-describedby={errors.name ? 'name-error' : undefined}
                 />
                 {errors.name ? (
-                  <span id="name-error" className="field-error">
+                  <span id="name-error" role="alert" className="field-error">
                     {errors.name}
                   </span>
                 ) : null}
@@ -183,7 +185,7 @@ export function Contact() {
                   aria-describedby={errors.email ? 'email-error' : undefined}
                 />
                 {errors.email ? (
-                  <span id="email-error" className="field-error">
+                  <span id="email-error" role="alert" className="field-error">
                     {errors.email}
                   </span>
                 ) : null}
@@ -212,11 +214,12 @@ export function Contact() {
                 aria-describedby={errors.message ? 'message-error' : undefined}
               />
               {errors.message ? (
-                <span id="message-error" className="field-error">
+                <span id="message-error" role="alert" className="field-error">
                   {errors.message}
                 </span>
               ) : null}
             </div>
+            <p className="form-hint">{messages.contact.sendHint}</p>
             <div className="form-bottom">
               <span>{messages.contact.noSpam}</span>
               <button className="btn btn-primary" type="submit">
