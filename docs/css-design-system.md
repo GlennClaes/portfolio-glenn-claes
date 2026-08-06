@@ -18,7 +18,7 @@ created: 2026-08-04
 
 ## Overview
 
-1638 lines of CSS. No CSS-in-JS, no styled-components, no CSS modules. Everything is plain CSS classes with Tailwind utility classes used selectively. The design is driven by CSS custom properties (design tokens) so the whole palette can be swapped from one place.
+1835 lines of CSS. No CSS-in-JS, no styled-components, no CSS modules. Everything is plain CSS classes with Tailwind utility classes used selectively. The design is driven by CSS custom properties (design tokens) so the whole palette can be swapped from one place.
 
 ---
 
@@ -72,12 +72,17 @@ Five shadow levels, each with two layers for realistic depth:
 ### Fonts
 
 ```css
---font-sans: var(--font-outfit), system-ui, ...;
+--font-sans: var(--font-inter), system-ui, ...;
 --font-serif: var(--font-instrument-serif), Georgia, serif;
 --font-mono: var(--font-jetbrains-mono), ui-monospace, ...;
 ```
 
-The actual font families are loaded by `next/font/google` in `layout.tsx` and set as CSS variables (`--font-outfit`, etc.). The `--font-sans` stack uses Outfit (a modern geometric grotesque, loaded at weights 400/500/600/700) as the body/UI face — thicker and screen-optimized with true weight coverage; Instrument Serif is reserved as the italic accent for the name/logo; JetBrains Mono is the code face.
+The actual font families are loaded by `next/font/google` in `layout.tsx` and set as CSS variables (`--font-inter`, etc.). Typography intent:
+- **Inter** is the sans/body face (loaded at 400/500/600/700) — a clean, neutral, tight grotesque used for body copy, nav and small UI text.
+- **Instrument Serif** is the display/heading face (only ships weight 400) — used for `.h-display`, `.h-section`, `.h-card` and the italic hero-name accent.
+- **JetBrains Mono** is the code face.
+
+*(2026-08: swapped Outfit → Inter; headings moved from bold sans to Instrument Serif.)*
 
 ### Layout
 
@@ -91,15 +96,18 @@ The actual font families are loaded by `next/font/google` in `layout.tsx` and se
 
 | Class | Size | Weight | Font | Use |
 |-------|------|--------|------|-----|
-| `.h-display` | 76px → 58px → 40px | 700 | sans | Hero heading |
+| `.h-display` | `clamp(57px,6.4vw,92px)` (→58px →40px) | 400 | serif | Hero heading; `letter-spacing:-.07em`, `line-height:.9` |
 | `.h-display . italic-serif` | 1.04em | 400 | serif italic | "Glenn" in hero |
-| `.h-section` | 50px → 38px → 32px | 700 | sans | Section headings |
-| `.h-card` | 22px | 700 | sans | Card titles |
-| `.eyebrow` | 12.5px | 600 | sans | Section labels (uppercase, accent color, with ::before line) |
-| `.lead` | 19px → 17px | 400 | sans | Body text, paragraphs |
+| `.h-section` | `clamp(42px,4.4vw,64px)` (→38px →32px) | 400 | serif | Section headings; `letter-spacing:-.065em`, `line-height:.96` |
+| `.h-card` | 24px | 400 | serif | Card titles; `letter-spacing:-.02em` |
+| `.eyebrow` | 14.5px | 600 | sans | Section labels (uppercase, accent color, with ::before line) |
+| `.lead` | 21px → 17px | 400 | sans | Body text, paragraphs |
 | `.body-mute` | — | — | — | Muted text color |
+| `body` | 15px | 400 | sans | Base copy; `line-height:1.65` |
 
 The `.eyebrow` class has a `::before` pseudo-element that draws a 22px blue line before the text.
+
+Headings are **Instrument Serif (weight 400)** with tight negative letter-spacing for an editorial look; body/nav are **Inter**. Site colors are unchanged.
 
 ---
 
@@ -179,11 +187,13 @@ The glass-morphism effect is CSS-only: `backdrop-filter: blur + saturate` with a
 
 ### Nav Links
 
-Pill-shaped, 14px, hover gets a soft background. Hidden below 760px (replaced by the language switcher and CTA).
+Pill-shaped, 16px weight 500 with `letter-spacing:-.01em`, hover gets a soft background. Hidden below 760px (replaced by the language switcher and CTA).
 
 ### Mobile Menu (hamburger)
 
-Below 760px the whole `.nav-links` block is hidden (`display: none`) so the header is just the logo + a hamburger toggle (`.nav-toggle`, `Menu`/`X` icons) — this prevents long CTA labels ("Me contacter", "Neem contact op") from crowding the row and pushing the hamburger to the edge. Clicking the toggle reveals a `.mobile-menu` panel that drops below the sticky nav (`position: absolute; top: 100%`) with the same blur/backdrop treatment as `.nav`. Links are larger (16px) stacked rows with hover fills. A `.mobile-menu-footer` below them (top border divider) hosts the `<LanguageSwitcher>` and the Contact CTA so both stay reachable on mobile. While open, `body.no-scroll` locks page scroll. See [[components#Nav.tsx]] for the behaviour.
+Below 760px the whole `.nav-links` block is hidden (`display: none`) so the header is just the logo + a hamburger toggle (`.nav-toggle`, `Menu`/`X` icons) — this prevents long CTA labels ("Me contacter", "Neem contact op") from crowding the row and pushing the hamburger to the edge. Clicking the toggle reveals a `.mobile-menu` panel that drops below the sticky nav (`position: absolute; top: 100%`) with the same blur/backdrop treatment as `.nav`. Links are 16px weight 500 stacked rows with hover fills. A `.mobile-menu-footer` below them (top border divider) hosts the `<LanguageSwitcher>` and the Contact CTA so both stay reachable on mobile. While open, `body.no-scroll` locks page scroll. See [[components#Nav.tsx]] for the behaviour.
+
+The menu opens with an **elegant animation** (2026-08): a fade + slide-down (`max-height` 0→640px, `opacity`, `translateY`, easing `cubic-bezier(.22,1,.36,1)`), then the links cascade in with staggered `transition-delay` (06–18ms) followed by the footer (24ms). On close, `visibility` is held until the animation finishes so the closed menu stays non-interactive.
 
 ---
 

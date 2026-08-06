@@ -10,41 +10,49 @@ test('renders the one-page portfolio and interactive states', async ({ page }) =
 
   const canvas = page.locator('.scene-canvas');
   await expect(canvas).toBeVisible();
-  await page.waitForTimeout(750);
 
-  const hasDrawnPixels = await canvas.evaluate((node) => {
-    const canvasElement = node as HTMLCanvasElement;
-    const gl =
-      canvasElement.getContext('webgl2', { preserveDrawingBuffer: true }) ??
-      canvasElement.getContext('webgl', { preserveDrawingBuffer: true });
-    if (!gl) return false;
+  // The Three.js hero scene is loaded via a dynamic import(), so it initializes
+  // asynchronously. Poll until the canvas actually draws pixels instead of a
+  // fixed timeout — this stays reliable even when the chunk load is slow in CI.
+  await expect
+    .poll(
+      async () => {
+        const hasPixels = await canvas.evaluate((node) => {
+          const canvasElement = node as HTMLCanvasElement;
+          const gl =
+            canvasElement.getContext('webgl2', { preserveDrawingBuffer: true }) ??
+            canvasElement.getContext('webgl', { preserveDrawingBuffer: true });
+          if (!gl) return false;
 
-    const width = gl.drawingBufferWidth;
-    const height = gl.drawingBufferHeight;
-    const samples = [
-      [0.5, 0.5],
-      [0.35, 0.45],
-      [0.65, 0.55],
-      [0.5, 0.3],
-      [0.5, 0.7],
-    ];
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
+          const samples = [
+            [0.5, 0.5],
+            [0.35, 0.45],
+            [0.65, 0.55],
+            [0.5, 0.3],
+            [0.5, 0.7],
+          ];
 
-    return samples.some(([x, y]) => {
-      const pixel = new Uint8Array(4);
-      gl.readPixels(
-        Math.floor(width * x),
-        Math.floor(height * y),
-        1,
-        1,
-        gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        pixel,
-      );
-      return pixel[0] + pixel[1] + pixel[2] + pixel[3] > 0;
-    });
-  });
-
-  expect(hasDrawnPixels).toBe(true);
+          return samples.some(([x, y]) => {
+            const pixel = new Uint8Array(4);
+            gl.readPixels(
+              Math.floor(width * x),
+              Math.floor(height * y),
+              1,
+              1,
+              gl.RGBA,
+              gl.UNSIGNED_BYTE,
+              pixel,
+            );
+            return pixel[0] + pixel[1] + pixel[2] + pixel[3] > 0;
+          });
+        });
+        return hasPixels;
+      },
+      { timeout: 15_000 },
+    )
+    .toBe(true);
 
   await page.getByRole('button', { name: /view case study: glenn claes portfolio/i }).click();
   await expect(page.getByRole('dialog')).toBeVisible();

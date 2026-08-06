@@ -1,4 +1,4 @@
-@tailwind base;
+ @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -29,7 +29,7 @@
   --shadow-lg: 0 24px 48px -16px rgba(15, 23, 42, 0.18), 0 6px 16px rgba(15, 23, 42, 0.08);
   --shadow-accent: 0 14px 32px -10px rgba(29, 78, 216, 0.45), 0 2px 6px rgba(29, 78, 216, 0.18);
 
-  --font-sans: var(--font-outfit), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-serif: var(--font-instrument-serif), Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', monospace;
 
@@ -56,13 +56,13 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 15px;
   background: var(--bg);
   color: var(--ink);
   /* No forced font-smoothing: let the OS use its native subpixel AA (ClearType on Windows) so
      small text renders crisp instead of thin/grainy. */
   text-rendering: optimizeLegibility;
-  line-height: 1.5;
+  line-height: 1.65;
 }
 
 button,
@@ -82,11 +82,11 @@ a {
 }
 
 .h-display {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.02;
-  font-size: 80px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  font-size: clamp(57px, 6.4vw, 92px);
   text-wrap: balance;
 }
 
@@ -94,25 +94,25 @@ a {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  letter-spacing: 0;
+  letter-spacing: -0.07em;
   font-size: 1.04em;
 }
 
 .h-section {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.05;
-  font-size: 52px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.96;
+  font-size: clamp(42px, 4.4vw, 64px);
   text-wrap: balance;
 }
 
 .h-card {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: 0;
-  font-size: 23px;
-  line-height: 1.2;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-size: 24px;
+  line-height: 1.1;
 }
 
 .eyebrow {
@@ -209,6 +209,7 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  font-family: var(--font-sans);
   font-weight: 700;
   font-size: 18px;
   letter-spacing: 0;
@@ -238,8 +239,10 @@ section {
 }
 
 .nav-link {
+  font-family: var(--font-sans);
   font-size: 17px;
   font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--ink-2);
   padding: 8px 14px;
   border-radius: 999px;
@@ -286,9 +289,9 @@ section {
   outline-offset: 2px;
 }
 
-/* Mobile dropdown panel, anchored under the sticky nav bar */
+/* Mobile dropdown panel, anchored under the sticky nav bar.
+   Opens with an elegant fade + slide; the links cascade in afterwards. */
 .mobile-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -300,10 +303,64 @@ section {
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  visibility: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    visibility 0s linear 0.4s,
+    max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mobile-menu.is-open {
-  display: block;
+  visibility: visible;
+  max-height: 640px;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    visibility 0s,
+    max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Cascade the links in once the panel is open. */
+.mobile-menu .mobile-link,
+.mobile-menu .mobile-menu-footer {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.mobile-menu.is-open .mobile-link,
+.mobile-menu.is-open .mobile-menu-footer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu.is-open .mobile-link:nth-child(1) {
+  transition-delay: 0.06s;
+}
+
+.mobile-menu.is-open .mobile-link:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.mobile-menu.is-open .mobile-link:nth-child(3) {
+  transition-delay: 0.14s;
+}
+
+.mobile-menu.is-open .mobile-link:nth-child(4) {
+  transition-delay: 0.18s;
+}
+
+.mobile-menu.is-open .mobile-menu-footer {
+  transition-delay: 0.24s;
 }
 
 .mobile-menu-inner {
@@ -313,8 +370,10 @@ section {
 }
 
 .mobile-link {
+  font-family: var(--font-sans);
   font-size: 17px;
   font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--ink-2);
   padding: 13px 14px;
   border-radius: 10px;
@@ -1265,7 +1324,8 @@ footer.site .foot-grid {
 
 footer.site h2 {
   color: #ffffff;
-  font-size: 15px;
+  font-family: var(--font-sans);
+  font-size: 16px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 600;
@@ -1275,7 +1335,8 @@ footer.site h2 {
 footer.site a {
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 15px;
+  font-family: var(--font-sans);
+  font-size: 16px;
   display: block;
   padding: 4px 0;
   transition: color 0.15s;
@@ -1292,7 +1353,8 @@ footer.site .social-link {
 }
 
 footer.site .foot-tag {
-  font-size: 15.5px;
+  font-family: var(--font-sans);
+  font-size: 16px;
   max-width: 320px;
   line-height: 1.55;
 }
@@ -1305,14 +1367,16 @@ footer.site .foot-bottom {
   align-items: center;
   flex-wrap: wrap;
   gap: 14px;
-  font-size: 14.5px;
+  font-family: var(--font-sans);
+  font-size: 15px;
   color: #94a3b8;
 }
 
 footer.site .foot-logo {
   color: white;
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 19px;
   letter-spacing: 0;
   display: inline-flex;
   align-items: center;

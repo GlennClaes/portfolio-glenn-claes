@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Serif, JetBrains_Mono, Outfit } from 'next/font/google';
+import { Instrument_Serif, Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
 
 import { LanguageProvider } from '@/i18n/LanguageProvider';
 import '@/app/globals.css';
 
-const outfit = Outfit({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-outfit',
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -126,7 +126,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
+        className={`${inter.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
       >
         <Script
           id="structured-data"
