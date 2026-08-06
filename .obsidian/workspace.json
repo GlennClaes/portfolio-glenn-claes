@@ -201,6 +201,8 @@
   },
   "active": "fb711c5ae9cef225",
   "lastOpenFiles": [
+    "vercel.json",
+    "vercel.json.tmp.15492.ff219e666316",
     "docs/components.md.tmp.15492.becbabba3594",
     "docs/architecture.md.tmp.15492.5c49d2b476a7",
     "docs/architecture.md.tmp.15492.ce6205ffddf5",
@@ -210,8 +212,6 @@
     "frontend/out/llms.txt",
     "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B/_ssgManifest.js",
     "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B/_clientMiddlewareManifest.js",
-    "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B/_buildManifest.js",
-    "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B",
     "docs/index.md",
     "docs/MEMORY.md",
     "docs/architecture.md",
