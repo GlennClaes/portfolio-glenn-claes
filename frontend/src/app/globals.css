@@ -53,6 +53,31 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Blue scrollbar — WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 99px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg);
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -290,7 +315,8 @@ section {
 }
 
 /* Mobile dropdown panel, anchored under the sticky nav bar.
-   Opens with an elegant fade + slide; the links cascade in afterwards. */
+   Opens with an elegant fade + slide; the links cascade in afterwards.
+   No overflow:hidden — the language dropdown (position:absolute) must not be clipped. */
 .mobile-menu {
   position: absolute;
   top: 100%;
@@ -303,7 +329,6 @@ section {
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
   visibility: hidden;
   max-height: 0;
   opacity: 0;
