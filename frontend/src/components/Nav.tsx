@@ -105,6 +105,20 @@ export function Nav() {
               {item.label}
             </Link>
           ))}
+
+          <div className="mobile-menu-footer">
+            <LanguageSwitcher />
+            <Link
+              href="#contact"
+              className="btn btn-primary btn-sm mobile-cta"
+              onClick={() => {
+                jumpTo('contact')();
+                closeMenu();
+              }}
+            >
+              {messages.nav.contact} <ArrowRight aria-hidden="true" size={16} strokeWidth={2.2} />
+            </Link>
+          </div>
         </nav>
       </div>
     </nav>

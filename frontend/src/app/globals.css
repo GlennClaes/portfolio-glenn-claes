@@ -329,6 +329,26 @@ section {
   color: var(--ink);
 }
 
+/* Language switcher + contact CTA live in the mobile menu footer */
+.mobile-menu-footer {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.mobile-menu-footer .lang-switcher {
+  margin-left: 0;
+  align-self: flex-start;
+}
+
+.mobile-cta {
+  justify-content: center;
+}
+
 /* Prevent page scroll while the mobile menu is open */
 body.no-scroll {
   overflow: hidden;
@@ -1548,6 +1568,43 @@ footer.site .foot-logo {
   flex-wrap: wrap;
 }
 
+/* ── 404 page ─────────────────────────────────────────────────────── */
+
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 60px 28px;
+  text-align: center;
+}
+
+.notfound-logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.notfound-logo-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent), #0f172a);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.notfound-msg {
+  opacity: 0.55;
+  max-width: 420px;
+}
+
 @media (max-width: 1100px) {
   .h-display {
     font-size: 58px;
@@ -1615,7 +1672,10 @@ footer.site .foot-logo {
 }
 
 @media (max-width: 760px) {
-  .nav-links .nav-link {
+  /* On mobile the header is just the logo + hamburger; the language switcher
+     and contact CTA move into the open mobile menu instead of crowding the
+     row and pushing the hamburger to the edge. */
+  .nav-links {
     display: none;
   }
 

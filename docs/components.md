@@ -40,12 +40,13 @@ useReveal();  // one call, sets up all scroll reveals
 
 **Props:** None — reads everything from `useLanguage()`.
 
-**Renders:** `<BrandLogo>`, four `<Link>` elements for About/Services/Projects/Process (each with `jumpTo()` click handler), `<LanguageSwitcher>`, and a "Contact me" CTA link. On mobile (≤760px) the section links are hidden and replaced by a hamburger toggle.
+**Renders:** `<BrandLogo>`, four `<Link>` elements for About/Services/Projects/Process (each with `jumpTo()` click handler), `<LanguageSwitcher>`, and a "Contact me" CTA link. On mobile (≤760px) the whole desktop `.nav-links` block (links + switcher + CTA) is hidden and replaced by a hamburger toggle.
 
 **Navigation links:** Each calls `jumpTo(id)` which does `event.preventDefault()` + `scrollTo()` with a 60px offset to account for the sticky nav height.
 
 **Mobile menu (hamburger):** State `menuOpen: boolean` controls the `.mobile-menu` dropdown. The toggle button (`nav-toggle`, using `Menu`/`X` from `lucide-react`) has `aria-expanded` + `aria-controls="mobile-menu"`, with translated `openMenu`/`closeMenu` labels. While open:
-- The menu lists the same four section links; choosing one runs `jumpTo(id)` then `closeMenu()`. The Contact CTA stays in the header on mobile (it is not a `.nav-link`, so it is not hidden), so it is NOT duplicated in the menu.
+- The menu lists the same four section links; choosing one runs `jumpTo(id)` then `closeMenu()`.
+- Below the links, a `.mobile-menu-footer` holds the `<LanguageSwitcher>` and the Contact CTA, so both stay reachable on mobile without crowding the header row (this is what keeps the hamburger from being pushed to the edge).
 - `Escape` closes the menu and `body` gets the `.no-scroll` class (scroll lock).
 - A `resize` listener closes the menu when the viewport grows past 761px (so desktop links and the mobile panel never both show).
 
@@ -346,6 +347,16 @@ Both SVGs use `viewBox="0 0 400 250"` with `preserveAspectRatio="xMidYMid slice"
 - `Project` — full merged type with all fields
 - `ProjectText` — text-only subset
 - `BaseProject` — everything except text fields
+
+---
+
+## not-found.tsx
+
+**Role:** Custom 404 page (shown when Next.js can't match a route).
+
+**Renders:** A centered "G" logo mark (reusing the gradient + monogram style from the nav), the localized 404 title and message (from `messages.notFound`), and a "Back to home" button that calls `jumpTo('top')`. Uses `useLanguage()` for i18n labels — the page is a `'use client'` component.
+
+**CSS:** `.notfound` centers the content vertically (`min-height: 80vh`, flex-column). `.notfound-logo-mark` reuses the nav logo gradient (`--accent` → `#0f172a`). Layout is fully responsive (container width, centered text, stacked).
 
 ---
 

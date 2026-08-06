@@ -158,6 +158,12 @@ export const en = {
     getInTouchMessage: (title: string) =>
       `Hi Glenn - I'd like to get in touch about "${title}". A bit about what I have in mind: `,
   },
+  notFound: {
+    title: '404',
+    heading: 'Page not found',
+    message: 'Sorry, the page you are looking for does not exist.',
+    backHome: 'Back to home',
+  },
 };
 
 export type Messages = typeof en;
@@ -322,6 +328,12 @@ export const nl: Messages = {
     getInTouchMessage: (title: string) =>
       `Hoi Glenn - ik wil graag contact opnemen over "${title}". Waar ik aan denk: `,
   },
+  notFound: {
+    title: '404',
+    heading: 'Pagina niet gevonden',
+    message: 'Sorry, de pagina die u zoekt bestaat niet.',
+    backHome: 'Terug naar home',
+  },
 };
 
 export const de: Messages = {
@@ -484,6 +496,12 @@ export const de: Messages = {
     getInTouch: 'Melde dich dazu',
     getInTouchMessage: (title: string) =>
       `Hallo Glenn - ich würde mich gerne zu "${title}" melden. Was ich mir vorstelle: `,
+  },
+  notFound: {
+    title: '404',
+    heading: 'Seite nicht gefunden',
+    message: 'Entschuldigung, die von Ihnen gesuchte Seite existiert nicht.',
+    backHome: 'Zurück zur Startseite',
   },
 };
 
@@ -648,6 +666,12 @@ export const fr: Messages = {
     getInTouch: 'Me contacter à ce sujet',
     getInTouchMessage: (title: string) =>
       `Salut Glenn - j'aimerais vous contacter au sujet de "${title}". Ce que j'ai en tête : `,
+  },
+  notFound: {
+    title: '404',
+    heading: 'Page non trouvée',
+    message: 'Désolé, la page que vous recherchez n\'existe pas.',
+    backHome: 'Retour à l\'accueil',
   },
 };
 

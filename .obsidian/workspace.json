@@ -11,10 +11,14 @@
             "id": "fb711c5ae9cef225",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Grafiek weergave"
+              "type": "markdown",
+              "state": {
+                "file": "PRODUCT.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "PRODUCT"
             }
           },
           {
@@ -108,6 +112,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "PRODUCT.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -180,8 +185,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": false
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -197,6 +201,17 @@
   },
   "active": "fb711c5ae9cef225",
   "lastOpenFiles": [
+    "docs/components.md.tmp.15492.becbabba3594",
+    "docs/architecture.md.tmp.15492.5c49d2b476a7",
+    "docs/architecture.md.tmp.15492.ce6205ffddf5",
+    "frontend/out/sitemap.xml",
+    "frontend/out/robots.txt",
+    "frontend/out/opengraph-image",
+    "frontend/out/llms.txt",
+    "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B/_ssgManifest.js",
+    "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B/_clientMiddlewareManifest.js",
+    "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B/_buildManifest.js",
+    "frontend/out/_next/static/9ttreGleqMUh4Dzumq-0B",
     "docs/index.md",
     "docs/MEMORY.md",
     "docs/architecture.md",

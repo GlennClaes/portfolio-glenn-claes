@@ -50,7 +50,7 @@ export function Footer() {
           </div>
           <div>
             <h2>{messages.footer.contact}</h2>
-            <Link href="mailto:contact@glennclaes.be?subject=Quick%20hello">
+            <Link href="mailto:contact@glennclaes.be?subject=Quick%20hello" rel="me">
               contact@glennclaes.be
             </Link>
             <Link
@@ -79,7 +79,7 @@ export function Footer() {
             <Link
               href="https://www.linkedin.com/in/glenn-claes-ai/"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener me"
               className="social-link"
             >
               <LinkedInIcon /> LinkedIn
@@ -87,7 +87,7 @@ export function Footer() {
             <Link
               href="https://github.com/GlennClaes"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener me"
               className="social-link"
             >
               <GitHubIcon /> GitHub

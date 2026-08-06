@@ -4,7 +4,6 @@
   "installCommand": "npm ci",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "outputDirectory": ".next",
   "headers": [
     {
       "source": "/(.*)",
@@ -14,18 +13,6 @@
         { "key": "X-XSS-Protection", "value": "1; mode=block" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/portfolio-glenn-claes",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/portfolio-glenn-claes/:path*",
-      "destination": "/:path*",
-      "permanent": false
     }
   ]
 }

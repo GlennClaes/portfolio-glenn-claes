@@ -89,8 +89,12 @@ See [[testing]] for full test strategy.
 ```
 frontend/src/
 ├── app/
-│   ├── layout.tsx              # Root layout — fonts, metadata, LanguageProvider wrapper
+│   ├── layout.tsx              # Root layout — fonts, metadata, JSON-LD, LanguageProvider wrapper
 │   ├── page.tsx                # Home route — just renders <PortfolioPage />
+│   ├── not-found.tsx           # Custom 404 page (i18n-aware)
+│   ├── opengraph-image.tsx     # Auto-generated 1200×630 PNG via next/og ImageResponse
+│   ├── robots.ts               # Robots.txt — allow all, sitemap URL
+│   ├── sitemap.ts              # Sitemap.xml — single URL with hreflang alternates
 │   └── globals.css             # Full design system — see css-design-system
 │
 ├── components/
@@ -457,11 +461,27 @@ All of these run in CI before deployment. If any of them fail, the deploy doesn'
 
 ---
 
+## SEO, structured data, and crawlability
+
+- **Meta description:** static English string in `layout.tsx` (server-rendered, not locale-aware since the site is a single-page client-localized app).
+- **OG image:** `src/app/opengraph-image.tsx` generates a1200×630 branded PNG at build time via `next/og` ImageResponse (`export const dynamic = 'force-static'` required for `output: export`). Serves both `og:image` and `twitter:image` (summary_large_image card).
+- **Structured data (JSON-LD):** `Person` + `WebSite` schemas injected via `<Script type="application/ld+json">` in `layout.tsx` (present on every page including 404). Includes `sameAs` for LinkedIn/GitHub.
+- **Robots.txt:** `src/app/robots.ts` — allow all; explicit allow for GPTBot, ClaudeBot, anthropic-ai; sitemap URL.
+- **Sitemap.xml:** `src/app/sitemap.ts` — single canonical URL with `hreflang` alternates for all four locales, `changefreq: monthly`, `priority: 1`.
+- **LLMs.txt:** `public/llms.txt` — plaintext summary for LLM crawlers.
+- **`lang` attribute:** updated client-side via `LanguageProvider` (`document.documentElement.lang = locale`) on locale change and initial load; default server-rendered value is `en`.
+- **External link attributes:** social links in `Footer.tsx` use `rel="noreferrer noopener me"` (`rel="me"` for Google rel=me verification).
+- **Known limitation:** On GH Pages (basePath = `/portfolio-glenn-claes`), the auto-generated `og:image` URL from `opengraph-image.tsx` omits the basePath prefix — a known Next.js issue with metadata routes + `basePath`. This affects social previews on the GH Pages fallback; the primary Vercel deployment has the correct URL.
+
+---
+
 ## Deployment
 
 ### Vercel (Primary)
 
 The site is deployed to Vercel on every push to `main`. The Next.js App Router handles SSR, so the Vercel deployment gets full server-side rendering benefits.
+
+**Vercel Root Directory = `frontend`.** The project's build lives entirely in `frontend/`, so the Vercel project Root Directory must be set to `frontend` (project settings → General). The single source of truth is `frontend/vercel.json` (`framework: nextjs`, `installCommand: npm ci`, `buildCommand: npm run build`). There is **no** root-level `vercel.json`. If the PR preview/production deploy fails, first confirm the Root Directory is `frontend` and that only `frontend/vercel.json` exists.
 
 Environment variables:
 - `NEXT_PUBLIC_SITE_URL` — the canonical URL (defaults to `http://127.0.0.1:3000`)
@@ -487,6 +507,8 @@ Push to main
   │
   └── Static export → Deploy to GitHub Pages
 ```
+
+CodeQL (`security-and-quality`) runs on push/PR/weekly and is configured in `.github/workflows/codeql.yml`. It uses `paths-ignore: ['**/.github/**']` so it only analyzes the app's own code — the vendored `.github/skills/impeccable` tool (a third-party JS/`mjs` Claude Code skill) is excluded and does not raise alerts.
 
 Every step has to pass before the next one runs. If linting fails, tests don't run. If tests fail, the build doesn't happen. If the build fails, deployment is skipped.
 

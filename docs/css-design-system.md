@@ -183,7 +183,7 @@ Pill-shaped, 14px, hover gets a soft background. Hidden below 760px (replaced by
 
 ### Mobile Menu (hamburger)
 
-Below 760px the section links are hidden and a hamburger toggle (`.nav-toggle`, `Menu`/`X` icons) appears instead. Clicking it reveals a `.mobile-menu` panel that drops below the sticky nav (`position: absolute; top: 100%`) with the same blur/backdrop treatment as `.nav`. Links are larger (16px) stacked rows with hover fills. The Contact CTA stays in the header (it's a `.btn`, not a `.nav-link`, so it's not hidden), so it's deliberately not repeated in the menu. While open, `body.no-scroll` locks page scroll. See [[components#Nav.tsx]] for the behaviour.
+Below 760px the whole `.nav-links` block is hidden (`display: none`) so the header is just the logo + a hamburger toggle (`.nav-toggle`, `Menu`/`X` icons) — this prevents long CTA labels ("Me contacter", "Neem contact op") from crowding the row and pushing the hamburger to the edge. Clicking the toggle reveals a `.mobile-menu` panel that drops below the sticky nav (`position: absolute; top: 100%`) with the same blur/backdrop treatment as `.nav`. Links are larger (16px) stacked rows with hover fills. A `.mobile-menu-footer` below them (top border divider) hosts the `<LanguageSwitcher>` and the Contact CTA so both stay reachable on mobile. While open, `body.no-scroll` locks page scroll. See [[components#Nav.tsx]] for the behaviour.
 
 ---
 
@@ -331,7 +331,7 @@ Horizontal bar with flex-wrap centering. Each item gets a blue dot via `::before
 | 960px | Hero grid → single column |
 | 900px | About, contact, process grids → single column; services → single column |
 | 800px | `.h-section` → 38px; sections → 80px padding; projects → single column; footer → 2-col |
-| 760px | Nav links hidden; hamburger toggle (`.nav-toggle`) + `.mobile-menu` appear |
+| 760px | Whole `.nav-links` hidden; hamburger toggle (`.nav-toggle`) + `.mobile-menu` (with footer: lang switcher + CTA) appear |
 | 720px | Modal → full screen, no border radius |
 | 700px | Modal facts → 2-col grid; modal body padding reduced |
 | 600px | Container padding → 22px; `.h-display` → 40px; `.h-section` → 32px; field-row → single column |

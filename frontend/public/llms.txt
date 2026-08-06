@@ -1,0 +1,28 @@
+# Glenn Claes — Developer Portfolio
+
+Personal portfolio site of Glenn Claes, a web developer based in Belgium.
+
+## What I do
+
+- Custom websites and web applications using Next.js, React and TypeScript
+- AI features and integrations using Python
+- Practical automations to save time and reduce manual work
+
+## About
+
+Glenn Claes is a freelance web developer based in Belgium, working across
+European time zones. He specializes in building performant, accessible web
+applications with modern tools including Next.js, React, TypeScript, Three.js,
+Tailwind CSS, Python, and AI.
+
+## Contact
+
+- Email: contact@glennclaes.be
+- LinkedIn: https://www.linkedin.com/in/glenn-claes-ai/
+- GitHub: https://github.com/GlennClaes
+
+## Technical details
+
+- Built with: Next.js 16, React 19, TypeScript, Tailwind CSS, Three.js
+- Deployed to: Vercel (primary), GitHub Pages (fallback)
+- Languages on site: English, Dutch, German, French (client-side switcher)

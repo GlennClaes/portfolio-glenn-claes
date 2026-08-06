@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Instrument_Serif, JetBrains_Mono, Outfit } from 'next/font/google';
+import Script from 'next/script';
 import type { ReactNode } from 'react';
 
 import { LanguageProvider } from '@/i18n/LanguageProvider';
@@ -31,7 +32,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const assetPath = (path: string) => `${basePath}${path}`;
 const title = 'Glenn Claes - Developer Portfolio';
 const description =
-  'Developer portfolio for Glenn Claes. Websites with Next.js, React and TypeScript, AI features with Python, and practical automations.';
+  'Glenn Claes — developer portfolio. Custom websites with Next.js, React and TypeScript, AI features with Python, and practical automations. Based in Belgium.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
@@ -63,20 +64,11 @@ export const metadata: Metadata = {
     siteName: 'Glenn Claes',
     type: 'website',
     locale: 'en_US',
-    images: [
-      {
-        url: assetPath('/og-image.svg'),
-        width: 1200,
-        height: 630,
-        alt: 'Glenn Claes - Developer Portfolio',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title,
     description,
-    images: [assetPath('/og-image.svg')],
   },
   icons: {
     icon: [
@@ -94,12 +86,53 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: 'Glenn Claes',
+      url: siteUrl,
+      email: 'mailto:contact@glennclaes.be',
+      jobTitle: 'Web Developer',
+      description,
+      address: { '@type': 'PostalAddress', addressCountry: 'BE' },
+      sameAs: [
+        'https://www.linkedin.com/in/glenn-claes-ai/',
+        'https://github.com/GlennClaes',
+      ],
+      knowsAbout: [
+        'Next.js',
+        'React',
+        'TypeScript',
+        'Python',
+        'Artificial Intelligence',
+        'Automation',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: title,
+      publisher: { '@id': `${siteUrl}/#person` },
+      inLanguage: 'en',
+    },
+  ],
+};
+
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
       <body
         className={`${outfit.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
       >
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

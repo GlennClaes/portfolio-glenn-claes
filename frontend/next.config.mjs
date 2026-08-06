@@ -9,6 +9,7 @@ const nextConfig = {
   basePath: isGitHubPages ? githubPagesBasePath : '',
   assetPrefix: isGitHubPages ? `${githubPagesBasePath}/` : undefined,
   output: isGitHubPages ? 'export' : undefined,
+  productionBrowserSourceMaps: !isGitHubPages,
   images: {
     unoptimized: isGitHubPages,
   },
