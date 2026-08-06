@@ -2,10 +2,9 @@
 
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { useLanguage } from '@/i18n/LanguageProvider';
-import { initHeroScene } from '@/lib/hero-scene';
 import { jumpTo } from '@/lib/navigation';
 
 const ACCENT = '#1D4ED8';
@@ -13,18 +12,27 @@ const ACCENT = '#1D4ED8';
 export function Hero() {
   const { messages } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const disposeRef = useRef<(() => void) | null>(null);
+
+  // Lazy-load the Three.js hero scene so it stays out of the main bundle
+  // (~600 KB).  The dynamic import() code-splits hero-scene.ts + three
+  // into a separate chunk that only loads when the canvas is in the DOM.
+  const initScene = useCallback(async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const { initHeroScene } = await import('@/lib/hero-scene');
+    const scene = initHeroScene(canvas, { variant: 'primitives', accent: ACCENT });
+    disposeRef.current = scene?.dispose.bind(scene) ?? null;
+  }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return undefined;
-
-    const scene = initHeroScene(canvas, {
-      variant: 'primitives',
-      accent: ACCENT,
-    });
-
-    return () => scene?.dispose();
-  }, []);
+    void initScene();
+    return () => {
+      disposeRef.current?.();
+      disposeRef.current = null;
+    };
+  }, [initScene]);
 
   return (
     <section id="top" className="hero">

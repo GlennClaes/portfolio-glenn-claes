@@ -13,12 +13,6 @@ permissions:
   contents: read
   security-events: write
 
-# Only analyze the project's own code. Everything under .github/ is either a
-# vendored third-party tool (.github/skills/impeccable) or GH templates/hooks —
-# none of it is app code, so skip it to keep alerts relevant.
-paths-ignore:
-  - '**/.github/**'
-
 jobs:
   analyze:
     name: Analyze code for security issues
@@ -33,6 +27,7 @@ jobs:
         with:
           languages: javascript-typescript
           queries: security-and-quality
+          config-file: ./.github/codeql/config.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3

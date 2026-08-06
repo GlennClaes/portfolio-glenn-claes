@@ -92,6 +92,7 @@ frontend/src/
 │   ├── layout.tsx              # Root layout — fonts, metadata, JSON-LD, LanguageProvider wrapper
 │   ├── page.tsx                # Home route — just renders <PortfolioPage />
 │   ├── not-found.tsx           # Custom 404 page (i18n-aware)
+│   ├── error.tsx               # Global error boundary (try again)
 │   ├── opengraph-image.tsx     # Auto-generated 1200×630 PNG via next/og ImageResponse
 │   ├── robots.ts               # Robots.txt — allow all, sitemap URL
 │   ├── sitemap.ts              # Sitemap.xml — single URL with hreflang alternates
@@ -101,7 +102,7 @@ frontend/src/
 │   ├── PortfolioPage.tsx       # Main component — assembles all sections
 │   ├── Nav.tsx                 # Top navigation bar (scroll-aware)
 │   ├── BrandLogo.tsx           # "G Glenn Claes" logo mark
-│   ├── LanguageSwitcher.tsx    # Language dropdown (EN/NL/DE/FR)
+│   ├── LanguageSwitcher.tsx    # Language dropdown (EN/NL/DE/FR) — viewport-aware positioning
 │   ├── Hero.tsx                # Hero section with Three.js canvas
 │   ├── TechStrip.tsx           # Horizontal technology ticker
 │   ├── About.tsx               # About section with portrait placeholder + stats
@@ -481,7 +482,7 @@ All of these run in CI before deployment. If any of them fail, the deploy doesn'
 
 The site is deployed to Vercel on every push to `main`. The Next.js App Router handles SSR, so the Vercel deployment gets full server-side rendering benefits.
 
-**Vercel Root Directory = `frontend`.** The project's build lives entirely in `frontend/`, so the Vercel project Root Directory must be set to `frontend` (project settings → General). The single source of truth is `frontend/vercel.json` (`framework: nextjs`, `installCommand: npm ci`, `buildCommand: npm run build`). There is **no** root-level `vercel.json`. If the PR preview/production deploy fails, first confirm the Root Directory is `frontend` and that only `frontend/vercel.json` exists.
+**Vercel Root Directory = `frontend`** (recommended). The project's build lives entirely in `frontend/`, so the Vercel project Root Directory should be set to `frontend` (project settings → General). When set, `frontend/vercel.json` is the sole config. Until then, a root `vercel.json` acts as a proxy (`installCommand: npm ci --prefix frontend`, `outputDirectory: frontend/.next`) to bridge the deployment from the repo root. If the PR preview/production deploy fails, check which `vercel.json` is being used and whether the Root Directory matches.
 
 Environment variables:
 - `NEXT_PUBLIC_SITE_URL` — the canonical URL (defaults to `http://127.0.0.1:3000`)
@@ -540,6 +541,15 @@ Every step has to pass before the next one runs. If linting fails, tests don't r
 - Three.js canvas has `role="img"` + descriptive `aria-label`
 - Color contrast meets WCAG guidelines (blue accent on white/light gray)
 - Focus management: modal traps focus, close button auto-focuses on open
+
+---
+
+## Performance
+
+- **Dynamic Three.js import:** The hero scene (`hero-scene.ts` + `three` ~600 KB) is lazy-loaded via `import()` inside a `useEffect` in `Hero.tsx`. This keeps Three.js out of the main bundle and defers it until the canvas element mounts in the DOM.
+- **Font loading:** `display: 'swap'` on all three Google Fonts (Outfit, Instrument Serif, JetBrains Mono) prevents invisible text during font load.
+- **Static generation:** All pages are prerendered as static HTML at build time (no runtime SSR on Vercel, fully static on GH Pages).
+- **CSS:** Single `globals.css` file with Tailwind utilities — no CSS-in-JS runtime overhead.
 
 ---
 

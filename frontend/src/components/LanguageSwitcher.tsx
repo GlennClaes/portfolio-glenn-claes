@@ -17,7 +17,9 @@ export function LanguageSwitcher() {
   const { locale, setLocale, messages } = useLanguage();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
+  // Close on outside click / Escape.
   useEffect(() => {
     if (!open) return undefined;
 
@@ -36,6 +38,35 @@ export function LanguageSwitcher() {
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('keydown', onKey);
     };
+  }, [open]);
+
+  // Keep the dropdown inside the viewport.  Default CSS places it with
+  // `right: 0` (aligned to the trigger's right edge).  If that causes the
+  // menu to overflow either side of the viewport we nudge it inward.
+  useEffect(() => {
+    if (!open || !menuRef.current) return;
+
+    const menu = menuRef.current;
+    const reset = () => {
+      menu.style.left = '';
+      menu.style.right = '';
+    };
+    reset();
+
+    requestAnimationFrame(() => {
+      const rect = menu.getBoundingClientRect();
+      const pad = 12;
+
+      if (rect.right > window.innerWidth - pad) {
+        // Overflows right — pin to the right edge of the viewport.
+        menu.style.left = 'auto';
+        menu.style.right = `${pad}px`;
+      } else if (rect.left < pad) {
+        // Overflows left — pin to the left edge of the viewport.
+        menu.style.left = `${pad}px`;
+        menu.style.right = 'auto';
+      }
+    });
   }, [open]);
 
   return (
@@ -59,7 +90,7 @@ export function LanguageSwitcher() {
       </button>
 
       {open ? (
-        <div className="lang-menu" role="listbox" aria-label={messages.nav.changeLanguage}>
+        <div className="lang-menu" ref={menuRef} role="listbox" aria-label={messages.nav.changeLanguage}>
           {LOCALES.map((code) => {
             const active = code === locale;
             return (

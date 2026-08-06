@@ -1,7 +1,7 @@
 {
   "name": "Glenn Claes - Developer Portfolio",
   "short_name": "Glenn Claes",
-  "description": "Developer portfolio for Glenn Claes, focused on clean websites, practical app interfaces and deployable frontend work.",
+  "description": "Glenn Claes — developer portfolio. Custom websites with Next.js, React and TypeScript, AI features with Python, and practical automations. Based in Belgium.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
