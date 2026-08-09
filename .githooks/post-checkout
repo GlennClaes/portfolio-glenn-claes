@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+# Git hook: runs after git checkout (branch switch).
+# Same logic as post-merge — installs deps if package files changed.
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+PREV_HEAD="$1"
+NEW_HEAD="$2"
+BRANCH_CHECKOUT="$3"
+
+# Only act on branch checkouts (not file checkouts)
+if [ "$BRANCH_CHECKOUT" != "1" ]; then
+  exit 0
+fi
+
+# --- Frontend ---
+if git diff-tree -q --name-only "$PREV_HEAD" "$NEW_HEAD" 2>/dev/null | grep -qE '^package(-lock)?\.json$|^frontend/package(-lock)?\.json$'; then
+  echo "📦 package.json changed — running npm ci in frontend/..."
+  cd "$ROOT/frontend"
+  npm ci --silent
+  echo "✅ Frontend dependencies updated."
+fi
+
+# --- Python ---
+if git diff-tree -q --name-only "$PREV_HEAD" "$NEW_HEAD" 2>/dev/null | grep -q '^python/pyproject\.toml$'; then
+  if [ -d "$ROOT/python/.venv" ]; then
+    echo "🐍 pyproject.toml changed — reinstalling Python deps..."
+    cd "$ROOT/python"
+    . .venv/bin/activate
+    pip install -e ".[dev]" --quiet
+    echo "✅ Python dependencies updated."
+  fi
+fi

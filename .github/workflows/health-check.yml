@@ -56,3 +56,23 @@ jobs:
               body: body,
               labels: ['automation', 'health-check'],
             });
+
+      - name: Send phone notification via ntfy
+        if: steps.vercel.outputs.status != '200' || steps.pages.outputs.status != '200'
+        run: |
+          TOPIC="${{ secrets.NTFY_TOPIC }}"
+          if [ -z "$TOPIC" ]; then
+            echo "⚠️  NTFY_TOPIC secret not set — skipping push notification."
+            echo "   Set it in repo Settings → Secrets: topic name from your ntfy app."
+            exit 0
+          fi
+          VERCEL="${{ steps.vercel.outputs.status }}"
+          PAGES="${{ steps.pages.outputs.status }}"
+          MSG="⚠️ Portfolio health check failed.\n"
+          [ "$VERCEL" != "200" ] && MSG="${MSG}Vercel: HTTP ${VERCEL}\n"
+          [ "$PAGES" != "200" ] && MSG="${MSG}GitHub Pages: HTTP ${PAGES}\n"
+          MSG="${MSG}\nCheck: https://github.com/${{ github.repository }}/actions"
+          curl -s -o /dev/null \
+            -H "Title: Portfolio Down" \
+            -d "$MSG" \
+            "https://ntfy.sh/$TOPIC"

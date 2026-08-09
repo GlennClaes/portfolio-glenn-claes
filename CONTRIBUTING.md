@@ -32,6 +32,22 @@ scripts/version.sh patch # Bump version, commit + tag
 scripts/health-check.sh # Verify deployments are live
 ```
 
+## Git hooks
+
+Enabled automatically by `scripts/setup.sh`. If you need to set up manually:
+
+```bash
+scripts/setup-hooks.sh
+```
+
+| Hook | What it does |
+|------|-------------|
+| `post-merge` | Auto-installs npm/pip deps after `git pull` if package files changed |
+| `pre-push` | Runs lint + typecheck before push; blocks on failure |
+| `post-checkout` | Auto-installs deps after branch switch if package files changed |
+
+**Skip a hook:** `git push --no-verify`.
+
 ## Code standards
 
 - **TypeScript, strict** — the app is 100% TS. `npm run typecheck` must pass.

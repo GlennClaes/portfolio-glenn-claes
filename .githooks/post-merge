@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+# Git hook: runs after git pull / git merge.
+# Installs dependencies if package files changed.
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+# --- Frontend ---
+if git diff-tree -q --name-only HEAD@{1} HEAD 2>/dev/null | grep -qE '^package(-lock)?\.json$|^frontend/package(-lock)?\.json$'; then
+  echo "📦 package.json changed — running npm ci in frontend/..."
+  cd "$ROOT/frontend"
+  npm ci --silent
+  echo "✅ Frontend dependencies updated."
+fi
+
+# --- Python ---
+if git diff-tree -q --name-only HEAD@{1} HEAD 2>/dev/null | grep -q '^python/pyproject\.toml$'; then
+  if [ -d "$ROOT/python/.venv" ]; then
+    echo "🐍 pyproject.toml changed — reinstalling Python deps..."
+    cd "$ROOT/python"
+    # shellcheck source=/dev/null
+    . .venv/bin/activate
+    pip install -e ".[dev]" --quiet
+    echo "✅ Python dependencies updated."
+  else
+    echo "ℹ️  pyproject.toml changed but no .venv found. Run: scripts/setup.sh --python"
+  fi
+fi
