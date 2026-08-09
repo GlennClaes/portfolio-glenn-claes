@@ -50,29 +50,29 @@ jobs:
             echo "type=patch" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Bump version and create tag
+      - name: Bump version in frontend
         id: version
         working-directory: frontend
         run: |
           CURRENT=$(node -p "require('./package.json').version")
           echo "Current version: $CURRENT"
 
-          # Bump version
-          npm version ${{ steps.bump.outputs.type }} -m "chore: release v%s"
+          npm version ${{ steps.bump.outputs.type }} --no-git-tag-version
 
-          # Get new version AFTER bump
           NEW=$(node -p "require('./package.json').version")
           echo "New version: $NEW"
           echo "version=$NEW" >> "$GITHUB_OUTPUT"
 
-      - name: Create and push tag
+      - name: Sync root package.json version
         run: |
-          # Create tag with the version from previous step
-          git tag -a v${{ steps.version.outputs.version }} -m "Release v${{ steps.version.outputs.version }}"
+          npm version ${{ steps.version.outputs.version }} --no-git-tag-version
 
-          # Push both commits and tags
-          git push origin main
-          git push origin v${{ steps.version.outputs.version }}
+      - name: Commit and tag
+        run: |
+          git add frontend/package.json package.json
+          git commit -m "chore: release v${{ steps.version.outputs.version }}"
+          git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+          git push origin main --tags
 
       - name: Generate changelog
         id: changelog

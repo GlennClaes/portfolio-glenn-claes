@@ -1,7 +1,7 @@
 # Glenn Claes — Developer Portfolio
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
-![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss)
@@ -48,9 +48,10 @@ npm run dev
 ## Stack
 
 ```
-Next.js 15 (App Router)  ·  React 19  ·  TypeScript (strict)
+Next.js 16 (App Router)  ·  React 19  ·  TypeScript (strict)
 Tailwind CSS 3.4  ·  Three.js (raw WebGL)  ·  lucide-react
 Vitest  ·  Playwright  ·  axe-core  ·  ESLint 9  ·  Prettier
+Python 3.12  ·  Docker  ·  GitHub Actions
 ```
 
 **Fonts:** Manrope, Plus Jakarta Sans, Instrument Serif, JetBrains Mono — all loaded via `next/font/google`.
@@ -86,10 +87,25 @@ portfolio-glenn-claes/
 │   ├── vitest.config.ts
 │   ├── playwright.config.ts
 │   └── tailwind.config.ts
+├── python/                    # Python tools & automation workflows
+│   ├── pyproject.toml         # PEP 621 packaging
+│   ├── Dockerfile             # Slim Python image
+│   └── src/portfolio_tools/
+│       ├── cli.py             # CLI entry point
+│       └── workflows/         # changelog, validation, SEO audit
+├── scripts/                   # Shell helpers (POSIX sh, Git Bash)
+│   ├── version.sh             # Bump version in both package.json files
+│   ├── rollback.sh            # Roll back to a previous tag
+│   ├── sync-version.sh        # Sync root ↔ frontend versions
+│   ├── check.sh               # Quality gate (lint + typecheck + test + build)
+│   ├── docker-build.sh        # Build all Docker images
+│   ├── docker-up.sh           # Start docker-compose services
+│   └── lint-all.sh            # Run all linters
 ├── docs/                      # Architecture documentation + diagrams
 │   ├── README.md
 │   ├── architecture.md
 │   └── architecture-graph.md
+├── docker-compose.yml         # web, static preview, python tools
 └── README.md                  # ← you are here
 ```
 
@@ -176,6 +192,42 @@ push to main
 ```
 
 Every step gates the next. If lint fails, tests don't run. If tests fail, build is skipped. If build fails, no deploy.
+
+## Version Management
+
+Version bumping, syncing, and rollback are handled by shell scripts in `scripts/`:
+
+```bash
+scripts/version.sh patch          # bump 1.0.0 → 1.0.1, commit + tag
+scripts/version.sh minor --push   # bump + push to origin
+scripts/rollback.sh               # list tags, pick one to check out
+scripts/rollback.sh v1.0.0        # rollback to a specific tag
+scripts/sync-version.sh           # detect root ↔ frontend mismatches
+scripts/sync-version.sh --set 2.0.0  # set both to a specific version
+```
+
+The `release.yml` workflow bumps versions automatically every Friday (or on manual
+dispatch) and syncs both `package.json` files before tagging.
+
+## Python Tools
+
+The `python/` directory contains a self-contained Python package with CLI tools and
+automation workflows — a practical demonstration of the "AI & Python" service line.
+
+```bash
+# Local
+cd python && python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+portfolio-tools --help
+
+# Docker
+docker compose --profile tools run python changelog v1.0.0 HEAD
+docker compose --profile tools run python validate
+docker compose --profile tools run python seo-audit http://localhost:3000
+```
+
+Included workflows: changelog generation, project data validation, and SEO auditing.
+Drop new modules in `python/src/portfolio_tools/workflows/` to extend.
 
 ## Documentation
 

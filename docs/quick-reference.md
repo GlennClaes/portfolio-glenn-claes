@@ -310,4 +310,40 @@ useEffect(() => {
 
 ---
 
+## Version Management
+
+```bash
+# Bump version (patch/minor/major), commit + tag
+scripts/version.sh patch
+scripts/version.sh minor --push   # bump + push
+
+# Rollback to a previous release
+scripts/rollback.sh               # list available tags
+scripts/rollback.sh v1.0.0        # checkout that tag
+
+# Sync root ↔ frontend versions
+scripts/sync-version.sh           # detect + prompt
+scripts/sync-version.sh --set 2.0.0  # set both
+```
+
+Both `package.json` files (root + frontend) are kept in sync. The `release.yml`
+workflow also syncs them on automated releases.
+
+---
+
+## Python Tools
+
+```bash
+# Local
+cd python && pip install -e ".[dev]"
+portfolio-tools changelog v1.0.0 HEAD
+portfolio-tools validate
+portfolio-tools seo-audit http://localhost:3000
+
+# Docker
+docker compose --profile tools run python validate
+```
+
+---
+
 *Last updated: August 2026*

@@ -1,7 +1,8 @@
 # Local container workflows for the Glenn Claes portfolio.
 #
-#   docker compose up --build web      # run the production Next.js server on :3000
-#   docker compose --profile static up --build static   # preview the GitHub Pages export on :8080
+#   docker compose up --build web                          # production Next.js on :3000
+#   docker compose --profile static up --build static      # Pages preview on :8080
+#   docker compose --profile tools run python changelog v1.0.0 HEAD   # Python tools
 services:
   web:
     build:
@@ -29,6 +30,16 @@ services:
       PORT: "3000"
       HOST: "0.0.0.0"
       NEXT_PUBLIC_SITE_URL: http://localhost:8080
+
+  python:
+    profiles: ["tools"]
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    image: portfolio-tools:latest
+    container_name: portfolio-tools
+    volumes:
+      - ./frontend/src/data:/data:ro
 
 volumes:
   static_node_modules:

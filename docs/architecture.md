@@ -319,6 +319,21 @@ Because projects are defined in one place and `getProjects()` derives from
 `projectDefinitions`, adding a project requires no casts and no other file changes —
 just append an entry and fill its four `texts`.
 
+### Python Tools (`python/`)
+
+A self-contained Python package demonstrating practical AI/automation capabilities.
+It lives outside the Next.js app and runs independently (locally or in Docker).
+
+**Structure:**
+- `pyproject.toml` — PEP 621 metadata, dependencies (`httpx`, `rich`), CLI entry point
+- `src/portfolio_tools/cli.py` — argparse-based CLI with subcommands
+- `src/portfolio_tools/workflows/` — each workflow is a standalone `run()` function:
+  - `generate_changelog.py` — git log between two refs → formatted changelog
+  - `validate_project_data.py` — checks `projects.ts` for locale coverage, required fields
+  - `seo_audit.py` — fetches a URL and audits title, description, OG tags, JSON-LD
+
+**Docker:** available via `docker compose --profile tools run python <command>`.
+
 ---
 
 ## Three.js Hero Scene
