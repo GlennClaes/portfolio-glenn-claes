@@ -44,3 +44,21 @@ updates:
       - "github-actions"
     reviewers:
       - "GlennClaes"
+
+  # Enable version updates for Python (pip)
+  - package-ecosystem: "pip"
+    directory: "/python"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Brussels"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "python"
+    reviewers:
+      - "GlennClaes"

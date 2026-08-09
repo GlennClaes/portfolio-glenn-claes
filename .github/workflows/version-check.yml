@@ -1,0 +1,53 @@
+name: Version Check
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Validate versions
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Read versions
+        id: versions
+        run: |
+          ROOT_VER=$(node -p "require('./package.json').version")
+          FE_VER=$(node -p "require('./frontend/package.json').version")
+          echo "root=$ROOT_VER" >> "$GITHUB_OUTPUT"
+          echo "frontend=$FE_VER" >> "$GITHUB_OUTPUT"
+
+      - name: Validate semver format
+        run: |
+          for VER in "${{ steps.versions.outputs.root }}" "${{ steps.versions.outputs.frontend }}"; do
+            if ! echo "$VER" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?(\+[a-zA-Z0-9.]+)?$'; then
+              echo "❌ Invalid semver: $VER"
+              exit 1
+            fi
+          done
+          echo "✅ Versions are valid semver: ${{ steps.versions.outputs.root }}, ${{ steps.versions.outputs.frontend }}"
+
+      - name: Check root ↔ frontend sync
+        run: |
+          if [ "${{ steps.versions.outputs.root }}" != "${{ steps.versions.outputs.frontend }}" ]; then
+            echo "❌ Version mismatch!"
+            echo "   Root:     ${{ steps.versions.outputs.root }}"
+            echo "   Frontend: ${{ steps.versions.outputs.frontend }}"
+            echo ""
+            echo "Run: scripts/sync-version.sh to fix."
+            exit 1
+          fi
+          echo "✅ Versions in sync: ${{ steps.versions.outputs.root }}"
