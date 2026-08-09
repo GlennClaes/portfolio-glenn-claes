@@ -24,6 +24,8 @@ docker compose --profile tools run python --help
 | `portfolio-tools changelog` | Generates a changelog from git log between two tags |
 | `portfolio-tools validate` | Validates `frontend/src/data/projects.ts` structure |
 | `portfolio-tools seo-audit` | Checks SEO tags on a live or local URL |
+| `portfolio-tools health` | Checks if a site is live (HTTP status, response time, title) |
+| `portfolio-tools links` | Crawls a page and finds broken links |
 
 ## Adding your own
 

@@ -39,3 +39,13 @@ coverage/
 
 # Optional: cache folders
 .cache/
+
+# Python
+python/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+python/dist/
+python/build/

@@ -229,4 +229,24 @@ The priority was testing the interactive parts (modal, form, canvas) and accessi
 
 ---
 
+## Operational Health & Monitoring
+
+Beyond the test suite, the project ships live-check tooling to verify deployments and
+dependencies stay healthy in production.
+
+| Tool | What it checks | Run with |
+|------|----------------|----------|
+| `scripts/health-check.sh` | Vercel + Pages return 200 with a `<title>` | `scripts/health-check.sh` |
+| `scripts/ssl-check.sh` | SSL cert expiry (warns < 30 days) | `scripts/ssl-check.sh <domain>` |
+| `scripts/security-headers.sh` | Security headers actually applied | `scripts/security-headers.sh <url>` |
+| `scripts/link-check.sh` | Broken links on the site | `scripts/link-check.sh <url>` |
+| `scripts/dep-audit.sh` | npm audit + pip audit vulnerabilities | `scripts/dep-audit.sh` |
+| `portfolio-tools health` | HTTP status, response time, title (Python) | `cd python && portfolio-tools health <url>` |
+| `portfolio-tools links` | Crawl + broken link detection (Python) | `cd python && portfolio-tools links <url>` |
+| `.github/workflows/health-check.yml` | Daily scheduled check; opens an issue if a deployment is down | Auto — daily 06:23 UTC + manual dispatch |
+
+**Related:** [[architecture#Python Tools]] | [[scripts/README.md]]
+
+---
+
 *Last updated: August 2026*

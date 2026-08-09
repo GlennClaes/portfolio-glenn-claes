@@ -214,13 +214,13 @@ created: 2026-08-04
 2. Single source with locale fields
 3. Separate structure from text (chosen)
 
-**Decision:** `baseProjects` (language-independent) + `projectTexts` (per locale).
+**Decision:** Single-source `projectDefinitions` array — each entry pairs shared `meta` with per-locale `texts`.
 
 **Rationale:**
-- Add language without touching structure
-- Add project without touching all languages
-- Clear separation of concerns
-- Type-safe merging
+- Add a project by appending one array entry (no casts, no parallel records)
+- Add a language by adding a `texts[locale]` key to each project
+- Clear separation of concerns within one structure
+- Type-safe: `getProjects(locale)` derives `Project[]` at runtime
 
 **Trade-offs:**
 - ✅ Easy to add languages

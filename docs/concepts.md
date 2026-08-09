@@ -106,11 +106,11 @@ The hero 3D scene uses Three.js directly, not `@react-three/fiber`. Scene setup,
 
 ---
 
-## 8. Separation of Structure and Text
+## 8. Single-Source Project Data
 
-Project data is split: `baseProjects` holds language-independent metadata (tags, stack, year), `projectTexts` holds locale-specific strings.
+Each project is defined once in `projectDefinitions`: shared `meta` (tags, stack, year) paired with per-locale `texts`. `getProjects(locale)` derives the merged `Project[]` at runtime.
 
-**Why:** Easy to add languages (just add text) or projects (add to both).
+**Why:** Adding a project = appending one array entry + filling `texts` for all four locales. No casts, no parallel records.
 
 **Related:** [[architecture#Data Layer]], [[app/api-reference/adapters/use-cases#7. Type-Safe Project Data]]
 

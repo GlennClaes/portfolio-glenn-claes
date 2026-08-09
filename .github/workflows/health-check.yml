@@ -1,0 +1,58 @@
+name: Daily Health Check
+
+on:
+  schedule:
+    - cron: '23 6 * * *'  # Daily at 06:23 UTC (off the :00 to avoid the fleet spike)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    name: Check deployment endpoints
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check Vercel deployment
+        id: vercel
+        run: |
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 https://portfolio-glenn-claes.vercel.app || echo "000")
+          echo "status=$CODE" >> "$GITHUB_OUTPUT"
+          echo "Vercel responded: $CODE"
+          if [ "$CODE" != "200" ]; then
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Check GitHub Pages deployment
+        id: pages
+        run: |
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 https://glennclaes.github.io/portfolio-glenn-claes || echo "000")
+          echo "status=$CODE" >> "$GITHUB_OUTPUT"
+          echo "GitHub Pages responded: $CODE"
+          if [ "$CODE" != "200" ]; then
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Report failures
+        if: steps.vercel.outputs.status != '200' || steps.pages.outputs.status != '200'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const vercel = ${{ steps.vercel.outputs.status }};
+            const pages = ${{ steps.pages.outputs.status }};
+            const lines = [];
+            if (vercel !== 200) lines.push(`- Vercel (https://portfolio-glenn-claes.vercel.app) → HTTP ${vercel}`);
+            if (pages !== 200) lines.push(`- GitHub Pages (https://glennclaes.github.io/portfolio-glenn-claes) → HTTP ${pages}`);
+            const body = `Automated health check failed on \`${new Date().toISOString()}\`.\n\n${lines.join('\n')}\n\nCheck the deploy status and the [Actions tab](https://github.com/${context.repo.owner}/${context.repo.repo}/actions).`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '⚠️ Health check failed: a deployment is down',
+              body: body,
+              labels: ['automation', 'health-check'],
+            });

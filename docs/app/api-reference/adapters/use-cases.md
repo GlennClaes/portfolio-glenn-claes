@@ -139,16 +139,16 @@ useEffect(() => {
 
 **Problem:** Project metadata needs to be structured, type-safe, and locale-aware without duplication.
 
-**Solution:** Split into `baseProjects` (structural) + `projectTexts` (locale), merge at runtime.
+**Solution:** Single-source `projectDefinitions` array — each entry pairs shared `meta` with per-locale `texts`. `getProjects(locale)` derives the merged `Project[]`.
 
 **Key Files:**
 - [[projects.ts]] — Data layer
 
 **Types:**
 ```typescript
-type ProjectId = 'portfolio' | 'delivery-system';
 type ProjectKind = 'web' | 'app';
-interface Project extends BaseProject, ProjectText {}
+interface ProjectDefinition { meta: ProjectMeta; texts: Record<Locale, ProjectText> }
+// getProjects(locale) → Project[]
 ```
 
 **Related:** [[architecture#Data Layer]], [[components#Projects]]

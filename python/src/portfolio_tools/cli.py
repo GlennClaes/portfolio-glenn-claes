@@ -33,6 +33,16 @@ def _build_parser() -> argparse.ArgumentParser:
     seo.add_argument("url", help="URL to audit")
     seo.set_defaults(func=_run_seo_audit)
 
+    # health
+    health = sub.add_parser("health", help="Check if a site is live and healthy")
+    health.add_argument("url", help="URL to check")
+    health.set_defaults(func=_run_health)
+
+    # links
+    links = sub.add_parser("links", help="Crawl a page and check links")
+    links.add_argument("url", help="URL to crawl")
+    links.set_defaults(func=_run_links)
+
     return parser
 
 
@@ -50,6 +60,18 @@ def _run_validate(args: argparse.Namespace) -> None:
 
 def _run_seo_audit(args: argparse.Namespace) -> None:
     from portfolio_tools.workflows.seo_audit import run
+
+    run(args.url)
+
+
+def _run_health(args: argparse.Namespace) -> None:
+    from portfolio_tools.workflows.health_check import run
+
+    run(args.url)
+
+
+def _run_links(args: argparse.Namespace) -> None:
+    from portfolio_tools.workflows.link_checker import run
 
     run(args.url)
 
