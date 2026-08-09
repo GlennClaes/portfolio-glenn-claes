@@ -40,7 +40,7 @@ jobs:
 
       - name: Report failures
         if: steps.vercel.outputs.status != '200' || steps.pages.outputs.status != '200'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const vercel = ${{ steps.vercel.outputs.status }};
