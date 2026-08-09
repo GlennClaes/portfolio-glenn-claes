@@ -6,8 +6,10 @@ All scripts are POSIX sh and work in Git Bash on Windows.
 
 | Script | What it does |
 |--------|-------------|
-| `setup.sh [--python]` | One-command fresh setup after clone |
+| `setup.sh [--python]` | One-command fresh setup after clone (installs deps + enables git hooks) |
+| `setup-hooks.sh` | Enable git hooks (post-merge, pre-push, post-checkout) |
 | `dev.sh` | Start Next.js dev server on :3000 |
+| `watch-deploy.sh [interval]` | Poll origin/main and auto-pull when new commits are detected |
 | `check.sh` | Full quality gate: lint + typecheck + tests + build |
 | `clean.sh [--deep]` | Remove build artifacts; `--deep` also removes node_modules |
 | `lint-all.sh` | Run all linters (frontend + Python ruff) |
@@ -29,6 +31,12 @@ All scripts are POSIX sh and work in Git Bash on Windows.
 | `security-headers.sh <url>` | Verify security headers are applied |
 | `link-check.sh <url>` | Crawl page and find broken links |
 | `dep-audit.sh` | Run npm audit + pip audit for vulnerabilities |
+
+## Notifications
+
+| Script | What it does |
+|--------|-------------|
+| `notify.sh <title> <message>` | Send push notification to your phone via ntfy.sh |
 
 ## Docker
 

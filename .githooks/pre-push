@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# Git hook: runs before git push.
+# Quick quality gate — prevents pushing code that would fail CI.
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT/frontend"
+
+echo "🔍 Pre-push quality gate..."
+
+echo "   → Lint"
+if ! npm run lint --silent 2>/dev/null; then
+  echo "❌ Lint failed. Fix errors before pushing."
+  echo "   (skip with: git push --no-verify)"
+  exit 1
+fi
+
+echo "   → Typecheck"
+if ! npm run typecheck --silent 2>/dev/null; then
+  echo "❌ Typecheck failed. Fix errors before pushing."
+  echo "   (skip with: git push --no-verify)"
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed."

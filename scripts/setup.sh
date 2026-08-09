@@ -63,6 +63,11 @@ if [ "$SETUP_PYTHON" = true ]; then
   echo ""
 fi
 
+# --- Git hooks ---
+echo "── Enabling git hooks ──"
+"$ROOT/scripts/setup-hooks.sh"
+echo ""
+
 echo "════════════════════════════════════════"
 echo "  Setup complete!"
 echo ""
