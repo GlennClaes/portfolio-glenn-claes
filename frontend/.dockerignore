@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnp
+
+# Build output
+.next
+out
+dist
+coverage
+*.tsbuildinfo
+.eslintcache
+
+# Tests
+test-results
+playwright-report
+__screenshots__
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Docs
+README.md
+
+# VCS
+.git
+.gitignore

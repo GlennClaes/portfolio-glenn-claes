@@ -18,6 +18,7 @@ jobs:
   ci:
     name: CI - Quality Gates
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     defaults:
       run:
@@ -63,6 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    timeout-minutes: 15
 
     defaults:
       run:
@@ -117,6 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    timeout-minutes: 15
 
     permissions:
       contents: read
@@ -168,3 +171,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        timeout-minutes: 10

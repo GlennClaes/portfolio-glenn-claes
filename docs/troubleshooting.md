@@ -266,6 +266,38 @@ Object.defineProperty(window, 'scrollTo', {
 
 ---
 
+### GitHub Pages deploy times out (`actions/deploy-pages` → "Timeout reached, aborting!")
+
+**Symptom:** In the `cd-pages` job, the build and artifact upload succeed, then the
+`actions/deploy-pages@v4` step polls `deployment_queued` / `deployment_in_progress` for
+~10 minutes and fails with `Error: Timeout reached, aborting!`.
+
+**Cause:** The Pages **deployment itself** is not being published. This is an
+infrastructure/settings issue, not a workflow bug — `deploy-pages` correctly polls GitHub's
+Pages API until the build is live or it gives up. The two most common root causes:
+
+1. **GitHub Pages is not enabled**, or is not set to build from Actions.
+2. The `github-pages` **environment has a deployment protection rule** (e.g. required
+   reviewers), which holds every deployment in `queued` until manually approved.
+
+**Fix:**
+1. Repo **Settings → Pages → Source: GitHub Actions** (the workflow uploads the artifact, so
+   Pages must run on Actions, not a branch).
+2. Repo **Settings → Environments → github-pages → Protection rules**: remove any required
+   reviewers / wait timer so deploys publish automatically.
+3. Check **Settings → Environments → github-pages → Deployment branches** allows `main`.
+4. Confirm the Pages artifact actually uploaded: look for the `github-pages` artifact step in
+   the run. If the artifact is missing, the build (`npm run build:pages`) failed — check logs.
+
+The workflow is already hardened with `timeout-minutes` on the job and the deploy step, plus
+`concurrency` (`cancel-in-progress: true`) to stop queued runs piling up. If a deploy still
+times out after verifying the settings above, the deployment is being blocked at the Pages
+service level — check the repo's Pages "Deployments" tab for the stuck entry.
+
+**Related:** [[architecture#Deployment]], [[config-files]]
+
+---
+
 ## i18n Issues
 
 ### Language Not Persisting

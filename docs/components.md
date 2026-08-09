@@ -337,16 +337,18 @@ Both SVGs use `viewBox="0 0 400 250"` with `preserveAspectRatio="xMidYMid slice"
 **See also:** [[architecture#Data Layer]] and [[app/api-reference/adapters/use-cases#7. Type-Safe Project Data]].
 
 **Structure:**
-- `baseProjects` — language-independent data (id, kind, tags, stack, client, year, platform, available, cta href)
-- `projectTexts` — per-locale text (title, label, desc, role, body paragraphs, highlights, credits, cta label)
-- `getProjects(locale)` — merges base + text, returns `Project[]`
+- `projectDefinitions` — a single-source array; each entry pairs shared `meta` with per-locale `texts`
+- `meta` — language-independent data (id, kind, tags, stack, client, year, platform, available, ctaHref)
+- `texts` — per-locale copy keyed by locale (title, label, desc, role, body paragraphs, highlights, credits, ctaLabel)
+- `getProjects(locale)` — merges meta + locale text, returns `Project[]`
+
+**Adding a project:** append one entry to `projectDefinitions` (unique `meta.id`) and fill
+`texts` for all four locales — nothing else needs to change. See the comment block in the file.
 
 **Types:**
 - `ProjectKind = 'web' | 'app'`
-- `ProjectId = 'portfolio' | 'delivery-system'`
 - `Project` — full merged type with all fields
-- `ProjectText` — text-only subset
-- `BaseProject` — everything except text fields
+- `ProjectMeta` / `ProjectText` / `ProjectDefinition` — internal building blocks
 
 ---
 

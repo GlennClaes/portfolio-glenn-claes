@@ -165,12 +165,24 @@ useEffect(() => {
 
 ```tsx
 export function getProjects(locale: Locale): Project[] {
-  return Object.keys(baseProjects).map((id) => ({
-    ...baseProjects[id as ProjectId],
-    ...projectTexts[locale][id as ProjectId],
-  }));
+  return projectDefinitions.map(({ meta, texts }) => {
+    const text = texts[locale];
+    return {
+      ...meta,
+      title: text.title,
+      desc: text.desc,
+      body: text.body,
+      highlights: text.highlights,
+      credits: text.credits,
+      cta: { label: text.ctaLabel, href: meta.ctaHref },
+      // ...
+    };
+  });
 }
 ```
+
+Each project lives in one `projectDefinitions` entry (shared `meta` + per-locale `texts`),
+so no casts or parallel records are needed.
 
 **See:** [[components#projects.ts]], [[architecture#Data Layer]]
 

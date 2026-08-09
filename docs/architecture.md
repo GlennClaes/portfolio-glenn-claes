@@ -117,7 +117,7 @@ frontend/src/
 │   └── Projects.test.tsx       # Component test — project rendering
 │
 ├── data/
-│   └── projects.ts             # Project metadata — split into base data + per-locale text
+│   └── projects.ts             # Project data — single-source definitions, shared meta + per-locale text
 │
 ├── hooks/
 │   └── useReveal.ts            # IntersectionObserver-based scroll reveal
@@ -263,7 +263,7 @@ useLanguage() hook (used by every component)
 messages.hero.heading, messages.nav.about, etc.
 ```
 
-The `getProjects(locale)` function in `data/projects.ts` merges base project metadata with locale-specific text. This keeps the structural data (tags, stack, client, year) separate from the translatable content (title, description, body paragraphs, highlights).
+The `getProjects(locale)` function in `data/projects.ts` merges shared project metadata with locale-specific text. This keeps the structural data (tags, stack, client, year) together with the translatable content (title, description, body paragraphs, highlights), one project per definition.
 
 ### Adding a New Language
 
@@ -271,7 +271,7 @@ The `getProjects(locale)` function in `data/projects.ts` merges base project met
 2. Copy the `en` messages object and translate everything
 3. Add it to the `dictionaries` record
 4. Add the language name to the `languageNames` map in `LanguageSwitcher.tsx`
-5. Add translated project texts to `projectTexts` in `projects.ts`
+5. Add a `texts[<locale>]` entry to every project definition in `projects.ts`
 
 ---
 
@@ -279,46 +279,45 @@ The `getProjects(locale)` function in `data/projects.ts` merges base project met
 
 ### Project Data Structure
 
-Projects are split into two layers in `data/projects.ts`:
+Projects are declared in a single-source list in `data/projects.ts`. Each entry pairs
+shared `meta` (language-independent) with `texts` for every locale:
 
 ```typescript
-// Structural data — language-independent
-const baseProjects: Record<ProjectId, BaseProject> = {
-  portfolio: {
-    id: 'portfolio',
-    kind: 'web',
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
-    client: 'Glenn Claes',
-    year: '2026',
-    platform: 'Web - Vercel',
-    stack: ['Next.js App Router', 'TypeScript', 'Tailwind CSS', 'Three.js', 'Vercel', 'GitHub Actions'],
-    available: true,
-    cta: { label: '', href: 'https://github.com/GlennClaes/portfolio-glenn-claes' },
-  },
-  // ...
-};
+interface ProjectDefinition {
+  meta: ProjectMeta;          // id, kind, tags, stack, client, year, platform, available, ctaHref
+  texts: Record<Locale, ProjectText>; // title, label, desc, role, body, highlights, credits, ctaLabel
+}
 
-// Text data — per locale
-const projectTexts: Record<Locale, Record<ProjectId, ProjectText>> = {
-  en: {
-    portfolio: {
-      title: 'Glenn Claes Portfolio',
-      desc: 'A clean personal portfolio with a responsive one-page layout...',
-      body: ['This portfolio is built as...', ...],
-      highlights: ['Vercel deployment configured...', ...],
-      // ...
+const projectDefinitions: ProjectDefinition[] = [
+  {
+    meta: {
+      id: 'portfolio',
+      kind: 'web',
+      tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+      client: 'Glenn Claes',
+      year: '2026',
+      platform: 'Web - Vercel',
+      stack: ['Next.js App Router', 'TypeScript', 'Tailwind CSS', 'Three.js', 'Vercel', 'GitHub Actions'],
+      available: true,
+      ctaHref: 'https://github.com/GlennClaes/portfolio-glenn-claes',
+    },
+    texts: {
+      en: { title: 'Glenn Claes Portfolio', desc: 'A clean personal portfolio...', /* ... */ },
+      nl: { /* dutch translation */ },
+      de: { /* german translation */ },
+      fr: { /* french translation */ },
     },
   },
-  nl: { /* dutch translations */ },
-  de: { /* german translations */ },
-  fr: { /* french translations */ },
-};
+  // ...
+];
 
 // Merged at runtime
 export function getProjects(locale: Locale): Project[] { ... }
 ```
 
-This separation makes it easy to add new projects (just add to both objects) or add new languages (just add a new locale key to `projectTexts`).
+Because projects are defined in one place and `getProjects()` derives from
+`projectDefinitions`, adding a project requires no casts and no other file changes —
+just append an entry and fill its four `texts`.
 
 ---
 

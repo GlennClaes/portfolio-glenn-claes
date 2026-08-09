@@ -171,7 +171,7 @@ openContact({ type: 'Automation', message: 'Hello' })();
 1. Add to `LOCALES` in `messages.ts`
 2. Add translations to `dictionaries`
 3. Add to `languageNames` in `LanguageSwitcher.tsx`
-4. Add project texts to `projects.ts`
+4. Add a `texts[<locale>]` entry to every project in `projects.ts`
 
 ---
 
