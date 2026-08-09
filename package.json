@@ -18,10 +18,5 @@
     "test:e2e": "npm --prefix frontend run test:e2e",
     "format": "npm --prefix frontend run format",
     "format:check": "npm --prefix frontend run format:check"
-  },
-  "dependencies": {
-    "next": "16.3.0",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
   }
 }
