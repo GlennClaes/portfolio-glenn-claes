@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   auto-merge:
-    name: Approve and merge safe updates
+    name: Merge safe Dependabot updates
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event.pull_request.user.login == 'dependabot[bot]'
@@ -22,12 +22,11 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Approve patch/minor updates
-        if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # NOTE: gh pr review --approve requires a PAT (Personal Access Token) with
+      # pull_requests: write — GITHUB_TOKEN cannot approve PRs (GitHub restriction).
+      # If you want auto-approval, create a fine-grained PAT and store it as GH_TOKEN.
+      # Without approval, auto-merge queues and merges after checks pass (if branch
+      # protection allows it). If reviews are required, merge waits for manual approval.
 
       - name: Enable auto-merge for patch/minor
         if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'

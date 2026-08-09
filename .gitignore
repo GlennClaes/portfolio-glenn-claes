@@ -49,3 +49,21 @@ __pycache__/
 *.egg-info/
 python/dist/
 python/build/
+
+# Impeccable (third-party design tool)
+.impeccable/
+
+# Obsidian (local vault config)
+.obsidian/
+docs/.obsidian/
+
+# Third-party lock files
+skills-lock.json
+
+# Build output (frontend)
+frontend/out/
+frontend/.next/
+frontend/dist/
+
+# Logs
+frontend/dev-server*.log
